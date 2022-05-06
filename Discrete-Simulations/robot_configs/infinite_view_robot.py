@@ -20,7 +20,7 @@ def robot_epoch(robot):
         values = robot.val_grid
     except:
         values = np.zeros((robot.grid.n_rows, robot.grid.n_cols))#note: transposed compared to grid saved in memory!
-        print(robot.grid.cells, values.shape, robot.grid.cells.shape, robot.grid.n_cols, robot.grid.n_rows)
+        #print(robot.grid.cells, values.shape, robot.grid.cells.shape, robot.grid.n_cols, robot.grid.n_rows)
     #get the value of the grid
     values = value_update(robot.grid, values)
     robot.val_grid = values
@@ -33,7 +33,7 @@ def robot_epoch(robot):
     #on visual:
     #pos[0] = x position (selects columns)
     #pos[1] = y position (selects rows)
-    print(robot.pos, "position")
+    #print(robot.pos, "position")
     if pos[1] > 0: #not against top
 
         if values[pos[1]-1, pos[0]] > max_val:
@@ -53,12 +53,12 @@ def robot_epoch(robot):
             des_dir = 'e'#(0,1)
 
 
-    print(robot.orientation, des_dir)
+    #print(robot.orientation, des_dir)
     while robot.orientation != des_dir:
         robot.rotate('r')
     robot.move()
 
-    print(values)
+    #print(values)
     #print(des_dir)
     #get to desired direction or move
 
@@ -108,6 +108,7 @@ def value_update(grid, values):
                     #contains robot, 1000 is easy to find in the prints
                     new_values[i,j] = -1000
             except IndexError:
-                print(f"{i},{j} out of range for grid.")
+                #print(f"{i},{j} out of range for grid.")
+                pass
     #print(new_values)
     return new_values
