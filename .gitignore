@@ -224,7 +224,7 @@ fabric.properties
 # .idea/compiler.xml
 # .idea/jarRepositories.xml
 # .idea/modules.xml
-# .idea/*.iml
+ .idea/*.iml
 # .idea/modules
 # *.iml
 # *.ipr
@@ -264,7 +264,7 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main
+
+#added by mennolt because it didn't block these
+.idea/misc.xml
