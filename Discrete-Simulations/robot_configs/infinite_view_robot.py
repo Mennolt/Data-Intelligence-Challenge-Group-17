@@ -10,9 +10,6 @@ def robot_epoch(robot):
     """
 
     #print(robot.grid.cells, len(robot.grid.cells[0]), robot.grid.n_cols, robot.grid.n_rows)
-    # Get the possible values (dirty/clean/wall) of the 4 tiles we can end up at after a move:
-    possible_tiles = robot.possible_tiles_after_move()
-    #print(possible_tiles)
 
     #step 1: get value of entire grid
     #try to get value from robot, if not init it
