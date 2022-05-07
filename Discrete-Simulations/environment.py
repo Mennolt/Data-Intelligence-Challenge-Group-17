@@ -102,8 +102,8 @@ class Grid:
         self.cells[0, :] = self.cells[-1, :] = -1
         self.cells[:, 0] = self.cells[:, -1] = -1
         # Initializing the policy probabilities to 0.25
-        self.policy = [[{'n': 0.25, 'e': 0.25, 's': 0.25, 'w': 0.25} for col in n_cols] for row in n_rows]
-        self.values = [[0 for col in n_cols] for row in n_rows]
+        self.policy = [[{'n': 0.25, 'e': 0.25, 's': 0.25, 'w': 0.25} for col in range(n_cols)] for row in range(n_rows)]
+        self.values = [[0 for col in range(n_cols)] for row in range(n_rows)]
 
     def put_obstacle(self, x0, x1, y0, y1, from_edge=1):
         self.cells[max(x0, from_edge):min(x1 + 1, self.n_cols - from_edge),
