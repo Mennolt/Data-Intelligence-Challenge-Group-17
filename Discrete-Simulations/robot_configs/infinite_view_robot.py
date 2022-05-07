@@ -94,7 +94,7 @@ def value_update(grid, values):
                 #determine new value of item
                 if square == 2:
                     #goals
-                    new_values[i,j] = 5
+                    new_values[i,j] = 10
                 elif square == -1 or square == -2:
                     #walls and obstacles
                     new_values[i,j] = -1
