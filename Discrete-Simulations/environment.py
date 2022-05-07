@@ -3,7 +3,7 @@ import random
 
 
 class Robot:
-    def __init__(self, grid, policy, pos, orientation, p_move=0, battery_drain_p=0, battery_drain_lam=0, vision=1):
+    def __init__(self, grid, pos : tuple, orientation : dict, p_move=0, battery_drain_p=0, battery_drain_lam=0, vision=1):
         if grid.cells[pos[0], pos[1]] != 1:
             raise ValueError
         self.orientation = orientation
@@ -84,7 +84,7 @@ class Robot:
             else:
                 return False
 
-    def rotate(self, dir):
+    def rotate(self, dir : dict):
         current = list(self.orients.keys()).index(self.orientation)
         if dir == 'r':
             self.orientation = list(self.orients.keys())[(current + 1) % 4]
@@ -94,15 +94,16 @@ class Robot:
 
 
 class Grid:
-    def __init__(self, n_cols, n_rows):
+    def __init__(self, n_cols : int, n_rows : int):
         self.n_rows = n_rows
         self.n_cols = n_cols
         # Building the boundary of the grid:
         self.cells = np.ones((n_cols, n_rows))
         self.cells[0, :] = self.cells[-1, :] = -1
         self.cells[:, 0] = self.cells[:, -1] = -1
-        # Initializing the policy probabilities to 0
-        self.policy = [[{'n': 0.25, 'e': 0.25, 's': 0.25, 'w': 0.25} for row in n_rows] for col in n_cols]
+        # Initializing the policy probabilities to 0.25
+        self.policy = [[{'n': 0.25, 'e': 0.25, 's': 0.25, 'w': 0.25} for col in n_cols] for row in n_rows]
+        self.values = [[0 for col in n_cols] for row in n_rows]
 
     def put_obstacle(self, x0, x1, y0, y1, from_edge=1):
         self.cells[max(x0, from_edge):min(x1 + 1, self.n_cols - from_edge),
@@ -118,7 +119,7 @@ class Grid:
         self.cells[x][y] = 3
 
 
-def generate_grid(n_cols, n_rows):
+def generate_grid(n_cols : int, n_rows : int):
     # Placeholder function used to generate a grid.
     # Select an empty grid file in the user interface and add code her to automatically fill it.
     # Look at grid_generator.py for inspiration.

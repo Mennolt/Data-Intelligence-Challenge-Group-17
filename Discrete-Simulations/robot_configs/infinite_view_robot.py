@@ -10,9 +10,6 @@ def robot_epoch(robot):
     """
 
     #print(robot.grid.cells, len(robot.grid.cells[0]), robot.grid.n_cols, robot.grid.n_rows)
-    # Get the possible values (dirty/clean/wall) of the 4 tiles we can end up at after a move:
-    possible_tiles = robot.possible_tiles_after_move()
-    #print(possible_tiles)
 
     #step 1: get value of entire grid
     #try to get value from robot, if not init it
@@ -94,12 +91,12 @@ def value_update(grid, values):
                 #determine new value of item
                 if square == 2:
                     #goals
-                    new_values[i,j] = 5
+                    new_values[i,j] = 10
                 elif square == -1 or square == -2:
                     #walls and obstacles
                     new_values[i,j] = -1
-                elif square == 1:
-                    #dirty square
+                elif square == 1: #or square == 3:
+                    #dirty square #or death square
                     new_values[i,j] = max(0.5*max(neighbour_vals),2)
                 elif square == 0:
                     #cleaned square
