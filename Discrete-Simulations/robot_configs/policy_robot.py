@@ -2,7 +2,7 @@ import random
 
 max_iter = 50000
 
-def robot_epoch(robot : Robot):
+def robot_epoch(robot):
     # Get the possible tiles after move
     possible_tiles = robot.possible_tiles_after_move()
     # Policy iteration
@@ -20,7 +20,7 @@ def robot_epoch(robot : Robot):
     robot.move()
 
 
-def policy_iteration(robot : Robot):
+def policy_iteration(robot):
     '''
     Policy iteration
 
@@ -34,11 +34,11 @@ def policy_iteration(robot : Robot):
 
         robot.grid.policy = policy_improvement()
 
-        if all(policy_prev[s] == policy[s] for s in robot.pos):
+        if all(policy_prev[s] == robot.grid.policy[s] for s in robot.pos):
             break
 
 
-def policy_evaluation(robot : Robot):
+def policy_evaluation(robot):
     '''
     Evaluation of policy
 
@@ -78,7 +78,7 @@ def policy_evaluation(robot : Robot):
             break
 
 
-def policy_improvement(robot : Robot):
+def policy_improvement(robot):
     '''
     Improvement update pass in policy
 
