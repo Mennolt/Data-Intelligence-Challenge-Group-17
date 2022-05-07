@@ -98,8 +98,8 @@ def value_update(grid, values):
                 elif square == -1 or square == -2:
                     #walls and obstacles
                     new_values[i,j] = -1
-                elif square == 1:
-                    #dirty square
+                elif square == 1 or square == 3:
+                    #dirty square or death square
                     new_values[i,j] = max(0.5*max(neighbour_vals),2)
                 elif square == 0:
                     #cleaned square
