@@ -34,7 +34,7 @@ def policy_iteration(robot):
 
         robot.grid.policy = policy_improvement()
 
-        if all(policy_prev[s] == robot.grid.policy[s] for s in robot.pos):
+        if all(policy_prev[row][col] == robot.grid.policy[row][col] for row, col in robot.pos):
             break
 
 
