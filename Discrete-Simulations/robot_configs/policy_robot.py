@@ -49,15 +49,13 @@ def policy_evaluation(robot : Robot):
         V_prev = robot.grid.values.copy()
         for row in range(len(robot.grid.cells)):
             for col in range(len(robot.grid.cells[row])):
-                # Get current action policy
-                a = robot.grid.policy[row][col]
-                # Calculate weighted score of each possible action
+                # Calculate weighted score of state after each possible action
                 look_ahead_values = []
-                for k, v in a:
+                for k, v in robot.grid.policy[row][col]:
                     if k == 'n':
                         try:
                             look_ahead_values.append(v * V_prev[row-1][col])
-                        except IndexError: 
+                        except IndexError: # If not able to move, stay in the same spot
                             look_ahead_values.append(v * V_prev[row][col])
                     if k == 'e':
                         try:
@@ -81,9 +79,47 @@ def policy_evaluation(robot : Robot):
 
 
 def policy_improvement(robot : Robot):
+    '''
+    Improvement update pass in policy
+
+    Input:
+    robot - a Robot object used to interact with the environment
+    '''
+    # Iterate over each state
     for row in range(len(robot.grid.cells)):
         for col in range(len(robot.grid.cells[row])):
-            # TODO finish function
             # Calculate Q value
-            # Update policy to select action(s) with highest Q value
-            return
+            Q = {}
+            # Calculate weighted score of each possible action
+            look_ahead_values = []
+            for k, v in robot.grid.policy[row][col]:
+                if k == 'n':
+                    try:
+                        look_ahead_values.append(v * robot.grid.values[row-1][col])
+                    except IndexError: # If not able to move, stay in the same spot
+                        look_ahead_values.append(v * robot.grid.values[row][col])
+                if k == 'e':
+                    try:
+                        look_ahead_values.append(v * robot.grid.values[row][col+1])
+                    except IndexError: 
+                        look_ahead_values.append(v * robot.grid.values[row][col])
+                if k == 's':
+                    try:
+                        look_ahead_values.append(v * robot.grid.values[row+1][col])
+                    except IndexError: 
+                        look_ahead_values.append(v * robot.grid.values[row][col])
+                if k == 'w':
+                    try:
+                        look_ahead_values.append(v * robot.grid.values[row][col-1])
+                    except IndexError: 
+                        look_ahead_values.append(v * robot.grid.values[row][col])
+            # Select action with highest Q value
+            for k, v in robot.grid.policy[row][col]:
+                Q[k] = robot.grid.rewards[row][col] + sum(look_ahead_values)
+            best_action = max(Q, key=Q.get)
+            # Update policy
+            for k, v in robot.grid.policy[row][col]:
+                if k == best_action:
+                    robot.grid.policy[row][col][k] = 1.0
+                else:
+                    robot.grid.policy[row][col][k] = 0.0
