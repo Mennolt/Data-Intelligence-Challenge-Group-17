@@ -10,15 +10,15 @@ def robot_epoch(robot):
     grid = robot.grid
 
     rewards = {}
-    for i in range(0, grid.n_rows):
-        for j in range(0, grid.n_cols):
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
             rewards[(i,j)] = grid.cells[i, j]
 
     V = rewards.copy()
 
     actions = {}
-    for i in range(0, grid.n_rows):
-        for j in range(0, grid.n_cols):
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
 
             possible_actions = []
 
@@ -56,8 +56,8 @@ def robot_epoch(robot):
     iteration = 0
     while True:
         biggest_change = 0
-        for i in range(0, grid.n_rows):
-            for j in range(0, grid.n_cols):
+        for i in range(0, grid.n_cols):
+            for j in range(0, grid.n_rows):
                 s = (i, j)
                 if s in policy:
                     old_v = V[s]
