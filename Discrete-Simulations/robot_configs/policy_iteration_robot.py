@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-max_iter = 50
+max_iter = 100
 
 def robot_epoch(robot):
     # Initialisation
