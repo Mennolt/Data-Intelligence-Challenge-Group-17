@@ -47,7 +47,7 @@ def policy_iteration(robot, policy, values, rewards, actions):
     Input:
     robot - a Robot object used to interact with the environment
     '''
-    print('Policy iteration')
+    # print('Policy iteration')
     for _ in range(max_iter):
         policy_prev = policy.copy()
 
