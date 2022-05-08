@@ -2,6 +2,7 @@ import random
 import numpy as np
 
 max_iter = 100
+discount = 0.5
 
 def robot_epoch(robot):
     # Initialisation
@@ -75,7 +76,7 @@ def policy_evaluation(robot, policy, values, rewards):
         # Calculate weighted score of state after each possible action
         for s in policy.keys():
             a = policy[s]
-            values[s] = rewards[s] + V_prev[get_next_state(s, a)] 
+            values[s] = rewards[s] + discount * V_prev[get_next_state(s, a)] 
         # Early stopping
         if V_prev == values:
             print('stopped early convergence')
@@ -100,7 +101,7 @@ def policy_improvement(robot, policy, values, rewards, actions):
             Q = {}
             try:
                 for a in actions[s]:
-                    Q[a] = rewards[s] + values[get_next_state(s, a)]
+                    Q[a] = rewards[s] + discount * values[get_next_state(s, a)]
                 try:
                     policy[s] = max(Q, key=Q.get)
                 except: pass
