@@ -1,22 +1,22 @@
 import random
 import numpy as np
 
-max_iter = 200
+max_iter = 50
 
 def robot_epoch(robot):
     # Initialisation
     grid = robot.grid
 
     rewards = {}
-    for i in range(0, grid.n_rows):
-        for j in range(0, grid.n_cols):
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
             rewards[(i,j)] = grid.cells[i, j]
 
     values = rewards.copy()
 
     actions = {}
-    for i in range(0, grid.n_rows):
-        for j in range(0, grid.n_cols):
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
             possible_actions = get_possible_actions(grid, (i, j))
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
@@ -94,8 +94,8 @@ def policy_improvement(robot, policy, values, rewards, actions):
     # Calculate Q value
     Q = {}
     # Calculate weighted score of each possible action
-    for i in range(robot.grid.n_rows):
-        for j in range(robot.grid.n_cols):
+    for i in range(robot.grid.n_cols):
+        for j in range(robot.grid.n_rows):
             s = (i,j)
             Q = {}
             try:
