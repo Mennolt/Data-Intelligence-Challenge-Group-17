@@ -56,9 +56,9 @@ def policy_iteration(robot, policy, values, rewards, actions):
         policy = policy_improvement(robot, policy, values, rewards, actions)
 
         # Early stopping
-        # if all(policy_prev[s] == policy[s] for s in [(i, j) for i in range(robot.grid.n_rows) for j in range(robot.grid.n_cols)]):
-        #     print('stopped early convergence')
-        #     break
+        if policy_prev == policy:
+            print('stopped early convergence')
+            break
     return policy
 
 
@@ -77,9 +77,9 @@ def policy_evaluation(robot, policy, values, rewards):
             a = policy[s]
             values[s] = rewards[s] + V_prev[get_next_state(s, a)] 
         # Early stopping
-        # if all(V_prev[s] == values[s] for s in [(i, j) for i in range(robot.grid.n_rows) for j in range(robot.grid.n_cols)]):
-        #     print('stopped early convergence')
-        #     break
+        if V_prev == values:
+            print('stopped early convergence')
+            break
     return values
 
 
