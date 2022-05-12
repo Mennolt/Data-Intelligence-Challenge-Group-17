@@ -16,12 +16,12 @@ def robot_epoch(robot):
 
             possible_actions = []
             try:
-                if i != grid.n_rows-1:
+                if i != grid.n_rows - 1:
                     possible_actions.append("e")
             except IndexError:
                 pass
             try:
-                if j != grid.n_cols-1:
+                if j != grid.n_cols - 1:
                     possible_actions.append("s")
             except IndexError:
                 pass
@@ -35,9 +35,6 @@ def robot_epoch(robot):
                     possible_actions.append("n")
             except IndexError:
                 pass
-
-
-
 
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
@@ -62,8 +59,6 @@ def robot_epoch(robot):
         # print(f"Q_values: {Q_values}")
         print(f"Q_value_error: {e}")
         raise e
-
-
 
     print("==========Qvalues===============")
 
@@ -116,7 +111,10 @@ def robot_epoch(robot):
 
                 current_position = next_position
 
-        best_direction = np.max(get_surrounding_q_values(Q_values, current_position))
+        best_direction = get_max_surrounding_direction(Q_values, current_position)
+        print("BEST DIRECTION")
+        print(best_direction)
+        print(robot.orientation)
         while robot.orientation != best_direction:
             robot.rotate('r')
         robot.move()
@@ -137,6 +135,16 @@ def get_surrounding_q_values(q_values, position):
         raise e
 
     return q
+
+
+def get_max_surrounding_direction(q_values, position):
+    try:
+        max_direction = max(q_values[position], key=q_values[position].get)
+    except Exception as e:
+        print(f"get_surrounding_direction_values_error: {e}")
+        raise e
+
+    return max_direction
 
 
 def return_true_if_terminal(grid, state: ()) -> bool:
@@ -190,7 +198,6 @@ def get_next_position(action, s, actions):
 
         print("get_next_position_indexError")
         raise IndexError
-
 
 
 #
