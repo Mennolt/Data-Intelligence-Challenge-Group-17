@@ -15,40 +15,26 @@ def robot_epoch(robot):
         for j in range(0, grid.n_rows):
 
             possible_actions = []
-            if i == 0 and j == 0:
-                possible_actions.append("e")
-                possible_actions.append("s")
-            elif i == 0 and j == grid.n_cols-1:
-                possible_actions.append("e")
-                possible_actions.append("n")
-            elif j == 0 and i == grid.n_rows-1:
-                possible_actions.append("s")
-                possible_actions.append("w")
-            elif j == grid.n_cols-1 and i == grid.n_rows-1:
-                possible_actions.append("w")
-                possible_actions.append("n")
-            elif i == 0:
-                possible_actions.append("e")
-                possible_actions.append("s")
-                possible_actions.append("w")
-            elif j == grid.n_cols-1:
-                possible_actions.append("e")
-                possible_actions.append("w")
-                possible_actions.append("n")
-            elif i == grid.n_rows-1:
-                possible_actions.append("s")
-                possible_actions.append("w")
-                possible_actions.append("n")
-            elif j == 0:
-                possible_actions.append("e")
-                possible_actions.append("s")
-                possible_actions.append("n")
-            else:
-                possible_actions.append("e")
-                possible_actions.append("s")
-                possible_actions.append("w")
-                possible_actions.append("n")
-
+            try:
+                if i != grid.n_rows-1:
+                    possible_actions.append("e")
+            except IndexError:
+                pass
+            try:
+                if j != grid.n_cols-1:
+                    possible_actions.append("s")
+            except IndexError:
+                pass
+            try:
+                if i != 0:
+                    possible_actions.append("w")
+            except IndexError:
+                pass
+            try:
+                if j != 0:
+                    possible_actions.append("n")
+            except IndexError:
+                pass
 
 
 
