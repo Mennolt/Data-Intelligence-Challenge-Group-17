@@ -11,38 +11,51 @@ def robot_epoch(robot):
     grid = robot.grid
 
     actions = {}
-    for i in range(1, grid.n_cols):
-        for j in range(1, grid.n_rows):
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
 
             possible_actions = []
+            if i == 0 and j == 0:
+                possible_actions.append("e")
+                possible_actions.append("s")
+            elif i == 0 and j == grid.n_cols-1:
+                possible_actions.append("e")
+                possible_actions.append("n")
+            elif j == 0 and i == grid.n_rows-1:
+                possible_actions.append("s")
+                possible_actions.append("w")
+            elif j == grid.n_cols-1 and i == grid.n_rows-1:
+                possible_actions.append("w")
+                possible_actions.append("n")
+            elif i == 0:
+                possible_actions.append("e")
+                possible_actions.append("s")
+                possible_actions.append("w")
+            elif j == grid.n_cols-1:
+                possible_actions.append("e")
+                possible_actions.append("w")
+                possible_actions.append("n")
+            elif i == grid.n_rows-1:
+                possible_actions.append("s")
+                possible_actions.append("w")
+                possible_actions.append("n")
+            elif j == 0:
+                possible_actions.append("e")
+                possible_actions.append("s")
+                possible_actions.append("n")
+            else:
+                possible_actions.append("e")
+                possible_actions.append("s")
+                possible_actions.append("w")
+                possible_actions.append("n")
 
-            if i != 0 and i != grid.n_cols and j != 0 or j != grid.n_rows:
 
-                # TODO: Change value for outer wall
-                try:
-                    if grid.cells[i + 1, j] is not -1:
-                        possible_actions.append("e")
-                except IndexError:
-                    pass
-                try:
-                    if grid.cells[i, j + 1] is not -1:
-                        possible_actions.append("s")
-                except IndexError:
-                    pass
-                try:
-                    if grid.cells[i - 1, j]  is not -1:
-                        possible_actions.append("w")
-                except IndexError:
-                    pass
-                try:
-                    if grid.cells[i, j - 1]  is not -1:
-                        possible_actions.append("n")
-                except IndexError:
-                    pass
 
-                # Ensure only keys get added when there are actions
-                if len(possible_actions) != 0:
-                    actions[(i, j)] = possible_actions
+
+
+            # Ensure only keys get added when there are actions
+            if len(possible_actions) != 0:
+                actions[(i, j)] = possible_actions
 
     print(f"actions: {actions}")
 
@@ -52,8 +65,8 @@ def robot_epoch(robot):
     # initial Q values
     try:
         Q_values = {}
-        for i in range(1, grid.n_rows):
-            for j in range(1, grid.n_cols):
+        for i in range(0, grid.n_rows):
+            for j in range(0, grid.n_cols):
                 Q_values[(i, j)] = {}
                 for a in actions[(i, j)]:
                     Q_values[(i, j)][a] = 0  # Q value is a dict of dict
@@ -129,6 +142,7 @@ def robot_epoch(robot):
 
 def get_surrounding_q_values(q_values, position):
     try:
+        q_values
         q = [q_values[position]['n'],
                 q_values[position]['e'],
                 q_values[position]['s'],
