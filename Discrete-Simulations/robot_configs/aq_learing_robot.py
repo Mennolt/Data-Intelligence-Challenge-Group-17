@@ -128,12 +128,10 @@ def robot_epoch(robot):
 
 def get_surrounding_q_values(q_values, position):
     try:
-        q_values
-        q = [q_values[position]['n'],
-                q_values[position]['e'],
-                q_values[position]['s'],
-                q_values[position]['w'],
-                ]
+        pos_directions = list(q_values[position].keys())
+        q = []
+        for dirs in pos_directions:
+            q.append(q_values[position][dirs])
     except Exception as e:
         print(f"get_surrounding_q_values_error: {e}")
         raise e
