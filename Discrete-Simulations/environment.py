@@ -3,7 +3,7 @@ import random
 
 
 class Robot:
-    def __init__(self, grid, pos, orientation, p_move=0, battery_drain_p=0, battery_drain_lam=0, vision=1):
+    def __init__(self, grid, pos : tuple, orientation : dict, p_move=0, battery_drain_p=0, battery_drain_lam=0, vision=1):
         if grid.cells[pos[0], pos[1]] != 1:
             raise ValueError
         self.orientation = orientation
@@ -84,7 +84,7 @@ class Robot:
             else:
                 return False
 
-    def rotate(self, dir):
+    def rotate(self, dir : dict):
         current = list(self.orients.keys()).index(self.orientation)
         if dir == 'r':
             self.orientation = list(self.orients.keys())[(current + 1) % 4]
@@ -94,7 +94,7 @@ class Robot:
 
 
 class Grid:
-    def __init__(self, n_cols, n_rows):
+    def __init__(self, n_cols : int, n_rows : int):
         self.n_rows = n_rows
         self.n_cols = n_cols
         # Building the boundary of the grid:
@@ -116,7 +116,7 @@ class Grid:
         self.cells[x][y] = 3
 
 
-def generate_grid(n_cols, n_rows):
+def generate_grid(n_cols : int, n_rows : int):
     # Placeholder function used to generate a grid.
     # Select an empty grid file in the user interface and add code her to automatically fill it.
     # Look at grid_generator.py for inspiration.
