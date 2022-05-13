@@ -1,5 +1,6 @@
 from random import random, randint, randrange
 import numpy as np
+from policy_iteration_robot import get_next_state
 
 """
 Questions/comments/whatever:
@@ -93,9 +94,14 @@ def episode_generation(robot, policy : dict, num_steps : int) -> list:
             break
     # Pick a0 from s0
     a0 = choose_policy_action(s0)
+    episode.append((s0, a0))
     # Choose actions
-    for step in range(num_steps):
-        break
+    for _ in range(num_steps-1):
+        s_i = get_next_state(episode[-1][0], episode[-1][1])
+        a_i = choose_policy_action(s_i)
+        episode.append((s_i, a_i))
+    
+    return episode
 
     
     
