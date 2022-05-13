@@ -1,4 +1,4 @@
-from random import random, randint
+from random import random, randint, randrange
 import numpy as np
 
 """
@@ -26,7 +26,7 @@ def robot_epoch(robot):
 
 
 
-def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
+def initialize(robot, Q_low : float, Q_high : float, e_soft: bool, epsilon=0.2) -> tuple:
     '''
     Initialze Q, pi and returns.
     
@@ -35,10 +35,11 @@ def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
         - Returns(s, a): an empty list
     
     Input: 
-        robot - Robot object
-        Q_low - float, lowest Q value
-        Q_high - float, highest Q value
-        e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
+        - robot - Robot object
+        - Q_low - float, lowest Q value
+        - Q_high - float, highest Q value
+        - e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
+        - epsilon (optional) - float, epsilon value
 
     Output:
         Tuple of:
@@ -46,12 +47,10 @@ def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
         - pi[(i,j)] - dict, policy for state (i, j)
         - Returns[(i, j)] - dict, empty returns
     '''
+    # Initialize values
     Q = {}
     pi = {}
     Returns = {}
-
-    epsilon = 0.2
-    epochs = 10
 
     for i in range(0, robot.grid.n_cols):
         for j in range(0, robot.grid.n_rows):
@@ -71,3 +70,49 @@ def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
                                's': 0, 'w': 0}
 
     return Q, pi, Returns
+
+
+def episode_generation(robot, policy : dict, num_steps : int) -> list:
+    '''
+    Choose s0 and a0 s.t. all pairs have probability > 0
+    Generate an episode from (s0. a0) following pi
+
+    Input:
+        - robot - Robot object
+        - policy - dict, current policy
+
+    Output:
+        - episode
+    '''
+    episode = []
+
+    # Choose s0
+    while True:
+        s0 = (randrange(robot.grid.n_cols), randrange(robot.grid.n_rows))
+        if all(value > 0 for value in policy[s0]):
+            break
+    # Pick a0 from s0
+    a0 = choose_policy_action(s0)
+    # Choose actions
+    for step in range(num_steps):
+        break
+
+    
+    
+def choose_policy_action(state : dict) -> str:
+    '''
+    From: https://stackoverflow.com/questions/40927221/how-to-choose-keys-from-a-python-dictionary-based-on-weighted-probability
+    Choose action based on policy probability distribution
+
+    Input:
+        - state - dict of probability actions
+    
+    Output:
+        - action - str of pick action
+    '''
+    choice = random()
+    total = 0
+    for action, prob in state.items():
+        total += prob
+        if choice <= total:
+            return action
