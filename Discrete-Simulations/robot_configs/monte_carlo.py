@@ -1,6 +1,6 @@
-from random import random, randint, randrange
+from random import random, randint
 import numpy as np
-from policy_iteration_robot import get_next_state
+from robot_configs.policy_iteration_robot import get_next_state
 
 """
 Questions/comments/whatever:
@@ -20,14 +20,38 @@ def robot_epoch(robot):
     Q, pi, Returns = initialize(robot, Q_low, Q_high, e_soft)
 
     for epoch in range(epochs):
-        episode = []
+        episode = episode_generation(robot, pi, 100)
+
+        for index, occurrence in enumerate(episode):
+            (i_occurrence, j_occurrence), direction_occurrence = occurrence
+
+            G = []
+            for co_index, co_occurrence in enumerate(episode[i_occurrence:]):
+                (i_co_occurrence, j_co_occurrence), direction_co_occurrence = co_occurrence
+                new_i = i_co_occurrence + robot.dirs[direction_co_occurrence][0]
+                new_j = j_co_occurrence + robot.dirs[direction_co_occurrence][1]
+                value = robot.grid.cells[new_i, new_j]
+                G.append(value * discount_factor ** co_index)
+
+            Returns[(i_occurrence, j_occurrence)][direction_occurrence].append(sum(G))
+            current_Return = Returns[(i_occurrence, j_occurrence)][direction_occurrence]
+            avg_Returns = sum(current_Return) / len(current_Return)
+            Q[(i_occurrence, j_occurrence)] = avg_Returns
+
+        for i in range(0, robot.grid.n_cols):
+            for j in range(0, robot.grid.n_rows):
+                directions = ['n', 'e', 's', 'w']
+                a_star = max(Q[i, j], key=Q[i, j].get)
+
+                for direction in directions:
+                    if direction == a_star:
+                        pi[(i,j)][direction] = 1 - epsilon + epsilon/4
+                    else:
+                        pi[(i,j)][direction] = epsilon/4
 
 
-        if
 
-
-
-def initialize(robot, Q_low : float, Q_high : float, e_soft: bool, epsilon=0.2) -> tuple:
+def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
     '''
     Initialze Q, pi and returns.
     
@@ -36,19 +60,12 @@ def initialize(robot, Q_low : float, Q_high : float, e_soft: bool, epsilon=0.2) 
         - Returns(s, a): an empty list
     
     Input: 
-        - robot - Robot object
-        - Q_low - float, lowest Q value
-        - Q_high - float, highest Q value
-        - e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
-        - epsilon (optional) - float, epsilon value
+        robot - Robot object
+        Q_low - float, lowest Q value
+        Q_high - float, highest Q value
+        e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
 
-    Output:
-        Tuple of:
-        - Q[(i,j)] - dict, probability distributions for actions a in state (i, j)
-        - pi[(i,j)] - dict, policy for state (i, j)
-        - Returns[(i, j)] - dict, empty returns
     '''
-    # Initialize values
     Q = {}
     pi = {}
     Returns = {}
