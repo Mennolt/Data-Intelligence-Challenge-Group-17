@@ -11,6 +11,8 @@ Questions/comments/whatever:
 
 Q_low, Q_high = -11, 11
 e_soft = True
+epsilon = 0.2
+epochs = 10
 
 def robot_epoch(robot):
     
