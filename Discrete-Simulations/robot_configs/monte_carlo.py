@@ -38,6 +38,11 @@ def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
         Q_high - float, highest Q value
         e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
 
+    Output:
+        Tuple of:
+        - Q[(i,j)] - dict, probability distributions for actions a in state (i, j)
+        - pi[(i,j)] - dict, policy for state (i, j)
+        - Returns[(i, j)] - dict, empty returns
     '''
     Q = {}
     pi = {}
