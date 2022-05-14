@@ -1,4 +1,4 @@
-from random import random, randint
+from random import random, randint, randrange
 import numpy as np
 from robot_configs.policy_iteration_robot import get_next_state
 
@@ -14,14 +14,15 @@ Q_low, Q_high = -11, 11
 e_soft = True
 epsilon = 0.2
 epochs = 10
+discount_factor = 0.7
 
 def robot_epoch(robot):
     
     Q, pi, Returns = initialize(robot, Q_low, Q_high, e_soft)
-
+    print("e")
     for epoch in range(epochs):
         episode = episode_generation(robot, pi, 100)
-
+        print("d")
         for index, occurrence in enumerate(episode):
             (i_occurrence, j_occurrence), direction_occurrence = occurrence
 
@@ -37,17 +38,24 @@ def robot_epoch(robot):
             current_Return = Returns[(i_occurrence, j_occurrence)][direction_occurrence]
             avg_Returns = sum(current_Return) / len(current_Return)
             Q[(i_occurrence, j_occurrence)] = avg_Returns
-
+        print("a")
         for i in range(0, robot.grid.n_cols):
             for j in range(0, robot.grid.n_rows):
                 directions = ['n', 'e', 's', 'w']
-                a_star = max(Q[i, j], key=Q[i, j].get)
+                a_star = max(Q[(i, j)], key=Q[(i, j)].get)
 
                 for direction in directions:
                     if direction == a_star:
                         pi[(i,j)][direction] = 1 - epsilon + epsilon/4
                     else:
                         pi[(i,j)][direction] = epsilon/4
+        print("b")
+    print("c")
+    best_direction = pi[robot.pos]
+    while robot.orientation != best_direction:
+        robot.rotate('r')
+    robot.move()
+    print('moved', best_direction)
 
 
 
@@ -81,11 +89,11 @@ def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
             Q[(i,j)] = {'n': randint(Q_low, Q_high), 'e': randint(Q_low, Q_high),
                         's': randint(Q_low, Q_high), 'w': randint(Q_low, Q_high)}
 
-            pi[(i,j)] = {'n': policies[j], 'e': policies[j],
-                         's': policies[j], 'w': policies[j]}
+            pi[(i,j)] = {'n': policies[0], 'e': policies[1],
+                         's': policies[2], 'w': policies[3]}
 
-            Returns[(i, j)] = {'n': 0, 'e': 0,
-                               's': 0, 'w': 0}
+            Returns[(i, j)] = {'n': [], 'e': [],
+                               's': [], 'w': []}
 
     return Q, pi, Returns
 
@@ -107,22 +115,28 @@ def episode_generation(robot, policy : dict, num_steps : int) -> list:
     # Choose s0
     while True:
         s0 = (randrange(robot.grid.n_cols), randrange(robot.grid.n_rows))
-        if all(value > 0 for value in policy[s0]):
+        print('s0 chosen')
+        if all(value > 0 for value in policy[s0].values()):
+            print('s0 good')
             break
     # Pick a0 from s0
-    a0 = choose_policy_action(s0)
+    a0 = choose_policy_action(policy, s0)
+    print('a0 chosen')
     episode.append((s0, a0))
     # Choose actions
     for _ in range(num_steps-1):
+        print(episode[-1][0], episode[-1][1])
         s_i = get_next_state(episode[-1][0], episode[-1][1])
-        a_i = choose_policy_action(s_i)
+        print('s_i chosen:', s_i)
+        a_i = choose_policy_action(policy, s_i)
+        print('a_i computed:', a_i)
         episode.append((s_i, a_i))
     
     return episode
 
     
     
-def choose_policy_action(state : dict) -> str:
+def choose_policy_action(policy : dict, state : tuple) -> str:
     '''
     From: https://stackoverflow.com/questions/40927221/how-to-choose-keys-from-a-python-dictionary-based-on-weighted-probability
     Choose action based on policy probability distribution
@@ -135,7 +149,8 @@ def choose_policy_action(state : dict) -> str:
     '''
     choice = random()
     total = 0
-    for action, prob in state.items():
+    for action, prob in policy[state].items():
         total += prob
         if choice <= total:
+            # print('policy chosen')
             return action
