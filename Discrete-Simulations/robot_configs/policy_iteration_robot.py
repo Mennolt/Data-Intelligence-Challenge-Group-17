@@ -112,13 +112,17 @@ def policy_improvement(robot, policy, values, rewards, actions):
 
 def get_next_state(s, a):
     if a == 'e':
-        return (s[0]+1, s[1])
+        try: return (s[0]+1, s[1])
+        except IndexError: return (s[0], s[1])
     if a == 's':
-        return (s[0], s[1]+1)
+        try: return (s[0], s[1]+1)
+        except IndexError: return (s[0], s[1])
     if a == 'w':
-        return (s[0]-1, s[1])
+        try: return (s[0]-1, s[1])
+        except IndexError: return (s[0], s[1])
     if a == 'n':
-        return (s[0], s[1]-1) 
+        try: return (s[0], s[1]-1)
+        except IndexError: return (s[0], s[1]) 
 
 def get_possible_actions(grid, s):
     possible_actions = []
