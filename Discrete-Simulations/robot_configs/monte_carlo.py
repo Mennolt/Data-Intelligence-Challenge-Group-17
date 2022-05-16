@@ -13,70 +13,95 @@ Questions/comments/whatever:
 Q_low, Q_high = -11, 11
 e_soft = True
 epsilon = 0.2
-epochs = 10
+epochs = 20
 discount_factor = 0.7
+episode_steps = 100
+conversion = {'n': 0, 'e': 1, 's': 2, 'w': 3}
+
 
 def robot_epoch(robot):
-    
-    Q, pi, Returns = initialize(robot, Q_low, Q_high, e_soft)
-    print("e")
+    Q, policy, Returns = initialize(robot, Q_low, Q_high, e_soft)
+    invalid_moves_cols = {0: 3, robot.grid.n_cols - 1: 1}  # west, east
+    invalid_moves_rows = {0: 0, robot.grid.n_rows - 1: 2}  # north, south
+
     for epoch in range(epochs):
-        episode = episode_generation(robot, pi, 100)
-        print("d")
-        for index, occurrence in enumerate(episode):
-            (i_occurrence, j_occurrence), direction_occurrence = occurrence
+        # Generate an episode for current epoch, given policy & number of steps
+        episode = episode_generation(robot, policy, episode_steps)
 
+        for index, step in enumerate(episode):
+            # Location + direction
+            (i_step, j_step), direction_step = step
+
+            # G will contain all the future rewards given the current location
             G = []
-            for co_index, co_occurrence in enumerate(episode[i_occurrence:]):
-                (i_co_occurrence, j_co_occurrence), direction_co_occurrence = co_occurrence
-                new_i = i_co_occurrence + robot.dirs[direction_co_occurrence][0]
-                new_j = j_co_occurrence + robot.dirs[direction_co_occurrence][1]
-                value = robot.grid.cells[new_i, new_j]
-                G.append(value * discount_factor ** co_index)
+            # Go over future steps
+            # TO DO: think about computational complexity and if it's even needed to
+            # check ALL of them. Will be diminished quite soon given the discount factor
+            for future_index, future_step in enumerate(episode[i_step:]):
+                # We actually start at the current step, then future ones
+                (i_future_step, j_future_step), direction_future_step = future_step
+                value = robot.grid.cells[i_future_step, j_future_step]
+                G.append(value * discount_factor ** future_index)
 
-            Returns[(i_occurrence, j_occurrence)][direction_occurrence].append(sum(G))
-            current_Return = Returns[(i_occurrence, j_occurrence)][direction_occurrence]
-            avg_Returns = sum(current_Return) / len(current_Return)
-            Q[(i_occurrence, j_occurrence)] = avg_Returns
-        print("a")
+            Returns[(i_step, j_step)][direction_step].append(sum(G))
+
         for i in range(0, robot.grid.n_cols):
             for j in range(0, robot.grid.n_rows):
-                directions = ['n', 'e', 's', 'w']
-                a_star = max(Q[(i, j)], key=Q[(i, j)].get)
+                # Here we will average all the returns for a given location, and the four directions
+                for direction in conversion:
+                    current_Return = Returns[(i, j)][direction]
+                    # Can be that we didn't encounter this location+direction in the episode yet
+                    if len(current_Return) > 0:
+                        avg_Returns = sum(current_Return) / len(current_Return)
+                        Q[(i, j)][direction] = avg_Returns
 
-                for direction in directions:
-                    if direction == a_star:
-                        pi[(i,j)][direction] = 1 - epsilon + epsilon/4
-                    else:
-                        pi[(i,j)][direction] = epsilon/4
-        print("b")
-    print("c")
-    best_direction = pi[robot.pos]
+                # The direction with the highest return so far will get the highest policy value
+                # the rest a lower value, or 0 if not a legal move
+                policies = np.ones(4) * epsilon / 4
+                a_star = max(Q[(i, j)], key=Q[(i, j)].get)
+                policies[conversion[a_star]] = 1 - epsilon + epsilon / 4
+
+                # Illegal moves (outside of border)
+                if i in invalid_moves_cols:
+                    policies[invalid_moves_cols[i]] = 0
+                if j in invalid_moves_rows:
+                    policies[invalid_moves_rows[j]] = 0
+
+                # Re-normalize
+                policies = (1 / sum(policies)) * policies
+
+                policy[(i,j)] = {'n': policies[0], 'e': policies[1],
+                                 's': policies[2], 'w': policies[3]}
+
+    best_direction = max(policy[robot.pos], key=policy[robot.pos].get)
+
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()
-    print('moved', best_direction)
 
 
 
-def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
+def initialize(robot, Q_low : int, Q_high : int, e_soft: bool) -> tuple:
     '''
-    Initialze Q, pi and returns.
+    Initialze Q, policy and returns.
     
     For all s in S and a in A:
-        - arbitrary values for Q(s, a) and (e-)soft for pi (a|s)
+        - arbitrary values for Q(s, a) and (e-)soft for policy (a|s)
         - Returns(s, a): an empty list
     
     Input: 
         robot - Robot object
-        Q_low - float, lowest Q value
-        Q_high - float, highest Q value
+        Q_low - int, lowest Q value
+        Q_high - int, highest Q value
         e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
 
     '''
     Q = {}
-    pi = {}
+    policy = {}
     Returns = {}
+
+    invalid_moves_cols = {0: 3, robot.grid.n_cols-1: 1}  # west, east
+    invalid_moves_rows = {0: 0, robot.grid.n_rows-1: 2}  # north, south
 
     for i in range(0, robot.grid.n_cols):
         for j in range(0, robot.grid.n_rows):
@@ -86,16 +111,23 @@ def initialize(robot, Q_low : float, Q_high : float, e_soft: bool) -> tuple:
                 randoms = np.array([random() for i in range(4)])
             policies = randoms / sum(randoms)
 
+            if i in invalid_moves_cols:
+                policies[invalid_moves_cols[i]] = 0
+            if j in invalid_moves_rows:
+                policies[invalid_moves_rows[j]] = 0
+
+            policies = (1 / sum(policies)) * policies
+
             Q[(i,j)] = {'n': randint(Q_low, Q_high), 'e': randint(Q_low, Q_high),
                         's': randint(Q_low, Q_high), 'w': randint(Q_low, Q_high)}
 
-            pi[(i,j)] = {'n': policies[0], 'e': policies[1],
+            policy[(i,j)] = {'n': policies[0], 'e': policies[1],
                          's': policies[2], 'w': policies[3]}
 
-            Returns[(i, j)] = {'n': [], 'e': [],
-                               's': [], 'w': []}
+            Returns[(i,j)] = {'n': [], 'e': [],
+                              's': [], 'w': []}
 
-    return Q, pi, Returns
+    return Q, policy, Returns
 
 
 def episode_generation(robot, policy : dict, num_steps : int) -> list:
@@ -114,22 +146,16 @@ def episode_generation(robot, policy : dict, num_steps : int) -> list:
 
     # Choose s0
     while True:
-        s0 = (randrange(robot.grid.n_cols), randrange(robot.grid.n_rows))
-        print('s0 chosen')
+        s0 = (randrange(robot.grid.n_rows), randrange(robot.grid.n_cols))
         if all(value > 0 for value in policy[s0].values()):
-            print('s0 good')
             break
     # Pick a0 from s0
     a0 = choose_policy_action(policy, s0)
-    print('a0 chosen')
     episode.append((s0, a0))
     # Choose actions
     for _ in range(num_steps-1):
-        print(episode[-1][0], episode[-1][1])
         s_i = get_next_state(episode[-1][0], episode[-1][1])
-        print('s_i chosen:', s_i)
         a_i = choose_policy_action(policy, s_i)
-        print('a_i computed:', a_i)
         episode.append((s_i, a_i))
     
     return episode
