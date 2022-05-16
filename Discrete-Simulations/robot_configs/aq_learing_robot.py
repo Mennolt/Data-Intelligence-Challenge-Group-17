@@ -10,6 +10,9 @@ def robot_epoch(robot):
     # Initialisation
     grid = robot.grid
 
+    grid = custom_rewards_grid(grid)
+
+
     actions = {}
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
@@ -209,6 +212,39 @@ def get_next_position(action, s, actions):
 
 def get_state_reward(rewards, s):
     return rewards[s]
+
+
+def custom_rewards_grid(grid):
+    if grid.cells[0,0] is not -2 or -1 or 0 or 1 or 2 or 3 or -3:
+        return grid
+    else:
+        for i in range(0, grid.n_cols):
+            for j in range(0, grid.n_rows):
+
+                # Inner wall
+                if grid.cells[i, j] == -2:
+                    grid.cells[i, j] = -10
+                # Outer wall
+                elif grid.cells[i, j] == -1:
+                    grid.cells[i, j] = -10
+                # Clean
+                elif grid.cells[i, j] == 0:
+                    grid.cells[i, j] = -2
+                # Dirty
+                elif grid.cells[i, j] == 1:
+                    grid.cells[i, j] = 5
+                # Goal
+                elif grid.cells[i, j] == 2:
+                    grid.cells[i, j] = 10
+                # Death
+                elif grid.cells[i, j] == 3:
+                    grid.cells[i, j] = 10
+                # Self/Robot
+                elif grid.cells[i, j] == -3:
+                    grid.cells[i, j] = -2
+                else:
+                    raise ValueError(f"value: {grid.cells[i, j]}" )
+    return grid
 
 # def chooseAction(self):
 #     # choose action with most expected value
