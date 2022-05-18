@@ -152,7 +152,7 @@ def robot_epoch(robot):
                                                                        - Q_values[current_position][action])
 
                 #set next action and state to current action and state
-                if grid[position_prime] >=0:
+                if grid.cells[position_prime] >=0:
                     #collision detection: only move if not a wall
                     current_position = position_prime
                 action = action_prime
