@@ -47,6 +47,7 @@ def robot_epoch(robot):
     print(range(0, grid.n_rows))
 
     # initial Q values
+    # ToDo: read from robot if there
     try:
         Q_values = {}
         for i in range(0, grid.n_rows):
@@ -113,13 +114,13 @@ def robot_epoch(robot):
             #choose a from s using policy derived from Q (e.g., ϵ-greedy)
             action = e_greedy_action(e, actions, current_position, policy)
 
-            # ToDo: Random starting pos
+
             while not return_true_if_terminal(grid, current_position) and episode_count <= episode_size:
                 #print(f"Episode_count: {episode_count}")
 
                 #action = get_random_action(actions, current_position)
 
-                # ToDo: Possibly greedy
+
                 # take action a, observe reward r, next state s'
                 position_prime = get_next_position(action, current_position, actions)
                 next_position_reward = get_state_reward(rewards, position_prime)
@@ -140,8 +141,11 @@ def robot_epoch(robot):
                                                                        - Q_values[current_position][action])
 
                 #set next action and state to current action and state
+                # ToDo: collision detection
                 current_position = position_prime
                 action = action_prime
+
+                # ToDo: update policy & rewards
 
                 episode_count += 1
                 #print(f"Episode_count: {episode_count}")
@@ -156,6 +160,7 @@ def robot_epoch(robot):
         while robot.orientation != best_direction:
             robot.rotate('r')
         robot.move()
+        # ToDo: Save Q_values into robot
 
     except Exception as e:
         print(f"Main error: {e}")
