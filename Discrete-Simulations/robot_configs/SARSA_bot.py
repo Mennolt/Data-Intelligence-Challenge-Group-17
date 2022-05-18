@@ -85,6 +85,7 @@ def robot_epoch(robot):
                 local_rewards[action] = rewards[get_next_position(action, s, actions)]
 
             policy[s] = max(local_rewards, key = local_rewards.get)
+        return policy
     policy = get_greedy_policy(actions, rewards)
     # policy = {}
     #
