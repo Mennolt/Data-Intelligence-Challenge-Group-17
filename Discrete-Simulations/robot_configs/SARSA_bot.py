@@ -76,16 +76,7 @@ def robot_epoch(robot):
     #this may be wrong.
     # Alternative: get max reward (without caring about random chance),
     # Then for policy do either that, or with chance gamma take a random action
-    def get_greedy_policy(actions, rewards):
-        """Creates a greedy policy"""
-        policy = {}
-        for s in actions.keys():
-            local_rewards = {}
-            for action in actions[s]:
-                local_rewards[action] = rewards[get_next_position(action, s, actions)]
 
-            policy[s] = max(local_rewards, key = local_rewards.get)
-        return policy
     policy = get_greedy_policy(actions, rewards)
     # policy = {}
     #
@@ -232,6 +223,10 @@ def get_max_reward(rewards, s):
 
 
 def get_next_position(action, s, actions):
+    """
+    Given a string action and the current coordinates, gets the coordinates after moving according to that action.
+    Yields an error if this action is not allowed on this tile.
+    """
     nxt = None
     if action in actions[s]:
         if action == 'e':
@@ -274,6 +269,17 @@ def e_greedy_action(e, actions, position, policy):
     else:
         #take greedy action
         return policy[position]
+
+def get_greedy_policy(actions, rewards):
+    """Creates a greedy policy"""
+    policy = {}
+    for s in actions.keys():
+        local_rewards = {}
+        for action in actions[s]:
+            local_rewards[action] = rewards[get_next_position(action, s, actions)]
+
+        policy[s] = max(local_rewards, key = local_rewards.get)
+    return policy
 
 #
 # def get_max_reward_of_surrounding_states(state, rewards):
