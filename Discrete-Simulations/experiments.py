@@ -4,6 +4,7 @@ from robot_configs.infinite_view_robot import robot_epoch as infinite_view_epoch
 from robot_configs.rotatorinator import robot_epoch as rotator_epoch
 from robot_configs.value_iteration_robot import robot_epoch as value_iteration_epoch
 from robot_configs.policy_iteration_robot import robot_epoch as policy_iteration_epoch
+from robot_configs.aq_learing_robot import robot_epoch as q_learning_epoch
 
 import pickle
 from environment import Robot
@@ -33,6 +34,7 @@ battery_drainages_p = [0.1, 0.3, 0.5]
 robots_epoch = [
                 #(greedy_epoch, 'greedy_random'),
                 #(rotator_epoch, 'rotator'),
+                (q_learning_epoch, 'q_learning'),
                 (infinite_view_epoch, 'infinite_view_epoch'), 
                 (value_iteration_epoch, 'value_iteration'),
                 (policy_iteration_epoch, 'policy_iteration')]
