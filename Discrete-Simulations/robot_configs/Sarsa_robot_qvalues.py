@@ -65,11 +65,11 @@ def robot_epoch (robot):
 
     try:
         Q_values = robot.q_values
-        for i in range(0, grid.n_rows):
-            for j in range(0, grid.n_cols):
-                robot.q_values[(i, j)] = {}
-                for a in actions[(i, j)]:
-                    robot.q_values[(i, j)][a] = 0
+        # for i in range(0, grid.n_rows):
+        #     for j in range(0, grid.n_cols):
+        #         robot.q_values[(i, j)] = {}
+        #         for a in actions[(i, j)]:
+        #             robot.q_values[(i, j)][a] = 0
     except:
         Q_values = {}
         for i in range(0, grid.n_rows):
