@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d1f1c33a-7b21-46e2-9005-2408b963b11d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/test_experiments_all_3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/test_experiments_all_3_10_iter.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/Sarsa_robot_qvalues.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d1f1c33a-7b21-46e2-9005-2408b963b11d" name="Changes" comment="Implemented Q_values attribute of robot">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/Sprint_1_vis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/Sprint_1_vis.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments.py" afterDir="false" />
@@ -69,6 +64,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Discrete-Simulations/robot_configs" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -150,7 +147,16 @@
       <workItem from="1652270357557" duration="2627000" />
       <workItem from="1652354541299" duration="11528000" />
       <workItem from="1652454366479" duration="2093000" />
+      <workItem from="1652875616651" duration="1004000" />
     </task>
+    <task id="LOCAL-00001" summary="Implemented Q_values attribute of robot">
+      <created>1652875600224</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1652875600224</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,9 +174,13 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Implemented Q_values attribute of robot" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Q_values attribute of robot" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/GroupAssignment$experiments.coverage" NAME="experiments Coverage Results" MODIFIED="1652696354649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/GroupAssignment$experiments.coverage" NAME="experiments Coverage Results" MODIFIED="1652875964057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
     <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$app.coverage" NAME="app Coverage Results" MODIFIED="1651838964795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
-    <SUITE FILE_PATH="coverage/GroupAssignment$app.coverage" NAME="app Coverage Results" MODIFIED="1652874842393" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/GroupAssignment$app.coverage" NAME="app Coverage Results" MODIFIED="1652876283062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
   </component>
 </project>

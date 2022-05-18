@@ -5,6 +5,8 @@ from robot_configs.rotatorinator import robot_epoch as rotator_epoch
 from robot_configs.value_iteration_robot import robot_epoch as value_iteration_epoch
 from robot_configs.policy_iteration_robot import robot_epoch as policy_iteration_epoch
 from robot_configs.aq_learing_robot import robot_epoch as q_learning_epoch
+from robot_configs.Sarsa_robot_qvalues import robot_epoch as SARSA_robot_q
+
 
 import pickle
 from environment import Robot
@@ -34,6 +36,7 @@ battery_drainages_p = [0.1, 0.3, 0.5]
 robots_epoch = [
                 #(greedy_epoch, 'greedy_random'),
                 #(rotator_epoch, 'rotator'),
+                (SARSA_robot_q, 'SARSA_robot_q'),
                 (q_learning_epoch, 'q_learning'),
                 (infinite_view_epoch, 'infinite_view_epoch'), 
                 (value_iteration_epoch, 'value_iteration'),
