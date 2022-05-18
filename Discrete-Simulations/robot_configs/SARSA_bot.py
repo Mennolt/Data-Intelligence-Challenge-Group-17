@@ -76,22 +76,32 @@ def robot_epoch(robot):
     #this may be wrong.
     # Alternative: get max reward (without caring about random chance),
     # Then for policy do either that, or with chance gamma take a random action
-    policy = {}
+    def get_greedy_policy(actions, rewards):
+        """Creates a greedy policy"""
+        policy = {}
+        for s in actions.keys():
+            local_rewards = {}
+            for action in actions[s]:
+                local_rewards[action] = rewards[get_next_position(action, s, actions)]
 
-    for s in actions.keys():
-        #for each action in state, get reward
-        local_rewards = {}
-        for action in actions[s]:
-            local_rewards[action] = rewards[get_next_position(action, s, actions)]
-
-        #calc e-greedy reward for each action
-        local_returns = {}
-        avg_reward = sum(local_rewards.values())/len(local_rewards.values())
-        for key, value in local_rewards.items():
-            local_returns[key] = (1-NOISE)*value + NOISE*avg_reward
-
-        #take max action as policy
-        policy[s] = max(local_returns, key=local_returns.get)
+            policy[s] = max(local_rewards, key = local_rewards.get)
+    policy = get_greedy_policy(actions, rewards)
+    # policy = {}
+    #
+    # for s in actions.keys():
+    #     #for each action in state, get reward
+    #     local_rewards = {}
+    #     for action in actions[s]:
+    #         local_rewards[action] = rewards[get_next_position(action, s, actions)]
+    #
+    #     #calc e-greedy reward for each action
+    #     local_returns = {}
+    #     avg_reward = sum(local_rewards.values())/len(local_rewards.values())
+    #     for key, value in local_rewards.items():
+    #         local_returns[key] = (1-NOISE)*value + NOISE*avg_reward
+    #
+    #     #take max action as policy
+    #     policy[s] = max(local_returns, key=local_returns.get)
 
     print("===== BEGIN Q/SARSA LEARNING =====")
 
@@ -141,11 +151,14 @@ def robot_epoch(robot):
                                                                        - Q_values[current_position][action])
 
                 #set next action and state to current action and state
-                # ToDo: collision detection
-                current_position = position_prime
+                if grid[position_prime] >=0:
+                    #collision detection: only move if not a wall
+                    current_position = position_prime
                 action = action_prime
 
-                # ToDo: update policy & rewards
+                # update policy & rewards
+                rewards[position_prime] = 0
+                policy = get_greedy_policy(actions, rewards)
 
                 episode_count += 1
                 #print(f"Episode_count: {episode_count}")
