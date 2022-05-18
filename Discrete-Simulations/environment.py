@@ -115,6 +115,10 @@ class Grid:
     def put_singular_death(self, x, y):
         self.cells[x][y] = 3
 
+    def copy(self):
+        grid = Grid(self.n_cols, self.n_rows)
+        grid.cells = self.cells.copy()
+        return grid
 
 def generate_grid(n_cols : int, n_rows : int):
     # Placeholder function used to generate a grid.
