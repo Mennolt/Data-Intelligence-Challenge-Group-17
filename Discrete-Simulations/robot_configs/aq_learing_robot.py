@@ -8,10 +8,12 @@ def robot_epoch(robot):
     NOISE = robot.p_move
 
     # Initialisation
-    grid = robot.grid
-
+    grid = robot.grid.copy()
+    print()
+    print(grid.cells)
     grid = custom_rewards_grid(grid)
-
+    print(grid.cells)
+    print()
 
     actions = {}
     for i in range(0, grid.n_cols):
@@ -56,8 +58,6 @@ def robot_epoch(robot):
                 Q_values[(i, j)] = {}
                 for a in actions[(i, j)]:
                     Q_values[(i, j)][a] = 0  # Q value is a dict of dict
-
-
     except Exception as e:
         # print(f"Q_values: {Q_values}")
         print(f"Q_value_error: {e}")
@@ -91,12 +91,12 @@ def robot_epoch(robot):
     gamma = 1
     try:
         for episode in range(total_episodes):
-            print(f"Episode: {episode}")
+            # print(f"Episode: {episode}")
             episode_count = 1
 
             # ToDo: Random starting pos
             while not return_true_if_terminal(grid, current_position) and episode_count <= episode_size:
-                print(f"Episode_count: {episode_count}")
+                # print(f"Episode_count: {episode_count}")
 
                 action = get_random_action(actions, current_position)
 
@@ -110,9 +110,26 @@ def robot_epoch(robot):
                 Q_values[current_position][action] += learning_rate * (next_position_reward + gamma * np.max(
                     surrounding_q_values) - Q_values[current_position][action])
                 episode_count += 1
-                print(f"Episode_count: {episode_count}")
 
-                current_position = next_position
+                # set next action and state to current action and state
+                if grid.cells[next_position] > -2:
+                    # collision detection: only move if not a wall
+                    current_position = next_position
+                elif grid.cells[next_position] == 5:
+                    grid.cells[next_position] = -10
+                    current_position = current_position
+                else:
+                    current_position = current_position
+
+                # update policy & rewards
+                # rewards[position_prime] = 0
+                # policy = get_greedy_policy(actions, rewards)
+                # current_position = next_position
+        # print('Finished iterating \n')
+        # print(f"q-values: {Q_values}")
+        # print(f"grid: {grid.cells}")
+        # print('\n')
+
 
         best_direction = get_max_surrounding_direction(Q_values, current_position)
         print("BEST DIRECTION")
@@ -215,7 +232,9 @@ def get_state_reward(rewards, s):
 
 
 def custom_rewards_grid(grid):
-    if grid.cells[0,0] is not -2 or -1 or 0 or 1 or 2 or 3 or -3:
+    # TODO: Maybe change by using grid.copy
+    if grid.cells[0, 0] not in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]:
+        print(f" 0,0 : {grid.cells[0, 0] in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]}")
         return grid
     else:
         for i in range(0, grid.n_cols):
@@ -229,7 +248,7 @@ def custom_rewards_grid(grid):
                     grid.cells[i, j] = -10
                 # Clean
                 elif grid.cells[i, j] == 0:
-                    grid.cells[i, j] = -2
+                    grid.cells[i, j] = -10
                 # Dirty
                 elif grid.cells[i, j] == 1:
                     grid.cells[i, j] = 5
@@ -238,12 +257,12 @@ def custom_rewards_grid(grid):
                     grid.cells[i, j] = 10
                 # Death
                 elif grid.cells[i, j] == 3:
-                    grid.cells[i, j] = 10
+                    grid.cells[i, j] = -20
                 # Self/Robot
                 elif grid.cells[i, j] == -3:
-                    grid.cells[i, j] = -2
+                    grid.cells[i, j] = 0
                 else:
-                    raise ValueError(f"value: {grid.cells[i, j]}" )
+                    raise ValueError(f"value: {grid.cells[i, j]}")
     return grid
 
 # def chooseAction(self):
