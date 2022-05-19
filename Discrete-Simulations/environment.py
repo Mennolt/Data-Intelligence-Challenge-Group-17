@@ -3,7 +3,7 @@ import random
 
 
 class Robot:
-    def __init__(self, grid, pos : tuple, orientation : dict, p_move=0, battery_drain_p=0, battery_drain_lam=0, vision=1):
+    def __init__(self, grid, pos: tuple, orientation: dict, p_move=0, battery_drain_p=0, battery_drain_lam=0, vision=1):
         if grid.cells[pos[0], pos[1]] != 1:
             raise ValueError
         self.orientation = orientation
@@ -19,6 +19,24 @@ class Robot:
         self.battery_lvl = 100
         self.alive = True
         self.vision = vision
+
+        self.q_values = {}
+        self.q_values_calculated = False
+
+    def init_q_values(self, actions):
+
+        # initial Q values
+        try:
+            self.q_values = {}
+            for i in range(0, self.grid.n_rows):
+                for j in range(0, self.grid.n_cols):
+                    self.q_values[(i, j)] = {}
+                    for a in actions[(i, j)]:
+                        self.q_values[(i, j)][a] = 0  # Q value is a dict of dict
+        except Exception as e:
+            # print(f"Q_values: {Q_values}")
+            print(f"Q_value_error: {e}")
+            raise e
 
     def possible_tiles_after_move(self):
         moves = list(self.dirs.values())
@@ -84,7 +102,7 @@ class Robot:
             else:
                 return False
 
-    def rotate(self, dir : dict):
+    def rotate(self, dir: dict):
         current = list(self.orients.keys()).index(self.orientation)
         if dir == 'r':
             self.orientation = list(self.orients.keys())[(current + 1) % 4]
@@ -94,7 +112,7 @@ class Robot:
 
 
 class Grid:
-    def __init__(self, n_cols : int, n_rows : int):
+    def __init__(self, n_cols: int, n_rows: int):
         self.n_rows = n_rows
         self.n_cols = n_cols
         # Building the boundary of the grid:
@@ -120,7 +138,8 @@ class Grid:
         grid.cells = self.cells.copy()
         return grid
 
-def generate_grid(n_cols : int, n_rows : int):
+
+def generate_grid(n_cols: int, n_rows: int):
     # Placeholder function used to generate a grid.
     # Select an empty grid file in the user interface and add code her to automatically fill it.
     # Look at grid_generator.py for inspiration.
