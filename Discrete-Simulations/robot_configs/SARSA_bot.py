@@ -11,31 +11,74 @@ def robot_epoch(robot):
     # Initialisation
     grid = robot.grid
 
+    # actions = {}
+    # for i in range(0, grid.n_rows):
+    #     for j in range(0, grid.n_cols):
+    #
+    #         possible_actions = []
+    #         try:
+    #             if i != grid.n_rows - 1:
+    #                 possible_actions.append("e")
+    #         except IndexError:
+    #             pass
+    #         try:
+    #             if j != grid.n_cols - 1:
+    #                 possible_actions.append("s")
+    #         except IndexError:
+    #             pass
+    #         try:
+    #             if i != 0:
+    #                 possible_actions.append("w")
+    #         except IndexError:
+    #             pass
+    #         try:
+    #             if j != 0:
+    #                 possible_actions.append("n")
+    #         except IndexError:
+    #             pass
+    #
+    #         # Ensure only keys get added when there are actions
+    #         if len(possible_actions) != 0:
+    #             actions[(i, j)] = possible_actions
+    def no_neg(val):
+        if val>=0:
+            return val
+        else:
+            raise IndexError
+
     actions = {}
-    for i in range(0, grid.n_cols):
-        for j in range(0, grid.n_rows):
+    for i in range(0, grid.n_rows):
+        for j in range(0, grid.n_cols):
 
             possible_actions = []
+
             try:
-                if i != grid.n_rows - 1:
-                    possible_actions.append("e")
+                grid.cells[no_neg(i + 1), no_neg(j)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("e")
+
             try:
-                if j != grid.n_cols - 1:
-                    possible_actions.append("s")
+                grid.cells[no_neg(i), no_neg(j + 1)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("s")
+
             try:
-                if i != 0:
-                    possible_actions.append("w")
+                grid.cells[no_neg(i), no_neg(j - 1)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("n")
+
             try:
-                if j != 0:
-                    possible_actions.append("n")
+                grid.cells[no_neg(i - 1), no_neg(j)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("w")
 
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
@@ -47,7 +90,7 @@ def robot_epoch(robot):
     print(range(0, grid.n_rows))
 
     # initial Q values
-    # ToDo: read from robot if there
+
     try:
         Q_values = {}
         for i in range(0, grid.n_rows):
@@ -76,8 +119,11 @@ def robot_epoch(robot):
     #this may be wrong.
     # Alternative: get max reward (without caring about random chance),
     # Then for policy do either that, or with chance gamma take a random action
-
-    policy = get_greedy_policy(actions, rewards)
+    try:
+        policy = get_greedy_policy(actions, rewards)
+    except Exception as e:
+        print(e)
+        print(type(e))
     # policy = {}
     #
     # for s in actions.keys():
@@ -104,7 +150,7 @@ def robot_epoch(robot):
     # What to do
     learning_rate = 0.1
     gamma = 0.95
-    e = 0.1
+    e = 0.5
     try:
         for episode in range(total_episodes):
             print(f"Episode: {episode}")
@@ -146,10 +192,10 @@ def robot_epoch(robot):
                 if grid.cells[position_prime] >=0:
                     #collision detection: only move if not a wall
                     current_position = position_prime
+                    rewards[position_prime] = 0
                 action = action_prime
 
                 # update policy & rewards
-                rewards[position_prime] = 0
                 policy = get_greedy_policy(actions, rewards)
 
                 episode_count += 1
@@ -165,7 +211,7 @@ def robot_epoch(robot):
         while robot.orientation != best_direction:
             robot.rotate('r')
         robot.move()
-        # ToDo: Save Q_values into robot
+
 
     except Exception as e:
         print(f"Main error: {e}")
