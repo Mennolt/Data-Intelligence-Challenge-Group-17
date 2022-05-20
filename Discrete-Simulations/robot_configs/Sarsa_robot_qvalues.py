@@ -10,31 +10,45 @@ def robot_epoch (robot):
     # Initialisation
     grid = robot.grid
 
+    def no_neg(val):
+        if val >= 0:
+            return val
+        else:
+            raise IndexError
+
     actions = {}
-    for i in range(0, grid.n_cols):
-        for j in range(0, grid.n_rows):
+    for i in range(0, grid.n_rows):
+        for j in range(0, grid.n_cols):
 
             possible_actions = []
+
             try:
-                if i != grid.n_rows - 1:
-                    possible_actions.append("e")
+                grid.cells[no_neg(i + 1), no_neg(j)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("e")
+
             try:
-                if j != grid.n_cols - 1:
-                    possible_actions.append("s")
+                grid.cells[no_neg(i), no_neg(j + 1)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("s")
+
             try:
-                if i != 0:
-                    possible_actions.append("w")
+                grid.cells[no_neg(i), no_neg(j - 1)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("n")
+
             try:
-                if j != 0:
-                    possible_actions.append("n")
+                grid.cells[no_neg(i - 1), no_neg(j)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("w")
 
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
