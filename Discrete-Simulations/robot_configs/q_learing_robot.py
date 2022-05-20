@@ -1,6 +1,13 @@
 import numpy as np
 
 
+def no_neg(value):
+    if value >= 0:
+        return value
+    else:
+        raise IndexError
+
+
 def robot_epoch(robot):
     # Hyperparameters
     SMALL_ENOUGH = 0.05
@@ -12,35 +19,44 @@ def robot_epoch(robot):
     grid = custom_rewards_grid(grid)
 
     actions = {}
-    for i in range(0, grid.n_cols):
-        for j in range(0, grid.n_rows):
+    for i in range(0, grid.n_rows):
+        for j in range(0, grid.n_cols):
 
             possible_actions = []
+
             try:
-                if i != grid.n_rows - 1:
-                    possible_actions.append("e")
+                grid.cells[no_neg(i + 1), no_neg(j)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("e")
+
             try:
-                if j != grid.n_cols - 1:
-                    possible_actions.append("s")
+                grid.cells[no_neg(i), no_neg(j + 1)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("s")
+
             try:
-                if i != 0:
-                    possible_actions.append("w")
+                grid.cells[no_neg(i), no_neg(j - 1)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("n")
+
             try:
-                if j != 0:
-                    possible_actions.append("n")
+                grid.cells[no_neg(i - 1), no_neg(j)]
             except IndexError:
                 pass
+            else:
+                possible_actions.append("w")
 
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
                 actions[(i, j)] = possible_actions
 
+    print(f'actions: {actions}')
 
     rewards = {}
     for i in range(0, grid.n_cols):
@@ -56,7 +72,7 @@ def robot_epoch(robot):
     #     policy[s] = np.random.choice(actions[s])
 
     # try:
-    total_iterations = 10
+    total_iterations = 100
     iteration_count = 0
     total_episodes = 10
     episode_count = 0
@@ -87,19 +103,19 @@ def robot_epoch(robot):
 
                     # Next-Next Rewards * 4
                     surrounding_q_values = get_surrounding_q_values(robot.q_values, next_position)
-
-                    print(
-                        f'\n'
-                        f'Qvalues update values\n'
-                        f'current_position: {current_position} \n'
-                        f'action: {action} \n'
-                        f'learning_rate: {learning_rate} \n'
-                        f' next_position_reward: {next_position_reward} \n'
-                        f' gamma: {gamma} \n'
-                        f' np.max(surrounding_q_values): {np.max(surrounding_q_values)} \n'
-                        f' robot.q_values[current_position][action] : {robot.q_values[current_position][action]}'
-                        f'\n'
-                    )
+                    #
+                    # print(
+                    #     f'\n'
+                    #     f'Qvalues update values\n'
+                    #     f'current_position: {current_position} \n'
+                    #     f'action: {action} \n'
+                    #     f'learning_rate: {learning_rate} \n'
+                    #     f' next_position_reward: {next_position_reward} \n'
+                    #     f' gamma: {gamma} \n'
+                    #     f' np.max(surrounding_q_values): {np.max(surrounding_q_values)} \n'
+                    #     f' robot.q_values[current_position][action] : {robot.q_values[current_position][action]}'
+                    #     f'\n'
+                    # )
 
                     robot.q_values[current_position][action] += learning_rate * (next_position_reward + gamma + np.max(
                         surrounding_q_values) - robot.q_values[current_position][action])
@@ -135,11 +151,11 @@ def robot_epoch(robot):
     best_direction = get_max_surrounding_direction(robot.q_values, current_position)
 
     print()
-    # print("Calculate best direction")
-    # print(f'best_direction: {best_direction}')
-    # print(f'robot.orientation: {robot.orientation}')
-    # print(f"q-values: {robot.q_values}")
-    # print(f"grid: {grid.cells.T}")
+    print("Calculate best direction")
+    print(f'best_direction: {best_direction}')
+    print(f'robot.orientation: {robot.orientation}')
+    print(f"q-values: {robot.q_values}")
+    print(f"grid: {grid.cells.T}")
     print()
 
     while robot.orientation != best_direction:

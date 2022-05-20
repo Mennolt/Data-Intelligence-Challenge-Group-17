@@ -24,6 +24,7 @@ class Robot:
         self.q_values_calculated = False
 
     def init_q_values(self, actions):
+        print(actions)
 
         # initial Q values
         try:
