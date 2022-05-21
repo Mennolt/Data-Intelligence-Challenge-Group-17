@@ -1,14 +1,9 @@
 # Import our robot algorithm to use in this simulation:
 from robot_configs.greedy_random_robot import robot_epoch as greedy_epoch
 from robot_configs.infinite_view_robot import robot_epoch as infinite_view_epoch
-from robot_configs.rotatorinator import robot_epoch as rotator_epoch
-from robot_configs.value_iteration_robot import robot_epoch as value_iteration_epoch
-from robot_configs.policy_iteration_robot import robot_epoch as policy_iteration_epoch
 
 import pickle
 from environment import Robot
-import pandas as pd
-import numpy as np
 import time
 import matplotlib.pyplot as plt
 
