@@ -74,7 +74,7 @@ def robot_epoch(robot):
                                  's': policies[2], 'w': policies[3]}
 
     best_direction = max(policy[robot.pos], key=policy[robot.pos].get)
-
+    print(robot.pos, best_direction)
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()
@@ -146,7 +146,7 @@ def episode_generation(robot, policy : dict, num_steps : int) -> list:
 
     # Choose s0
     while True:
-        s0 = (randrange(robot.grid.n_rows), randrange(robot.grid.n_cols))
+        s0 = (randrange(robot.grid.n_cols), randrange(robot.grid.n_rows))
         if all(value > 0 for value in policy[s0].values()):
             break
     # Pick a0 from s0
