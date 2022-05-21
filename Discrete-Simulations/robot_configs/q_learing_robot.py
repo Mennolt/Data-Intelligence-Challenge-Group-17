@@ -63,15 +63,6 @@ def robot_epoch(robot):
         for j in range(0, grid.n_rows):
             rewards[(i, j)] = grid.cells[i, j]
 
-    # V = rewards.copy()
-    #
-    # # Define an initial policy
-    # policy = {}
-    #
-    # for s in actions.keys():
-    #     policy[s] = np.random.choice(actions[s])
-
-    # try:
     total_iterations = 100
     iteration_count = 0
     total_episodes = 10
@@ -88,12 +79,8 @@ def robot_epoch(robot):
             while episode_count <= total_episodes:
                 print(f"Episode_count: {episode_count}")
 
-                # print(f'return_true_if_terminal: {return_true_if_terminal(grid, current_position)} ')
-
-                # ToDo: Random starting pos
                 while not return_true_if_terminal(grid, current_position) and iteration_count <= total_iterations:
-                    # print(f"Iteration_count: {iteration_count}")
-                    # print(f"total_iterations: {total_iterations}")
+                    # print(f"Iteration_count/total_iterations: {iteration_count}/{total_iterations}")
 
                     action = get_random_action(actions, current_position)
 
@@ -120,24 +107,12 @@ def robot_epoch(robot):
                     robot.q_values[current_position][action] += learning_rate * (next_position_reward + gamma + np.max(
                         surrounding_q_values) - robot.q_values[current_position][action])
 
-                    # print(
-                    #     f"update Q value: {learning_rate * (next_position_reward + gamma * np.max(surrounding_q_values) - robot.q_values[current_position][action])}")
-
-                    # # set next action and state to current action and state
-                    # if grid.cells[next_position] == -10:
-                    #     # collision detection: only move if not a wall
-                    #     current_position = next_position
-                    # else:
-                    #     current_position = current_position
                     iteration_count += 1
 
                 # Reset iteration count for each new episode + Increase episode count
                 iteration_count = 0
                 episode_count += 1
-                # update policy & rewards
-                # rewards[nex] = 0
-                # policy = get_greedy_policy(actions, rewards)
-                # current_position = next_position
+
 
             robot.q_values_calculated = True
             print()
@@ -150,13 +125,11 @@ def robot_epoch(robot):
 
     best_direction = get_max_surrounding_direction(robot.q_values, current_position)
 
-    print()
-    print("Calculate best direction")
-    print(f'best_direction: {best_direction}')
-    print(f'robot.orientation: {robot.orientation}')
-    print(f"q-values: {robot.q_values}")
-    print(f"grid: {grid.cells.T}")
-    print()
+    print("\n Calculate best direction")
+    # print(f'best_direction: {best_direction}')
+    # print(f'robot.orientation: {robot.orientation}')
+    # print(f"q-values: {robot.q_values}")
+    # print(f"grid: {grid.cells.T} \n")
 
     while robot.orientation != best_direction:
         robot.rotate('r')
@@ -205,7 +178,6 @@ def get_random_action(actions, s):
 
 def get_max_reward(rewards, s):
     reward_list = []
-    # Changed
     # Append the reward list with every possible next state
     reward_list.append(get_state_reward(rewards, (s[0], s[1] + 1)))
     reward_list.append(get_state_reward(rewards, (s[0] + 1, s[1])))
@@ -234,19 +206,9 @@ def get_next_position(action, s, actions):
         else:
             return nxt
     else:
-        # print(f"action: {action}")
-        # print(f"state: {s}")
-        # print(f"actions: {actions}")
-
         print("get_next_position_indexError")
         raise IndexError
 
-
-#
-# def get_max_reward_of_surrounding_states(state, rewards):
-#     actions = ['n', 'w', 's', 'e']
-#     surrounding_states = []
-#     surrounding_states.append(get_next_state())
 
 
 def get_state_reward(rewards, s):
@@ -286,66 +248,3 @@ def custom_rewards_grid(grid):
                 else:
                     raise ValueError(f"value: {grid.cells[i, j]}")
     return grid
-
-# def chooseAction(self):
-#     # choose action with most expected value
-#     mx_nxt_reward = 0
-#     action = ""
-#
-#     if np.random.uniform(0, 1) <= self.exp_rate:
-#         action = np.random.choice(self.actions)
-#     else:
-#         # greedy action
-#         for a in self.actions:
-#             current_position = self.State.state
-#             nxt_reward = self.Q_values[current_position][a]
-#             if nxt_reward >= mx_nxt_reward:
-#                 action = a
-#                 mx_nxt_reward = nxt_reward
-#     return action
-
-
-# def make_actions():
-#     # Actions
-#     actions = {}
-#     for i in range(0, grid.n_rows):
-#         for j in range(0, grid.n_cols):
-#             possible_actions = []
-#
-#             try:
-#                 i = grid.cells[i + 1, j]
-#             except Exception as e:
-#                 print(e)
-#                 print('e')
-#                 pass
-#             else:
-#                 possible_actions.append("e")
-#
-#             try:
-#                 i = grid.cells[ i, j + 1]
-#             except IndexError:
-#                 print('s')
-#                 pass
-#             else:
-#                 possible_actions.append("s")
-#
-#             try:
-#                 i = grid.cells[i - 1, j]
-#             except IndexError:
-#                 print('w')
-#                 pass
-#             else:
-#                 possible_actions.append("w")
-#
-#             try:
-#                 i = grid.cells[ i, j - 1]
-#             except IndexError:
-#                 print('n')
-#                 pass
-#             else:
-#                 possible_actions.append("n")
-#
-#             print(possible_actions)
-#             # Ensure only keys get added when there are actions
-#             if len(possible_actions) > 0:
-#                 actions[( i, j)] = possible_actions
