@@ -15,7 +15,7 @@ e_soft = True
 epsilon = 0.2
 epochs = 20
 discount_factor = 0.7
-episode_steps = 100
+episode_steps = 25
 conversion = {'n': 0, 'e': 1, 's': 2, 'w': 3}
 
 
@@ -74,7 +74,7 @@ def robot_epoch(robot):
                                  's': policies[2], 'w': policies[3]}
 
     best_direction = max(policy[robot.pos], key=policy[robot.pos].get)
-    print(robot.pos, best_direction)
+    # print(robot.pos, best_direction)
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()

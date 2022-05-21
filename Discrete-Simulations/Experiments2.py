@@ -4,6 +4,9 @@ from robot_configs.infinite_view_robot import robot_epoch as infinite_view_epoch
 from robot_configs.rotatorinator import robot_epoch as rotator_epoch
 from robot_configs.value_iteration_robot import robot_epoch as value_iteration_epoch
 from robot_configs.policy_iteration_robot import robot_epoch as policy_iteration_epoch
+from robot_configs.monte_carlo import robot_epoch as monte_carlo
+from robot_configs.q_learning_robot import robot_epoch as q_learning
+from robot_configs.SARSA_bot import robot_epoch as sarsa
 
 import pickle
 from environment import Robot
@@ -13,7 +16,7 @@ import time
 import matplotlib.pyplot as plt
 
 experiment_file_name = 'test_experiments_3_robots'
-runs = 2
+runs = 1
 battery_drainage_lambda = 1
 
 # All variables we can change for our experiments
@@ -31,9 +34,13 @@ grid_files = {'death': 87.5, 'death_room': 96.83, 'empty_small_room': 100,
 
 battery_drainages_p = [0.1, 0.3, 0.5]
 robots_epoch = [
-     (greedy_epoch, 'greedy_random')]
+     #(sarsa, 'sarsa')
+    (monte_carlo,'monte_carlo')
+     #(greedy_epoch, 'greedy_random')
+]
 robots_epoch2 = [
-     (infinite_view_epoch, 'infinite_view_epoch')]
+     (q_learning, 'q_learning')
+]
 
 # In the lists below, we gather data.
 robot_per_setting = []

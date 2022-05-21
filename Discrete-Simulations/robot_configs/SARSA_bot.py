@@ -84,10 +84,10 @@ def robot_epoch(robot):
             if len(possible_actions) != 0:
                 actions[(i, j)] = possible_actions
 
-    print(f"actions: {actions}")
-
-    print("==========actions===============")
-    print(range(0, grid.n_rows))
+    # print(f"actions: {actions}")
+    #
+    # print("==========actions===============")
+    # print(range(0, grid.n_rows))
 
     # initial Q values
 
@@ -105,13 +105,13 @@ def robot_epoch(robot):
         print(f"Q_value_error: {e}")
         raise e
 
-    print("==========Qvalues===============")
+    # print("==========Qvalues===============")
 
     rewards = {}
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
             rewards[(i, j)] = grid.cells[i, j]
-    print("==========rewards===============")
+    # print("==========rewards===============")
 
     # V = rewards.copy()
     #
@@ -141,11 +141,11 @@ def robot_epoch(robot):
     #     #take max action as policy
     #     policy[s] = max(local_returns, key=local_returns.get)
 
-    print("===== BEGIN Q/SARSA LEARNING =====")
+    # print("===== BEGIN Q/SARSA LEARNING =====")
 
     # try:
     episode_size = 20
-    total_episodes = 50
+    total_episodes = 25
 
     # What to do
     learning_rate = 0.1
@@ -153,7 +153,7 @@ def robot_epoch(robot):
     e = 0.5
     try:
         for episode in range(total_episodes):
-            print(f"Episode: {episode}")
+            # print(f"Episode: {episode}")
             episode_count = 1
 
             #reset to current state s
@@ -205,9 +205,9 @@ def robot_epoch(robot):
                 #adjust policy based on changed Q(s,a)?
 
         best_direction = get_max_surrounding_direction(Q_values, current_position)
-        print("BEST DIRECTION")
-        print(best_direction)
-        print(robot.orientation)
+        # print("BEST DIRECTION")
+        # print(best_direction)
+        # print(robot.orientation)
         while robot.orientation != best_direction:
             robot.rotate('r')
         robot.move()
