@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d1f1c33a-7b21-46e2-9005-2408b963b11d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/environment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/q_learing_robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/q_learing_robot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
