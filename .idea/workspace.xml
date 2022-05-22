@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1f1c33a-7b21-46e2-9005-2408b963b11d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/other/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/Experiments2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/Experiments2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/AAAAdeath.grid" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/death.grid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/greedy_robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/other/greedy_robot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/infinite_view_robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/other/infinite_view_robot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/rotatorinator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/other/rotatorinator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/SARSA_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/SARSA_bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/q_learning_robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/q_learning_robot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +134,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$headless.coverage" NAME="headless Coverage Results" MODIFIED="1653237672102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
     <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$app.coverage" NAME="app Coverage Results" MODIFIED="1651838964795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
     <SUITE FILE_PATH="coverage/GroupAssignment$experiments.coverage" NAME="experiments Coverage Results" MODIFIED="1652875964057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
     <SUITE FILE_PATH="coverage/GroupAssignment$app.coverage" NAME="app Coverage Results" MODIFIED="1652876283062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />

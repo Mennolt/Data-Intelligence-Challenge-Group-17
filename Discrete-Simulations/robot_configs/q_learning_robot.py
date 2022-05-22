@@ -19,8 +19,8 @@ def robot_epoch(robot):
     grid = custom_rewards_grid(grid)
 
     actions = {}
-    for i in range(0, grid.n_rows):
-        for j in range(0, grid.n_cols):
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
 
             possible_actions = []
 
@@ -56,9 +56,9 @@ def robot_epoch(robot):
             if len(possible_actions) != 0:
                 actions[(i, j)] = possible_actions
             else:
-                print("oh no", i,j)
+                print("oh no", i, j)
 
-    #print(f'actions: {actions}')
+    # print(f'actions: {actions}')
 
     rewards = {}
     for i in range(0, grid.n_cols):
@@ -79,7 +79,7 @@ def robot_epoch(robot):
             # Initialise Q values
             robot.init_q_values(actions)
             while episode_count <= total_episodes:
-                #print(f"Episode_count: {episode_count}")
+                # print(f"Episode_count: {episode_count}")
 
                 while not return_true_if_terminal(grid, current_position) and iteration_count <= total_iterations:
                     # print(f"Iteration_count/total_iterations: {iteration_count}/{total_iterations}")
@@ -115,7 +115,6 @@ def robot_epoch(robot):
                 iteration_count = 0
                 episode_count += 1
 
-
             robot.q_values_calculated = True
             # print()
             # print('Finished iterating \n')
@@ -127,7 +126,7 @@ def robot_epoch(robot):
 
     best_direction = get_max_surrounding_direction(robot.q_values, current_position)
 
-    #print("\n Calculate best direction")
+    # print("\n Calculate best direction")
     # print(f'best_direction: {best_direction}')
     # print(f'robot.orientation: {robot.orientation}')
     # print(f"q-values: {robot.q_values}")
@@ -210,7 +209,6 @@ def get_next_position(action, s, actions):
     else:
         print("get_next_position_indexError")
         raise IndexError
-
 
 
 def get_state_reward(rewards, s):
