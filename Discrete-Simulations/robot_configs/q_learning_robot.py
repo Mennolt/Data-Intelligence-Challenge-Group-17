@@ -55,8 +55,10 @@ def robot_epoch(robot):
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
                 actions[(i, j)] = possible_actions
+            else:
+                print("oh no", i,j)
 
-    print(f'actions: {actions}')
+    #print(f'actions: {actions}')
 
     rewards = {}
     for i in range(0, grid.n_cols):
@@ -77,7 +79,7 @@ def robot_epoch(robot):
             # Initialise Q values
             robot.init_q_values(actions)
             while episode_count <= total_episodes:
-                print(f"Episode_count: {episode_count}")
+                #print(f"Episode_count: {episode_count}")
 
                 while not return_true_if_terminal(grid, current_position) and iteration_count <= total_iterations:
                     # print(f"Iteration_count/total_iterations: {iteration_count}/{total_iterations}")
@@ -115,17 +117,17 @@ def robot_epoch(robot):
 
 
             robot.q_values_calculated = True
-            print()
-            print('Finished iterating \n')
-            print(f"q-values: {robot.q_values}")
-            print()
+            # print()
+            # print('Finished iterating \n')
+            # print(f"q-values: {robot.q_values}")
+            # print()
         except Exception as e:
             print(f"Main error: {e}")
             raise e
 
     best_direction = get_max_surrounding_direction(robot.q_values, current_position)
 
-    print("\n Calculate best direction")
+    #print("\n Calculate best direction")
     # print(f'best_direction: {best_direction}')
     # print(f'robot.orientation: {robot.orientation}')
     # print(f"q-values: {robot.q_values}")
