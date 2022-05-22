@@ -20,6 +20,34 @@ class Robot:
         self.alive = True
         self.vision = vision
 
+<<<<<<< Updated upstream
+=======
+        self.q_values = {}
+        self.q_values_calculated = False
+
+    def init_q_values(self, actions, rewards):
+
+        # initial Q values
+        try:
+            self.q_values = {}
+            for i in range(0, self.grid.n_cols):
+                for j in range(0, self.grid.n_rows):
+                    self.q_values[(i, j)] = {}
+                    # Set the initial Q-value to the reward of a state that can be reached by each action which can be done in a given state
+                    if 'e' in actions[(i, j)]:
+                        self.q_values[(i, j)]['e'] = rewards[i + 1, j]
+                    if 's' in actions[(i, j)]:
+                        self.q_values[(i, j)]['s'] = rewards[i , j + 1]
+                    if 'w' in actions[(i, j)]:
+                        self.q_values[(i, j)]['w'] = rewards[i - 1, j]
+                    if 'n' in actions[(i, j)]:
+                        self.q_values[(i, j)]['n'] = rewards[i, j - 1]
+
+        except Exception as e:
+            print(f"Q_value_error: {e}")
+            raise e
+
+>>>>>>> Stashed changes
     def possible_tiles_after_move(self):
         moves = list(self.dirs.values())
         # Fool the robot and show a death tile as normal (dirty)
