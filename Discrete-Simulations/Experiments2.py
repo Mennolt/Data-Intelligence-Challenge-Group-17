@@ -1,6 +1,6 @@
 # Import our robot algorithm to use in this simulation:
-from robot_configs.greedy_random_robot import robot_epoch as greedy_epoch
-from robot_configs.infinite_view_robot import robot_epoch as infinite_view_epoch
+from robot_configs.q_learning_robot import robot_epoch as greedy_epoch
+from robot_configs.SARSA_bot import robot_epoch as infinite_view_epoch
 
 import pickle
 from environment import Robot
@@ -18,17 +18,19 @@ battery_drainage_lambda = 1
 # have a cleanliness criterion for each grid. Later we can adjust our percentage, to be relative to
 # this current percentage.
 grid_files = {'death': 87.5, 'death_room': 96.83, 'empty_small_room': 100,
-              'empty_big_room': 100, 'example-random-house-0': 100,
-              'example-random-house-1': 73.68, 'example-random-house-2': 89.06,
-              'example-random-house-3': 82.98, 'example-random-house-4': 84.04,
-              'goal_room': 100, 'house': 100, 'snake': 100, 'obstacle_room': 100,
+              'empty_big_room': 100, #'example-random-house-0': 100,
+              #'example-random-house-1': 73.68,
+              'example-random-house-2': 89.06,
+              #'example-random-house-3': 82.98, 'example-random-house-4': 84.04,
+              'goal_room': 100, #'house': 100,
+              'snake': 100, 'obstacle_room': 100,
               'no_obstacle_room': 100, 'example-random-level': 100}
 
 battery_drainages_p = [0.1, 0.3, 0.5]
 robots_epoch = [
-     (greedy_epoch, 'greedy_random')]
+     (greedy_epoch, 'Q-learning')]
 robots_epoch2 = [
-     (infinite_view_epoch, 'infinite_view_epoch')]
+     (infinite_view_epoch, 'SARSA')]
 
 # In the lists below, we gather data.
 robot_per_setting = []
@@ -165,6 +167,7 @@ for grid_file, stopping_criterion in grid_files.items():
                 end = time.time()
                 times2.append(end - start)
 
+
 # Make Histograms comparing the 2 robots statistics
 plt.hist(cleaned, alpha=0.5, label='robot1')
 plt.hist(cleaned2, alpha=0.5, label='robot2')
@@ -181,3 +184,5 @@ plt.title('Efficiency of robot.')
 plt.xlabel('Efficiency %')
 plt.ylabel('count')
 plt.show()
+
+
