@@ -54,14 +54,14 @@ def draw_grid(grid):
             # Battery and alive stats:
             batteries[i] = round(battery, 2)
             alives[i] = robot.alive
-        return {'grid': render_template('grid.html', height=30, width=30, n_rows=grid.n_rows, n_cols=grid.n_cols,
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=grid.n_rows, n_cols=grid.n_cols,
                                         room_config=grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ','.join([str(i) for i in efficiencies]),
                 'battery': ','.join([str(i) for i in batteries]),
                 'alive': alives}
     else:  # If we have an empty grid with no robots:
-        return {'grid': render_template('grid.html', height=30, width=30, n_rows=grid.n_rows, n_cols=grid.n_cols,
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=grid.n_rows, n_cols=grid.n_cols,
                                         room_config=grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ',', 'battery': ',',
