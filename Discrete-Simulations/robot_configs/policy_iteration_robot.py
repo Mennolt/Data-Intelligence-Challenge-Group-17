@@ -70,7 +70,6 @@ def policy_evaluation(robot, policy, values, rewards):
     Input:
     robot - a Robot object used to interact with the environment
     '''
-    #print('    Policy evaluation')
     for _ in range(max_iter):
         V_prev = values.copy()
         # Calculate weighted score of state after each possible action
@@ -91,7 +90,6 @@ def policy_improvement(robot, policy, values, rewards, actions):
     Input:
     robot - a Robot object used to interact with the environment
     '''
-    # print('    Policy improvement')
     # Calculate Q value
     Q = {}
     # Calculate weighted score of each possible action
