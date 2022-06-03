@@ -145,6 +145,15 @@ class Robot:
                 return False
         return True
 
+    def plot_hitbox(self, temp_grid):
+        """
+        Replaces values of grid that are within hitbox with those for a robot hitbox
+        """
+        for location in self.hitbox:
+            if location != (0,0):
+                coord = tuple([i + j for i, j in zip(location, self.pos)])
+                temp_grid.cells[coord] = -10
+        return temp_grid
 
 class Grid:
     def __init__(self, n_cols: int, n_rows: int):

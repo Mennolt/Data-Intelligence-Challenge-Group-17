@@ -5,7 +5,7 @@
 
 .grid {
     display: grid;
-    grid-gap: 2px;
+    grid-gap: 1px;
     border: 2px solid lightgray;
     background: lightgray;
 }
@@ -147,6 +147,17 @@
     border-bottom-width: medium;
     border-bottom-color: black;
     background: white;
+}
+
+.cell_dirty {
+    /* center the cell content */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: Arial, serif;
+    font-size: 10px;
+    font-weight: bold;
+    background: grey;
 }
 
 ul {

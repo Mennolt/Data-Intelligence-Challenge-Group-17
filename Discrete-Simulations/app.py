@@ -31,11 +31,13 @@ def draw_grid(grid):
     """'Helper function for creating a JSON payload which will be displayed in the browser."""
     global robots
     materials = {0: 'cell_clean', -1: 'cell_wall', -2: 'cell_obstacle', -3: 'cell_robot_n', -4: 'cell_robot_e',
-                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death'}
+                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death',
+                 -10: "robot_hitbox"}
     # Setting statistics:
     clean = (grid.cells == 0).sum()
     dirty = (grid.cells >= 1).sum()
     goal = (grid.cells == 2).sum()
+    plot_grid = grid.copy()
     if robots:  # If we have robots on the grid:
         efficiencies = [100 for i in range(len(robots))]
         batteries = [100 for i in range(len(robots))]
@@ -54,15 +56,18 @@ def draw_grid(grid):
             # Battery and alive stats:
             batteries[i] = round(battery, 2)
             alives[i] = robot.alive
-        return {'grid': render_template('grid.html', height=10, width=10, n_rows=grid.n_rows, n_cols=grid.n_cols,
-                                        room_config=grid.cells,
+            #adjust grid to display robot hitbox
+            plot_grid = robot.plot_hitbox(plot_grid)
+
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=plot_grid.n_rows, n_cols=plot_grid.n_cols,
+                                        room_config=plot_grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ','.join([str(i) for i in efficiencies]),
                 'battery': ','.join([str(i) for i in batteries]),
                 'alive': alives}
     else:  # If we have an empty grid with no robots:
-        return {'grid': render_template('grid.html', height=10, width=10, n_rows=grid.n_rows, n_cols=grid.n_cols,
-                                        room_config=grid.cells,
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=plot_grid.n_rows, n_cols=plot_grid.n_cols,
+                                        room_config=plot_grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ',', 'battery': ',',
                 'alive': ','}
@@ -148,6 +153,8 @@ def handle_browser_new_grid(json):
     """Handles socket event 'get_grid', needs filename of grid config as payload."""
     global grid
     global occupied
+    global robots
+    robots = None
     occupied = False
     with open(f'{PATH}/grid_configs/{json["data"]}', 'rb') as f:
         grid = pickle.load(f)
