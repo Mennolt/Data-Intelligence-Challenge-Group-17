@@ -23,6 +23,12 @@ class Robot:
         self.q_values = {}
         self.q_values_calculated = False
 
+        #this is the grid value under the robot
+        #used to make robots not eat chargers
+        self.under_val = grid.cells[pos[0], pos[1]]
+
+
+
     def init_q_values(self, actions):
         #print(actions)
 
@@ -90,7 +96,11 @@ class Robot:
             # Only move to non-blocked tiles:
             if self.grid.cells[new_pos] >= 0:
                 tile_after_move = self.grid.cells[new_pos]
-                self.grid.cells[self.pos] = 0
+                if self.under_val == 1 or self.under_val == 2:
+                    #only clean dirty and goal tiles
+                    self.grid.cells[self.pos] = 0
+                else:
+                    self.grid.cells[self.pos] = under_val
                 self.grid.cells[new_pos] = self.orients[self.orientation]
                 self.pos = new_pos
                 self.history[0].append(self.pos[0])
