@@ -140,6 +140,20 @@ class Grid:
         return grid
 
 
+class Adversary:
+    def __init__(self, grid, pos : tuple):
+        self.pos = pos
+        self.grid = grid
+
+    def possible_moves():
+        return
+
+    def move(self):
+        moves = self.possible_moves()
+        move = np.choice(moves)
+        return
+
+
 def generate_grid(n_cols: int, n_rows: int):
     # Placeholder function used to generate a grid.
     # Select an empty grid file in the user interface and add code her to automatically fill it.
