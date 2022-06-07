@@ -6,6 +6,9 @@ class Robot:
     def __init__(self, grid, pos: tuple, orientation: dict, p_move=0, battery_drain_p=0, battery_drain_lam=0, vision=1):
         # hitbox values relative to robot positions
         self.hitbox = [(0, 0), (-1, 0), (1, 0), (0, -1), (0, 1)]
+        #locations the robot can clean, relative to robot position
+        #must contain (0,0)
+        self.cleanable = [(0,0), (-1,0), (1,0)]
         self.pos = pos
         self.grid = grid
         # this is the grid value under the robot
@@ -83,11 +86,21 @@ class Robot:
             if self.check_hitbox(new_pos):
                 new_orient = list(self.dirs.keys())[list(self.dirs.values()).index(random_move)]
                 tile_after_move = self.grid.cells[new_pos]
-                if self.under_val == 1 or self.under_val == 2:
-                    # only clean dirty and goal tiles
-                    self.grid.cells[self.pos] = 0
-                else:
-                    self.grid.cells[self.pos] = self.under_val
+                # clean cleanable tiles, if goal or dirty
+                for loc in self.cleanable:
+                    if loc == (0,0):
+                        #clean the tile under the robot,
+                        if self.under_val == 1 or self.under_val == 2:
+                            # only clean dirty and goal tiles
+                            self.grid.cells[self.pos] = 0
+                        else:
+                            self.grid.cells[self.pos] = self.under_val
+                    else:
+                        coord = tuple([i+j for i,j in zip(loc, self.pos)])
+                        if self.grid.cells[coord] in [1,2]:
+                            self.grid.cells[coord] = 0
+
+
                 # replace tile under robot
                 self.under_val = self.grid.cells[new_pos]
                 #change robot location
@@ -107,11 +120,19 @@ class Robot:
             # Only move to non-blocked tiles:
             if self.check_hitbox(new_pos):
                 tile_after_move = self.grid.cells[new_pos]
-                if self.under_val == 1 or self.under_val == 2:
-                    #only clean dirty and goal tiles
-                    self.grid.cells[self.pos] = 0
-                else:
-                    self.grid.cells[self.pos] = self.under_val
+                #clean cleanable tiles, if goal or dirty
+                for loc in self.cleanable:
+                    if loc == (0, 0):
+                        # clean the tile under the robot,
+                        if self.under_val == 1 or self.under_val == 2:
+                            # only clean dirty and goal tiles
+                            self.grid.cells[self.pos] = 0
+                        else:
+                            self.grid.cells[self.pos] = self.under_val
+                    else:
+                        coord = tuple([i + j for i, j in zip(loc, self.pos)])
+                        if self.grid.cells[coord] in [1, 2]:
+                            self.grid.cells[coord] = 0
                 #replace tile under robot
                 self.under_val = self.grid.cells[new_pos]
                 #change robot location
