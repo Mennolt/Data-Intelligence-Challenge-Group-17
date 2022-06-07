@@ -149,7 +149,7 @@
     background: white;
 }
 
-.cell_dirty {
+.robot_hitbox {
     /* center the cell content */
     justify-content: center;
     align-items: center;
