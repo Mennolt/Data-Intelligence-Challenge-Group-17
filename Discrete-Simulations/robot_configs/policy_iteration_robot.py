@@ -109,6 +109,7 @@ def policy_improvement(robot, policy, values, rewards, actions):
 
 
 def get_next_state(s, a):
+    #adjust for bigger robots?
     if a == 'e':
         try: return (s[0]+1, s[1])
         except IndexError: return (s[0], s[1])
