@@ -41,8 +41,8 @@ class Robot:
         # initial Q values
         try:
             self.q_values = {}
-            for i in range(0, self.grid.n_rows):
-                for j in range(0, self.grid.n_cols):
+            for i in range(0, self.grid.n_cols):
+                for j in range(0, self.grid.n_rows):
                     self.q_values[(i, j)] = {}
                     for a in actions[(i, j)]:
                         self.q_values[(i, j)][a] = 0  # Q value is a dict of dict
