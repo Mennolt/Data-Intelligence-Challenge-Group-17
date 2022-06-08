@@ -82,6 +82,8 @@ class Robot:
                 if tile_after_move == 3:
                     self.alive = False
                     return False
+                if tile_after_move == 4:
+                    self.battery_lvl += 1
                 return True
             else:
                 return False
