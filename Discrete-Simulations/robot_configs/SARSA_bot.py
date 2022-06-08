@@ -84,6 +84,7 @@ def robot_epoch(robot):
             rewards[(i, j)] = grid.cells[i, j]
     # print("==========rewards===============")
 
+    # V = rewards.copy()
     #
     # Define an initial policy: e-greedy
     # get max reward (without caring about random chance),
@@ -123,6 +124,8 @@ def robot_epoch(robot):
                 # get next action a' from s', using policy (e-greedy)
                 # so take gamma chance to get random action, 1-gamma to get action with max reward
                 action_prime = e_greedy_action(e, actions, position_prime, policy)
+                #next_position_prime = get_next_position(action_prime, next_position, actions)
+                #next_position_reward_prime = get_state_reward(rewards, next_position_prime)
 
                 # Next-Next Rewards
 
