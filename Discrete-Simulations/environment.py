@@ -198,6 +198,9 @@ class Grid:
     def put_singular_death(self, x, y):
         self.cells[x][y] = 3
 
+    def put_singular_charger(self, x, y):
+        self.cells[x][y] = 4
+
     def copy(self):
         grid = Grid(self.n_cols, self.n_rows)
         grid.cells = self.cells.copy()

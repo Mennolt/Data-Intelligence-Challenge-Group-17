@@ -136,6 +136,17 @@
     background-color: #ff0000;
 }
 
+.cell_charger {
+    /* center the cell content */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: Arial, serif;
+    font-size: 10px;
+    font-weight: bold;
+    background: #F0FF00;
+}
+
 .cell_selected {
     justify-content: center;
     align-items: center;
