@@ -13,6 +13,11 @@ def robot_epoch(robot):
         for j in range(0, grid.n_rows):
             rewards[(i,j)] = grid.cells[i, j]
 
+    clean_rewards = {}
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
+            clean_rewards[(i,j)] = cleaning_rewards(rewards, (i,j), robot)
+
     values = rewards.copy()
 
     actions = {}
@@ -32,7 +37,7 @@ def robot_epoch(robot):
             policy[s] = np.random.choice(actions[s])
         except: pass
     # Policy iteration
-    policy = policy_iteration(robot, policy, values, rewards, actions)
+    policy = policy_iteration(robot, policy, values, clean_rewards, actions)
     # Randomly select where to go based on policy
     best_direction = policy[robot.pos]
     while robot.orientation != best_direction:
@@ -41,7 +46,7 @@ def robot_epoch(robot):
     print('moved', best_direction)
 
 
-def policy_iteration(robot, policy, values, rewards, actions):
+def policy_iteration(robot, policy, values, clean_rewards, actions):
     '''
     Policy iteration
 
@@ -52,9 +57,9 @@ def policy_iteration(robot, policy, values, rewards, actions):
     for _ in range(max_iter):
         policy_prev = policy.copy()
 
-        values = policy_evaluation(robot, policy, values, rewards)
+        values = policy_evaluation(robot, policy, values, clean_rewards)
 
-        policy = policy_improvement(robot, policy, values, rewards, actions)
+        policy = policy_improvement(robot, policy, values, clean_rewards, actions)
 
         # Early stopping
         if policy_prev == policy:
@@ -63,7 +68,7 @@ def policy_iteration(robot, policy, values, rewards, actions):
     return policy
 
 
-def policy_evaluation(robot, policy, values, rewards):
+def policy_evaluation(robot, policy, values, clean_rewards):
     '''
     Evaluation of policy
 
@@ -77,7 +82,7 @@ def policy_evaluation(robot, policy, values, rewards):
             a = policy[s]
             #print(s, _)
             #use cleaning hitbox to get rewards for cleaning
-            reward = cleaning_rewards(rewards, s, robot)
+            reward = clean_rewards[s]
             #print("r", reward)
             values[s] = reward + discount * V_prev[get_next_state(s, a, robot)]
         # Early stopping
@@ -102,7 +107,7 @@ def cleaning_rewards(rewards, s, robot):
             pass
     return sum_reward
 
-def policy_improvement(robot, policy, values, rewards, actions):
+def policy_improvement(robot, policy, values, clean_rewards, actions):
     '''
     Improvement update pass in policy
 
@@ -116,7 +121,7 @@ def policy_improvement(robot, policy, values, rewards, actions):
             Q = {}
             try:
                 for a in actions[s]:
-                    Q[a] = cleaning_rewards(rewards, s, robot) + discount * values[get_next_state(s, a, robot)]
+                    Q[a] = clean_rewards[s] + discount * values[get_next_state(s, a, robot)]
                 try:
                     policy[s] = max(Q, key=Q.get)
                 except: pass
