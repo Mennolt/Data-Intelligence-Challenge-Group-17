@@ -75,14 +75,32 @@ def policy_evaluation(robot, policy, values, rewards):
         # Calculate weighted score of state after each possible action
         for s in policy.keys():
             a = policy[s]
-            #update rewards bit to use cleaning
-            values[s] = rewards[s] + discount * V_prev[get_next_state(s, a, robot)]
+            #print(s, _)
+            #use cleaning hitbox to get rewards for cleaning
+            reward = cleaning_rewards(rewards, s, robot)
+            #print("r", reward)
+            values[s] = reward + discount * V_prev[get_next_state(s, a, robot)]
         # Early stopping
         if V_prev == values:
             print('stopped early convergence')
             break
     return values
 
+def cleaning_rewards(rewards, s, robot):
+    """
+    Gets the cleaning rewards for all tiles that will be cleaned by this state
+    """
+    sum_reward = 0
+    for cleanable in robot.cleanable:
+        #print("c", cleanable)
+        coord = tuple([i+j for i,j in zip(s, cleanable)])
+
+        #only count rewards inside playing field
+        try:
+            sum_reward += rewards[coord]
+        except:
+            pass
+    return sum_reward
 
 def policy_improvement(robot, policy, values, rewards, actions):
     '''
@@ -91,8 +109,6 @@ def policy_improvement(robot, policy, values, rewards, actions):
     Input:
     robot - a Robot object used to interact with the environment
     '''
-    # Calculate Q value
-    Q = {}
     # Calculate weighted score of each possible action
     for i in range(robot.grid.n_cols):
         for j in range(robot.grid.n_rows):
@@ -100,7 +116,7 @@ def policy_improvement(robot, policy, values, rewards, actions):
             Q = {}
             try:
                 for a in actions[s]:
-                    Q[a] = rewards[s] + discount * values[get_next_state(s, a, robot)]
+                    Q[a] = cleaning_rewards(rewards, s, robot) + discount * values[get_next_state(s, a, robot)]
                 try:
                     policy[s] = max(Q, key=Q.get)
                 except: pass
