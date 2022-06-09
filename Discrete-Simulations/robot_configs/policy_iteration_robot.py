@@ -75,7 +75,8 @@ def policy_evaluation(robot, policy, values, rewards):
         # Calculate weighted score of state after each possible action
         for s in policy.keys():
             a = policy[s]
-            values[s] = rewards[s] + discount * V_prev[get_next_state(s, a)] 
+            #update rewards bit to use cleaning
+            values[s] = rewards[s] + discount * V_prev[get_next_state(s, a, robot)]
         # Early stopping
         if V_prev == values:
             print('stopped early convergence')
@@ -99,7 +100,7 @@ def policy_improvement(robot, policy, values, rewards, actions):
             Q = {}
             try:
                 for a in actions[s]:
-                    Q[a] = rewards[s] + discount * values[get_next_state(s, a)]
+                    Q[a] = rewards[s] + discount * values[get_next_state(s, a, robot)]
                 try:
                     policy[s] = max(Q, key=Q.get)
                 except: pass
@@ -108,20 +109,32 @@ def policy_improvement(robot, policy, values, rewards, actions):
     return policy
 
 
-def get_next_state(s, a):
+def get_next_state(s, a, robot):
+    """
+    Inputs:
+    s: State, location of robot
+    a: action to be taken
+    robot: Robot of which hitbox must be checked
+    """
     #adjust for bigger robots?
     if a == 'e':
-        try: return (s[0]+1, s[1])
-        except IndexError: return (s[0], s[1])
-    if a == 's':
-        try: return (s[0], s[1]+1)
-        except IndexError: return (s[0], s[1])
-    if a == 'w':
-        try: return (s[0]-1, s[1])
-        except IndexError: return (s[0], s[1])
-    if a == 'n':
-        try: return (s[0], s[1]-1)
-        except IndexError: return (s[0], s[1]) 
+        nxt = (s[0]+1, s[1])
+
+    elif a == 's':
+        nxt = (s[0], s[1]+1)
+
+    elif a == 'w':
+        nxt =  (s[0]-1, s[1])
+    elif a == 'n':
+        nxt = (s[0], s[1]-1)
+    else:
+        print(f"Invalid action {a}")
+        nxt = (s[0], s[1])
+    if robot.check_hitbox(nxt):
+        return nxt
+    else:
+        return (s[0], s[1])
+
 
 def get_possible_actions(grid, s):
     possible_actions = []

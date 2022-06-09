@@ -32,7 +32,7 @@ def draw_grid(grid):
     global robots
     materials = {0: 'cell_clean', -1: 'cell_wall', -2: 'cell_obstacle', -3: 'cell_robot_n', -4: 'cell_robot_e',
                  -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death',
-                 -10: "robot_hitbox", 4: 'cell_charger'}
+                 4: 'cell_charger', -10: "robot_hitbox"}
     # Setting statistics:
     clean = (grid.cells == 0).sum()
     dirty = (grid.cells >= 1).sum()
