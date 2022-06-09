@@ -11,7 +11,22 @@ def robot_epoch(robot):
     rewards = {}
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
-            rewards[(i,j)] = grid.cells[i, j]
+
+            val = grid.cells[i, j]
+            if val < -2:
+                rewards[(i,j)] = 0
+            elif val == -1 or val == -2:
+                rewards[(i,j)] = -1
+            elif val == 3:
+                rewards[(i, j)] = -10
+            elif val == 2:
+                rewards[(i, j)] = 5
+            elif val == 1:
+                rewards[(i, j)] = 1
+            elif val == 4:
+                rewards[(i, j)] = 100/robot.battery_lvl
+            else:
+                rewards[(i, j)] = grid.cells[(i,j)]
 
     clean_rewards = {}
     for i in range(0, grid.n_cols):

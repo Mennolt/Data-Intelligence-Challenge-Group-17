@@ -212,11 +212,12 @@ def handle_browser_update(json):
         # Checking if the selected robot algorithm is indeed imported, if file changed since starting app.py,
         # throw error.
         try:
-            for robot in robots:
-                # Don't update dead robots:
-                if robot.alive:
-                    # Call the robot epoch method of the selected robot config file:
-                    globals()[robot_alg].robot_epoch(robot)
+            if robots:
+                for robot in robots:
+                    # Don't update dead robots:
+                    if robot.alive:
+                        # Call the robot epoch method of the selected robot config file:
+                        globals()[robot_alg].robot_epoch(robot)
         except KeyError:
             print(
                 f'[ERROR] restart app.py and make sure the file {robot_alg}.py is present in the robot_configs folder.')

@@ -96,7 +96,7 @@ class Robot:
                         else:
                             self.grid.cells[self.pos] = self.under_val
                     else:
-                        coord = tuple([i+j for i,j in zip(loc, self.pos)])
+                        coord = tuple([i+j for i,j in zip(loc, new_pos)])
                         if self.grid.cells[coord] in [1,2]:
                             self.grid.cells[coord] = 0
 
@@ -130,7 +130,7 @@ class Robot:
                         else:
                             self.grid.cells[self.pos] = self.under_val
                     else:
-                        coord = tuple([i + j for i, j in zip(loc, self.pos)])
+                        coord = tuple([i + j for i, j in zip(loc, new_pos)])
                         if self.grid.cells[coord] in [1, 2]:
                             self.grid.cells[coord] = 0
                 #replace tile under robot
