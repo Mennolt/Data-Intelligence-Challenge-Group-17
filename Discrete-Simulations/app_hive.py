@@ -27,17 +27,21 @@ occupied = False
 PATH = os.getcwd()
 
 
+
 def draw_grid(grid):
     """'Helper function for creating a JSON payload which will be displayed in the browser."""
     global robots
     materials = {0: 'cell_clean', -1: 'cell_wall', -2: 'cell_obstacle', -3: 'cell_robot_n', -4: 'cell_robot_e',
-                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death'}
+                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death',
+                 4: 'cell_charger', -10: "robot_hitbox"}
     # Setting statistics:
     clean = (grid.cells == 0).sum()
     dirty = (grid.cells >= 1).sum()
     goal = (grid.cells == 2).sum()
+    plot_grid = grid.copy()
     if robots:  # If we have robots on the grid:
         efficiencies = [100 for i in range(len(robots))]
+        cleaned_per_move = 0
         batteries = [100 for i in range(len(robots))]
         alives = [True for i in range(len(robots))]
         for i, robot in enumerate(robots):
@@ -49,23 +53,29 @@ def draw_grid(grid):
                 n_total_tiles = (grid.cells >= 0).sum()
                 efficiency = (100 * n_total_tiles) / (n_total_tiles + n_revisted_tiles)
                 efficiencies[i] = float(round(efficiency, 2))
+                cleaned_per_move = round(clean/len(moves),3)
             # Min battery level is 0:
             battery = 0 if robot.battery_lvl < 0 else robot.battery_lvl
             # Battery and alive stats:
             batteries[i] = round(battery, 2)
             alives[i] = robot.alive
-        return {'grid': render_template('grid.html', height=30, width=30, n_rows=grid.n_rows, n_cols=grid.n_cols,
-                                        room_config=grid.cells,
+            #adjust grid to display robot hitbox
+            plot_grid = robot.plot_hitbox(plot_grid)
+
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=plot_grid.n_rows, n_cols=plot_grid.n_cols,
+                                        room_config=plot_grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ','.join([str(i) for i in efficiencies]),
                 'battery': ','.join([str(i) for i in batteries]),
-                'alive': alives}
+                'alive': alives,
+                'cleaned_per_move' : cleaned_per_move}
     else:  # If we have an empty grid with no robots:
-        return {'grid': render_template('grid.html', height=30, width=30, n_rows=grid.n_rows, n_cols=grid.n_cols,
-                                        room_config=grid.cells,
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=plot_grid.n_rows, n_cols=plot_grid.n_cols,
+                                        room_config=plot_grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ',', 'battery': ',',
-                'alive': ','}
+                'alive': ',', 'cleaned_per_move' : 0}
+
 
 
 # Routes:
