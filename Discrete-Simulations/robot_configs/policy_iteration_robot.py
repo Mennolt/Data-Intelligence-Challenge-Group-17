@@ -33,7 +33,7 @@ def robot_epoch(robot):
         for j in range(0, grid.n_rows):
             clean_rewards[(i,j)] = cleaning_rewards(rewards, (i,j), robot)
 
-    values = rewards.copy()
+    values = clean_rewards.copy()
 
     actions = {}
     for i in range(0, grid.n_cols):
