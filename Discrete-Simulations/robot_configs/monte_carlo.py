@@ -16,6 +16,7 @@ epsilon = 0.2
 epochs = 20
 discount_factor = 0.7
 episode_steps = 25
+
 conversion = {'n': 0, 'e': 1, 's': 2, 'w': 3}
 
 
@@ -105,10 +106,11 @@ def initialize(robot, Q_low : int, Q_high : int, e_soft: bool) -> tuple:
 
     for i in range(0, robot.grid.n_cols):
         for j in range(0, robot.grid.n_rows):
-            if e_soft: 
+            if e_soft: # Epsilon soft policy
                 randoms = np.array([random() + epsilon for i in range(4)])
-            else:
+            else: # Genral soft policy
                 randoms = np.array([random() for i in range(4)])
+            # Policy normalization
             policies = randoms / sum(randoms)
 
             if i in invalid_moves_cols:
@@ -118,6 +120,7 @@ def initialize(robot, Q_low : int, Q_high : int, e_soft: bool) -> tuple:
 
             policies = (1 / sum(policies)) * policies
 
+            # Set values of return variables
             Q[(i,j)] = {'n': randint(Q_low, Q_high), 'e': randint(Q_low, Q_high),
                         's': randint(Q_low, Q_high), 'w': randint(Q_low, Q_high)}
 
@@ -140,7 +143,7 @@ def episode_generation(robot, policy : dict, num_steps : int) -> list:
         - policy - dict, current policy
 
     Output:
-        - episode
+        - episode - list of states and actions
     '''
     episode = []
 
@@ -178,5 +181,4 @@ def choose_policy_action(policy : dict, state : tuple) -> str:
     for action, prob in policy[state].items():
         total += prob
         if choice <= total:
-            # print('policy chosen')
             return action
