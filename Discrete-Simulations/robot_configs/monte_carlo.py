@@ -16,6 +16,7 @@ epsilon = 0.2
 epochs = 20
 discount_factor = 0.7
 episode_steps = 25
+
 conversion = {'n': 0, 'e': 1, 's': 2, 'w': 3}
 
 
@@ -74,7 +75,7 @@ def robot_epoch(robot):
                                  's': policies[2], 'w': policies[3]}
 
     best_direction = max(policy[robot.pos], key=policy[robot.pos].get)
-    print(robot.pos, best_direction)
+    # print(robot.pos, best_direction)
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()
@@ -86,7 +87,7 @@ def initialize(robot, Q_low : int, Q_high : int, e_soft: bool) -> tuple:
     Initialze Q, policy and returns.
     
     For all s in S and a in A:
-        - arbitrary values for Q(s, a) and (epsilon-)soft for policy (a|s)
+        - arbitrary values for Q(s, a) and (e-)soft for policy (a|s)
         - Returns(s, a): an empty list
     
     Input: 
@@ -94,10 +95,7 @@ def initialize(robot, Q_low : int, Q_high : int, e_soft: bool) -> tuple:
         Q_low - int, lowest Q value
         Q_high - int, highest Q value
         e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
-    Output:
-        Q - dict, arbitrary values for s, a
-        policy - dict, (epsilon-)soft policy for a|s
-        Returns - dict, an empty list for each action in each state
+
     '''
     Q = {}
     policy = {}
@@ -183,5 +181,4 @@ def choose_policy_action(policy : dict, state : tuple) -> str:
     for action, prob in policy[state].items():
         total += prob
         if choice <= total:
-            # print('policy chosen')
             return action

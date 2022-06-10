@@ -12,14 +12,14 @@ def robot_epoch(robot):
     grid = robot.grid
 
     def no_neg(val):
-        if val >= 0:
+        if val>=0:
             return val
         else:
             raise IndexError
 
     actions = {}
-    for i in range(0, grid.n_cols):
-        for j in range(0, grid.n_rows):
+    for i in range(0, grid.n_rows):
+        for j in range(0, grid.n_cols):
 
             possible_actions = []
 
@@ -56,7 +56,7 @@ def robot_epoch(robot):
                 actions[(i, j)] = possible_actions
 
     # print(f"actions: {actions}")
-
+    #
     # print("==========actions===============")
     # print(range(0, grid.n_rows))
 
@@ -64,8 +64,8 @@ def robot_epoch(robot):
 
     try:
         Q_values = {}
-        for i in range(0, grid.n_cols):
-            for j in range(0, grid.n_rows):
+        for i in range(0, grid.n_rows):
+            for j in range(0, grid.n_cols):
                 Q_values[(i, j)] = {}
                 for a in actions[(i, j)]:
                     Q_values[(i, j)][a] = 0  # Q value is a dict of dict
@@ -84,7 +84,6 @@ def robot_epoch(robot):
             rewards[(i, j)] = grid.cells[i, j]
     # print("==========rewards===============")
 
-    # V = rewards.copy()
     #
     # Define an initial policy: e-greedy
     # get max reward (without caring about random chance),
@@ -94,10 +93,28 @@ def robot_epoch(robot):
     except Exception as e:
         print(e)
         print(type(e))
+    # policy = {}
+    #
+    # for s in actions.keys():
+    #     #for each action in state, get reward
+    #     local_rewards = {}
+    #     for action in actions[s]:
+    #         local_rewards[action] = rewards[get_next_position(action, s, actions)]
+    #
+    #     #calc e-greedy reward for each action
+    #     local_returns = {}
+    #     avg_reward = sum(local_rewards.values())/len(local_rewards.values())
+    #     for key, value in local_rewards.items():
+    #         local_returns[key] = (1-NOISE)*value + NOISE*avg_reward
+    #
+    #     #take max action as policy
+    #     policy[s] = max(local_returns, key=local_returns.get)
+
+    # print("===== BEGIN Q/SARSA LEARNING =====")
 
     # try:
     episode_size = 20
-    total_episodes = 50
+    total_episodes = 25
 
     # What to do
     learning_rate = 0.1
@@ -124,8 +141,6 @@ def robot_epoch(robot):
                 # get next action a' from s', using policy (e-greedy)
                 # so take gamma chance to get random action, 1-gamma to get action with max reward
                 action_prime = e_greedy_action(e, actions, position_prime, policy)
-                #next_position_prime = get_next_position(action_prime, next_position, actions)
-                #next_position_reward_prime = get_state_reward(rewards, next_position_prime)
 
                 # Next-Next Rewards
 
@@ -160,6 +175,19 @@ def robot_epoch(robot):
         raise e
 
 
+def get_surrounding_q_values(q_values, position):
+    try:
+        pos_directions = list(q_values[position].keys())
+        q = []
+        for dirs in pos_directions:
+            q.append(q_values[position][dirs])
+    except Exception as e:
+        print(f"get_surrounding_q_values_error: {e}")
+        raise e
+
+    return q
+
+
 def get_max_surrounding_direction(q_values, position):
     try:
         max_direction = max(q_values[position], key=q_values[position].get)
@@ -178,6 +206,23 @@ def return_true_if_terminal(grid, state: ()) -> bool:
             return True
         else:
             return False
+
+
+def get_random_action(actions, s):
+    # Choose a new random action to do (transition probability)
+    return np.random.choice(actions[s])
+
+
+def get_max_reward(rewards, s):
+    reward_list = []
+
+    # Append the reward list with every possible next state
+    reward_list.append(get_state_reward(rewards, (s[0] + 1, s[1])))
+    reward_list.append(get_state_reward(rewards, (s[0], s[1] + 1)))
+    reward_list.append(get_state_reward(rewards, (s[0] - 1, s[1])))
+    reward_list.append(get_state_reward(rewards, (s[0], s[1] - 1)))
+
+    return np.max(reward_list)
 
 
 def get_next_position(action, s, actions):
