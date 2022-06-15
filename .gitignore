@@ -269,3 +269,5 @@ fabric.properties
 #added by mennolt because it didn't block these
 /.idea/misc.xml
 .idea/misc.xml
+.idea/workspace.xml
+__pycache__/**

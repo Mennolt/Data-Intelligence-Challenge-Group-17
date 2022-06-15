@@ -191,12 +191,12 @@
         }
     }
 
-    function print_stats(clean = 0, goals = -1, efficiency = [100, 100], battery = [100, 100], alive = [true, true]) {
+    function print_stats(clean = 0, goals = -1, efficiency = [100, 100], battery = [100, 100], alive = [true, true], tiles_per_move = 0) {
         var stats_container = document.getElementById('stats_container');
         var cleanliness_criteria = document.getElementById('%clean').value;
         stats_container.innerHTML = 'Room is: ' + String(clean) + '/' + String(cleanliness_criteria) + ' % clean.<br>'
             + String(goals) + ' goal tiles remaining.<br>Effiency: ' + String(efficiency) + ' %<br>Battery remaining: '
-            + String(battery) + ' %<br>Robot alive: ' + String(alive);
+            + String(battery) + ' %<br>Robot alive: ' + String(alive) + '%<br>Tiles cleaned per turn:' + String(tiles_per_move);
 
         const isBelowThreshold = (currentValue) => parseFloat(currentValue) <= 0;
         const isDead = (currentValue) => currentValue === 'false';
@@ -227,7 +227,8 @@
         if (!finished) {
             var grid_container = document.getElementById('grid_container');
             grid_container.innerHTML = data['grid'];
-            print_stats(data['clean'], data['goal'], data['efficiency'], String(data['battery']).split(','), String(data['alive']).split(','));
+            print_stats(data['clean'], data['goal'], data['efficiency'],
+                        String(data['battery']).split(','), String(data['alive']).split(','), data['cleaned_per_move']);
         }
     });
 

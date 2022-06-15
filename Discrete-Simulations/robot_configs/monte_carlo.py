@@ -2,19 +2,25 @@ from random import random, randint, randrange
 import numpy as np
 from robot_configs.policy_iteration_robot import get_next_state
 
+"""
+Questions/comments/whatever:
+- What values does Q normally have? Assumption now: [-10, 10]
+- What is the range of epsilon? 
+    - Assumption now: (0, 1)
+    - Also, assumption that sum over all actions for one state is 1
+"""
+
 Q_low, Q_high = -11, 11
 e_soft = True
-epsilon = 0.1
-epochs = 50
-discount_factor = 0.1
-episode_steps = 50
-
-look_forward = 20
+epsilon = 0.2
+epochs = 20
+discount_factor = 0.7
+episode_steps = 25
 
 conversion = {'n': 0, 'e': 1, 's': 2, 'w': 3}
 
 
-def robot_epoch(robot, epsilon, epochs, episode_steps, discount_factor):
+def robot_epoch(robot):
     Q, policy, Returns = initialize(robot, Q_low, Q_high, e_soft)
     invalid_moves_cols = {0: 3, robot.grid.n_cols - 1: 1}  # west, east
     invalid_moves_rows = {0: 0, robot.grid.n_rows - 1: 2}  # north, south
@@ -32,7 +38,7 @@ def robot_epoch(robot, epsilon, epochs, episode_steps, discount_factor):
             # Go over future steps
             # TO DO: think about computational complexity and if it's even needed to
             # check ALL of them. Will be diminished quite soon given the discount factor
-            for future_index, future_step in enumerate(episode[i_step:i_step+look_forward]):
+            for future_index, future_step in enumerate(episode[i_step:]):
                 # We actually start at the current step, then future ones
                 (i_future_step, j_future_step), direction_future_step = future_step
                 value = robot.grid.cells[i_future_step, j_future_step]
@@ -69,7 +75,7 @@ def robot_epoch(robot, epsilon, epochs, episode_steps, discount_factor):
                                  's': policies[2], 'w': policies[3]}
 
     best_direction = max(policy[robot.pos], key=policy[robot.pos].get)
-    #print(robot.pos, best_direction)
+    # print(robot.pos, best_direction)
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()
@@ -81,7 +87,7 @@ def initialize(robot, Q_low : int, Q_high : int, e_soft: bool) -> tuple:
     Initialze Q, policy and returns.
     
     For all s in S and a in A:
-        - arbitrary values for Q(s, a) and (epsilon-)soft for policy (a|s)
+        - arbitrary values for Q(s, a) and (e-)soft for policy (a|s)
         - Returns(s, a): an empty list
     
     Input: 
@@ -89,10 +95,7 @@ def initialize(robot, Q_low : int, Q_high : int, e_soft: bool) -> tuple:
         Q_low - int, lowest Q value
         Q_high - int, highest Q value
         e_soft - bool, whether to use e-soft policy (True) or soft policy (False)
-    Output:
-        Q - dict, arbitrary values for s, a
-        policy - dict, (epsilon-)soft policy for a|s
-        Returns - dict, an empty list for each action in each state
+
     '''
     Q = {}
     policy = {}

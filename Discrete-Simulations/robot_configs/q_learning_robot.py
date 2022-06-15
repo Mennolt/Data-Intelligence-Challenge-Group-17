@@ -19,8 +19,8 @@ def robot_epoch(robot):
     grid = custom_rewards_grid(grid)
 
     actions = {}
-    for i in range(0, grid.n_rows):
-        for j in range(0, grid.n_cols):
+    for i in range(0, grid.n_cols):
+        for j in range(0, grid.n_rows):
 
             possible_actions = []
 
@@ -56,30 +56,30 @@ def robot_epoch(robot):
             if len(possible_actions) != 0:
                 actions[(i, j)] = possible_actions
             else:
-                print("oh no", i,j)
+                print("oh no", i, j)
 
-    #print(f'actions: {actions}')
+    # print(f'actions: {actions}')
 
     rewards = {}
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
             rewards[(i, j)] = grid.cells[i, j]
 
-    total_iterations = 100
+    total_iterations = 20
     iteration_count = 0
-    total_episodes = 10
+    total_episodes = 25
     episode_count = 0
     current_position = robot.pos
 
     # What to do
-    learning_rate = 1
-    gamma = 1
+    learning_rate = 0.1
+    gamma = 0.95
     if not robot.q_values_calculated:
         try:
             # Initialise Q values
             robot.init_q_values(actions)
             while episode_count <= total_episodes:
-                #print(f"Episode_count: {episode_count}")
+                # print(f"Episode_count: {episode_count}")
 
                 while not return_true_if_terminal(grid, current_position) and iteration_count <= total_iterations:
                     # print(f"Iteration_count/total_iterations: {iteration_count}/{total_iterations}")
@@ -115,7 +115,6 @@ def robot_epoch(robot):
                 iteration_count = 0
                 episode_count += 1
 
-
             robot.q_values_calculated = True
             # print()
             # print('Finished iterating \n')
@@ -127,7 +126,7 @@ def robot_epoch(robot):
 
     best_direction = get_max_surrounding_direction(robot.q_values, current_position)
 
-    #print("\n Calculate best direction")
+    # print("\n Calculate best direction")
     # print(f'best_direction: {best_direction}')
     # print(f'robot.orientation: {robot.orientation}')
     # print(f"q-values: {robot.q_values}")
@@ -212,7 +211,6 @@ def get_next_position(action, s, actions):
         raise IndexError
 
 
-
 def get_state_reward(rewards, s):
     return rewards[s]
 
@@ -220,7 +218,7 @@ def get_state_reward(rewards, s):
 def custom_rewards_grid(grid):
     # TODO: Maybe change by using grid.copy
     if grid.cells[0, 0] not in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]:
-        print(f" 0,0 : {grid.cells[0, 0] in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]}")
+        # print(f" 0,0 : {grid.cells[0, 0] in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]}")
         return grid
     else:
         for i in range(0, grid.n_cols):
