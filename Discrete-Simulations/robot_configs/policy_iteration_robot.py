@@ -1,40 +1,18 @@
 import random
 import numpy as np
+import sys
+sys.path.append("../Discrete-Simulations")
+from Rewards import get_rewards
 
 max_iter = 100
-discount = 0.5
+discount = 0.9
 
 def robot_epoch(robot):
     # Initialisation
     grid = robot.grid
     return_battery = 20
 
-    rewards = {}
-    for i in range(0, grid.n_cols):
-        for j in range(0, grid.n_rows):
-            val = grid.cells[i, j]
-            if robot.battery_lvl > return_battery:
-                if val < -2:
-                    rewards[(i,j)] = 0
-                elif val == -1 or val == -2:
-                    rewards[(i,j)] = -1
-                elif val == 3:
-                    rewards[(i, j)] = -10
-                elif val == 2:
-                    rewards[(i, j)] = 5
-                elif val == 1:
-                    rewards[(i, j)] = 1
-                elif val == 4:
-                    rewards[(i, j)] = 100/robot.battery_lvl
-                else:
-                    rewards[(i, j)] = grid.cells[(i,j)]
-            else:
-                if val == 4:
-                    rewards[(i,j)] = 1000
-                elif val == -1 or val == -2:
-                    rewards[(i,j)] = -1
-                else:
-                    rewards[(i,j)] = 0
+    rewards = get_rewards(grid, robot, return_battery)
 
     clean_rewards = {}
     for i in range(0, grid.n_cols):

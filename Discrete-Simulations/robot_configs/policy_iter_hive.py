@@ -1,5 +1,8 @@
 import random
 import numpy as np
+import sys
+sys.path.append("../Discrete-Simulations")
+from Rewards import get_rewards
 
 max_iter = 100
 discount = 0.5
@@ -20,7 +23,7 @@ def calculate_policies(robots):
     # Create rewards based on the whole grid, as usual
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
-            rewards[(i,j)] = cell_rewards[i,j]
+            rewards[(i,j)] = get_rewards(grid)
 
     # But now, for each robot, we will create their own rewards data structure.
     # The difference is that for robot x, all other robots (and their surroundings)
