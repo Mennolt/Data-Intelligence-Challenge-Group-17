@@ -64,7 +64,7 @@ class Robot:
             self.pos = current_pos
             tile = self.grid.cells[current_pos]
             #Increase battery when on charger tile
-            if tile == 4:
+            if tile == 4 and self.battery_lvl < 99:
                 self.battery_lvl += 1
             #Add position to history
             self.history[0].append(self.pos[0])
