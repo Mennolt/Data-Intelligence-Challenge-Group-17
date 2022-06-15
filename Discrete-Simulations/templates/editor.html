@@ -21,6 +21,7 @@
     <option value="obstacle">obstacle</option>
     <option value="goal">goal</option>
     <option value="death">death</option>
+    <option value="charger">charger</option>
 </select>
 <label for="grid_name">Grid name</label>
 <input type="text" id="grid_name" name="name">
@@ -44,6 +45,11 @@
         for (var i = 0; i < deaths.length; i++) {
             d_coords.push(deaths[i].id);
         }
+        var chargers = document.getElementsByClassName("cell_charger");
+        var d_coords = Array();
+        for (var i = 0; i < chargers.length; i++) {
+            d_coords.push(chargers[i].id);
+        }
         var height = document.getElementById('height').value;
         var width = document.getElementById('width').value;
         $.ajax({
@@ -55,6 +61,7 @@
                 obstacles: '[' + ob_coords.join(',') + ']',
                 goals: '[' + go_coords.join(',') + ']',
                 deaths: '[' + d_coords.join(',') + ']',
+                chargers: '[' + d_coords.join(',') + ']',
                 save: save,
                 name: name
             },
@@ -70,7 +77,7 @@
     function tile_click(x, y) {
         var tile = document.getElementById("(" + x + "," + y + ")");
         var type = document.getElementById('draw').value;
-        if ((tile.className == 'cell_obstacle') || (tile.className == 'cell_goal') || (tile.className == 'cell_death')) {
+        if ((tile.className == 'cell_obstacle') || (tile.className == 'cell_goal') || (tile.className == 'cell_death') || (tile.className == 'cell_charger')) {
             tile.className = 'cell_dirty';
         } else if ((tile.className == 'cell_dirty') && (type == 'obstacle')) {
             tile.className = 'cell_obstacle';
@@ -78,7 +85,8 @@
             tile.className = 'cell_goal';
         } else if ((tile.className == 'cell_dirty') && (type == 'death')) {
             tile.className = 'cell_death';
-        }
+        } else if ((tile.className == 'cell_dirty') && (type == 'charger')) {
+            tile.className = 'cell_charger'; }
     }
 
     function save_grid() {

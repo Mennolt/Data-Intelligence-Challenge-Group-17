@@ -31,13 +31,16 @@ def draw_grid(grid):
     """'Helper function for creating a JSON payload which will be displayed in the browser."""
     global robots
     materials = {0: 'cell_clean', -1: 'cell_wall', -2: 'cell_obstacle', -3: 'cell_robot_n', -4: 'cell_robot_e',
-                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death'}
+                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death',
+                 4: 'cell_charger', -10: "robot_hitbox"}
     # Setting statistics:
     clean = (grid.cells == 0).sum()
     dirty = (grid.cells >= 1).sum()
     goal = (grid.cells == 2).sum()
+    plot_grid = grid.copy()
     if robots:  # If we have robots on the grid:
         efficiencies = [100 for i in range(len(robots))]
+        cleaned_per_move = 0
         batteries = [100 for i in range(len(robots))]
         alives = [True for i in range(len(robots))]
         for i, robot in enumerate(robots):
@@ -49,23 +52,28 @@ def draw_grid(grid):
                 n_total_tiles = (grid.cells >= 0).sum()
                 efficiency = (100 * n_total_tiles) / (n_total_tiles + n_revisted_tiles)
                 efficiencies[i] = float(round(efficiency, 2))
+                cleaned_per_move = round(clean/len(moves),3)
             # Min battery level is 0:
             battery = 0 if robot.battery_lvl < 0 else robot.battery_lvl
             # Battery and alive stats:
             batteries[i] = round(battery, 2)
             alives[i] = robot.alive
-        return {'grid': render_template('grid.html', height=30, width=30, n_rows=grid.n_rows, n_cols=grid.n_cols,
-                                        room_config=grid.cells,
+            #adjust grid to display robot hitbox
+            plot_grid = robot.plot_hitbox(plot_grid)
+
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=plot_grid.n_rows, n_cols=plot_grid.n_cols,
+                                        room_config=plot_grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ','.join([str(i) for i in efficiencies]),
                 'battery': ','.join([str(i) for i in batteries]),
-                'alive': alives}
+                'alive': alives,
+                'cleaned_per_move' : cleaned_per_move}
     else:  # If we have an empty grid with no robots:
-        return {'grid': render_template('grid.html', height=30, width=30, n_rows=grid.n_rows, n_cols=grid.n_cols,
-                                        room_config=grid.cells,
+        return {'grid': render_template('grid.html', height=10, width=10, n_rows=plot_grid.n_rows, n_cols=plot_grid.n_cols,
+                                        room_config=plot_grid.cells,
                                         materials=materials), 'clean': round((clean / (dirty + clean)) * 100, 2),
                 'goal': float(goal), 'efficiency': ',', 'battery': ',',
-                'alive': ','}
+                'alive': ',', 'cleaned_per_move' : 0}
 
 
 # Routes:
@@ -99,6 +107,7 @@ def build_grid():
     obstacles = ast.literal_eval(request.args.get('obstacles'))
     goals = ast.literal_eval(request.args.get('goals'))
     deaths = ast.literal_eval(request.args.get('deaths'))
+    chargers = ast.literal_eval(request.args.get('chargers'))
     to_save = False if request.args.get('save') == 'false' else True
     name = str(request.args.get('name'))
     grid = Grid(n_cols, n_rows)
@@ -108,6 +117,8 @@ def build_grid():
         grid.put_singular_goal(x, y)
     for (x, y) in deaths:
         grid.put_singular_death(x, y)
+    for (x, y) in chargers:
+        grid.put_singular_charger(x, y)
     if to_save and len(name) > 0:
         pickle.dump(grid, open(f'{PATH}/grid_configs/{name}.grid', 'wb'))
         return {'grid': '', 'success': 'true'}
@@ -148,6 +159,8 @@ def handle_browser_new_grid(json):
     """Handles socket event 'get_grid', needs filename of grid config as payload."""
     global grid
     global occupied
+    global robots
+    robots = None
     occupied = False
     with open(f'{PATH}/grid_configs/{json["data"]}', 'rb') as f:
         grid = pickle.load(f)
@@ -166,29 +179,29 @@ def handle_browser_spawn_robot(json):
     vision = int(json['vision'])
     n_robots = int(json['n_robots'])
     # Check if selected robot algorithm contains a cheat:
-    with open(PATH + '/robot_configs/' + robot_alg) as f:
-        lines = f.read().split('\n')
-        ERRORS = "\n".join(
-            [f'Illegal access of grid by robot algorithm in line {i + 1}!\n use possible_tiles_after_move() instead!'
-             for i, line in enumerate(lines) if 'grid.cells' in line or 'grid' in line])
-    if len(ERRORS) > 0:
-        print(f'[ERROR]: {ERRORS}')
-        ERRORS = ERRORS.replace('\n', '<br>')
-        emit('new_grid', {'grid': f'<h1>{ERRORS}</h1>'})
+    # with open(PATH + '/robot_configs/' + robot_alg) as f:
+    #     lines = f.read().split('\n')
+    #     ERRORS = "\n".join(
+    #         [f'Illegal access of grid by robot algorithm in line {i + 1}!\n use possible_tiles_after_move() instead!'
+    #          for i, line in enumerate(lines) if 'grid.cells' in line or 'grid' in line])
+    # if len(ERRORS) > 0:
+    #     print(f'[ERROR]: {ERRORS}')
+    #     ERRORS = ERRORS.replace('\n', '<br>')
+    #     emit('new_grid', {'grid': f'<h1>{ERRORS}</h1>'})
+    # else:
+    global robots
+    global grid
+    try:
+        robots = [Robot(grid, (int(x_spawn[i]), int(y_spawn[i])), orientation=orient, battery_drain_p=p_drain,
+                        battery_drain_lam=lam_drain, p_move=p_determ, vision=vision) for i in range(n_robots)]
+    except IndexError:
+        emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered!</h1>'})
+        print('[ERROR] invalid starting coordinate entered!')
+    except ValueError:
+        emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered, spot on map is not free!</h1>'})
+        print('[ERROR] invalid starting coordinate entered, spot on map is not free!')
     else:
-        global robots
-        global grid
-        try:
-            robots = [Robot(grid, (int(x_spawn[i]), int(y_spawn[i])), orientation=orient, battery_drain_p=p_drain,
-                            battery_drain_lam=lam_drain, p_move=p_determ, vision=vision) for i in range(n_robots)]
-        except IndexError:
-            emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered!</h1>'})
-            print('[ERROR] invalid starting coordinate entered!')
-        except ValueError:
-            emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered, spot on map is not free!</h1>'})
-            print('[ERROR] invalid starting coordinate entered, spot on map is not free!')
-        else:
-            emit('new_grid', draw_grid(grid))
+        emit('new_grid', draw_grid(grid))
 
 
 @socketio.on('get_update')
@@ -202,11 +215,12 @@ def handle_browser_update(json):
         # Checking if the selected robot algorithm is indeed imported, if file changed since starting app.py,
         # throw error.
         try:
-            for robot in robots:
-                # Don't update dead robots:
-                if robot.alive:
-                    # Call the robot epoch method of the selected robot config file:
-                    globals()[robot_alg].robot_epoch(robot)
+            if robots:
+                for robot in robots:
+                    # Don't update dead robots:
+                    if robot.alive:
+                        # Call the robot epoch method of the selected robot config file:
+                        globals()[robot_alg].robot_epoch(robot)
         except KeyError:
             print(
                 f'[ERROR] restart app.py and make sure the file {robot_alg}.py is present in the robot_configs folder.')
