@@ -54,6 +54,23 @@ class Robot:
                         data[tuple(np.array(move) * (i + 1))] = 1
         return data
 
+    def idle(self):
+        # Check if robot is dead
+        if not self.alive:
+            return False
+        else:
+            #New position is old position
+            current_pos = tuple(np.array(self.pos)) # NOT NEEDED?
+            self.pos = current_pos
+            tile = self.grid.cells[current_pos]
+            #Increase battery when on charger tile
+            if tile == 4:
+                self.battery_lvl += 1
+            #Add position to history
+            self.history[0].append(self.pos[0])
+            self.history[1].append(self.pos[1])
+            return True
+
     def move(self):
         # Can't move if we're dead now, can we?
         if not self.alive:
@@ -82,7 +99,7 @@ class Robot:
                 if tile_after_move == 3:
                     self.alive = False
                     return False
-                if tile_after_move == 4:
+                if tile_after_move == 4 and self.battery_lvl < 99:
                     self.battery_lvl += 1
                 return True
             else:
@@ -101,6 +118,8 @@ class Robot:
                 if tile_after_move == 3:
                     self.alive = False
                     return False
+                if tile_after_move == 4 and self.battery_lvl < 99:
+                    self.battery_lvl += 1
                 return True
             else:
                 return False
