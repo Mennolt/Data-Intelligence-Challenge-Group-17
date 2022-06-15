@@ -66,9 +66,9 @@ def calculate_policies(robots):
 
 
 def policy_iteration(robots, policies, all_values, all_rewards, actions):
-    '''
+    """
     Policy iteration, where we go over all the robots.
-    '''
+    """
     for i, robot in enumerate(robots):
         policy, values, rewards = policies[i].copy(), all_values[i].copy(), all_rewards[i].copy()
         for _ in range(max_iter):
@@ -86,12 +86,12 @@ def policy_iteration(robots, policies, all_values, all_rewards, actions):
 
 
 def policy_evaluation(robot, policy, values, rewards):
-    '''
+    """
     Evaluation of policy
 
     Input:
     robot - a Robot object used to interact with the environment
-    '''
+    """
     for _ in range(max_iter):
         V_prev = values.copy()
         # Calculate weighted score of state after each possible action

@@ -28,7 +28,7 @@ for i in range(100):
     n_epochs = 0
     while True:
         n_epochs += 1
-        # Do a robot epoch (basically call the robot algorithm once):
+        # Do a robot policy_iteration_epoch (basically call the robot algorithm once):
         robot_epoch(robot)
         # Stop this simulation instance if robot died :( :
         if not robot.alive:

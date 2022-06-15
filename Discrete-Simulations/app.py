@@ -219,7 +219,7 @@ def handle_browser_update(json):
                 for robot in robots:
                     # Don't update dead robots:
                     if robot.alive:
-                        # Call the robot epoch method of the selected robot config file:
+                        # Call the robot policy_iteration_epoch method of the selected robot config file:
                         globals()[robot_alg].robot_epoch(robot)
         except KeyError:
             print(

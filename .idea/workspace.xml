@@ -5,12 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96324913-b57d-4f60-8b72-978af1546dfc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments_thomas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/sized_policy_iteration_robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/Experiments2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/Experiments2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/Experiments3.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/Experiments2_thomas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/test_experiments_3_robots.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/test_experiments_3_robots.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/headless.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/headless.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/greedy_robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/greedy_robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/monte_carlo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/monte_carlo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iter_hive.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iter_hive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iter_unit.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iter_unit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iteration_robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iteration_robot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -21,17 +42,76 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/thomas/Documents/School/TU:e/1. Master/Year 1/Quartile 4/Data Challenge/Assignment/Data-Intelligence-Challenge-Group-17/Discrete-Simulations",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Discrete-Simulations" />
+      <recent name="$PROJECT_DIR$/Discrete-Simulations/thomas_experiments" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.app">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Data-Intelligence-Challenge-Group-17" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Discrete-Simulations" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Discrete-Simulations/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="experiments_thomas" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Data-Intelligence-Challenge-Group-17" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Discrete-Simulations" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Discrete-Simulations/experiments_thomas.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.app" />
+        <item itemvalue="Python.experiments_thomas" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -42,10 +122,26 @@
       <updated>1655238375026</updated>
       <workItem from="1655238376185" duration="1304000" />
       <workItem from="1655279749377" duration="172000" />
+      <workItem from="1655289178186" duration="9493000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$experiments_thomas.coverage" NAME="experiments_thomas Coverage Results" MODIFIED="1655291325020" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$app.coverage" NAME="app Coverage Results" MODIFIED="1655292587844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
   </component>
 </project>

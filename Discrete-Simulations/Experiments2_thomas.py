@@ -25,21 +25,14 @@ battery_drainage_lambda = 1
 # be visite (because of walls). We want to know whether we cleaned all reachable walls, therefore we
 # have a cleanliness criterion for each grid. Later we can adjust our percentage, to be relative to
 # this current percentage.
-grid_files = {'death': 87.5, 'death_room': 96.83, 'empty_small_room': 100,
-              'empty_big_room': 100, 'example-random-house-0': 100,
-              'example-random-house-1': 73.68, 'example-random-house-2': 89.06,
-              'example-random-house-3': 82.98, 'example-random-house-4': 84.04,
-              'goal_room': 100, 'house': 100, 'snake': 100, 'obstacle_room': 100,
-              'no_obstacle_room': 100, 'example-random-level': 100}
+grid_files = {'3_robot_grid': 100}
 
 battery_drainages_p = [0.1, 0.3, 0.5]
 robots_epoch = [
-     #(sarsa, 'sarsa')
-    (monte_carlo,'monte_carlo')
-     #(greedy_epoch, 'greedy_random')
+    (policy_iteration_epoch,'policy iteration')
 ]
 robots_epoch2 = [
-     (q_learning, 'q_learning')
+    (policy_iteration_epoch, 'policy iteration')
 ]
 
 # In the lists below, we gather data.
@@ -75,15 +68,16 @@ for grid_file, stopping_criterion in grid_files.items():
 
                 # Calculate the total visitable tiles:
                 n_total_tiles = (grid.cells >= 0).sum()
+                hitbox = [(0, 0), (0, -1), (0, 1)]
                 # Spawn the robot at (1,1) facing north with battery drainage enabled:
                 robot = Robot(grid, (1, 1), orientation='n', battery_drain_p=battery_drainage_p,
-                              battery_drain_lam=battery_drainage_lambda)
+                              battery_drain_lam=battery_drainage_lambda, hitbox=hitbox)
                 # Keep track of the number of robot decision epochs:
                 n_epochs = 0
 
                 while True:
                     n_epochs += 1
-                    # Do a robot epoch (basically call the robot algorithm once):
+                    # Do a robot policy_iteration_epoch (basically call the robot algorithm once):
                     robot_epoch[0](robot)
                     # Stop this simulation instance if robot died :( :
                     if not robot.alive:
@@ -141,7 +135,7 @@ for grid_file, stopping_criterion in grid_files.items():
 
                 while True:
                     n_epochs += 1
-                    # Do a robot epoch (basically call the robot algorithm once):
+                    # Do a robot policy_iteration_epoch (basically call the robot algorithm once):
                     robot_epoch[0](robot)
                     # Stop this simulation instance if robot died :( :
                     if not robot.alive:
@@ -177,7 +171,7 @@ for grid_file, stopping_criterion in grid_files.items():
                 end = time.time()
                 times2.append(end - start)
 
-# Make Histograms comparing the 2 robots statistics
+# Make Histograms comparing the 2 ggs statistics
 plt.hist(cleaned, alpha=0.5, label='robot1')
 plt.hist(cleaned2, alpha=0.5, label='robot2')
 plt.legend(loc='upper right')

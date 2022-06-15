@@ -26,7 +26,7 @@ def robot_epoch(robot):
     invalid_moves_rows = {0: 0, robot.grid.n_rows - 1: 2}  # north, south
 
     for epoch in range(epochs):
-        # Generate an episode for current epoch, given policy & number of steps
+        # Generate an episode for current policy_iteration_epoch, given policy & number of steps
         episode = episode_generation(robot, policy, episode_steps)
 
         for index, step in enumerate(episode):

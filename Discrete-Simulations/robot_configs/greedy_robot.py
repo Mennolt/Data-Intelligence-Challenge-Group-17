@@ -8,8 +8,8 @@ def robot_epoch(robot):
     copy_grid = robot.grid.copy()
     custom_grid = custom_rewards_grid(copy_grid)
 
-    print(f'Grid: \n {copy_grid.cells.T}')
-    print(f'Custom Grid: \n {custom_grid.cells.T}')
+    # print(f'Grid: \n {copy_grid.cells.T}')
+    # print(f'Custom Grid: \n {custom_grid.cells.T}')
 
     x, y = robot.pos
     print(x,y)

@@ -83,7 +83,7 @@ for grid_file, stopping_criterion in grid_files.items():
 
                 while True:
                     n_epochs += 1
-                    # Do a robot epoch (basically call the robot algorithm once):
+                    # Do a robot policy_iteration_epoch (basically call the robot algorithm once):
                     robot_epoch[0](robot)
                     # Stop this simulation instance if robot died :( :
                     if not robot.alive:
@@ -141,7 +141,7 @@ for grid_file, stopping_criterion in grid_files.items():
 
                 while True:
                     n_epochs += 1
-                    # Do a robot epoch (basically call the robot algorithm once):
+                    # Do a robot policy_iteration_epoch (basically call the robot algorithm once):
                     robot_epoch[0](robot)
                     # Stop this simulation instance if robot died :( :
                     if not robot.alive:

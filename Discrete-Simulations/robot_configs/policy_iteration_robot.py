@@ -4,6 +4,7 @@ import numpy as np
 max_iter = 100
 discount = 0.5
 
+
 def robot_epoch(robot):
     # Initialisation
     grid = robot.grid
@@ -13,27 +14,38 @@ def robot_epoch(robot):
         for j in range(0, grid.n_rows):
 
             val = grid.cells[i, j]
-            if val < -2:
-                rewards[(i,j)] = 0
-            elif val == -1 or val == -2:
-                rewards[(i,j)] = -1
-            elif val == 3:
-                rewards[(i, j)] = -10
-            elif val == 2:
+            if val < -2:  # Robot itself
+                rewards[(i, j)] = 0
+            elif val == -1 or val == -2:   # (outer) wall
+                rewards[(i, j)] = -1
+            elif val == 0:  # Clean tile
+                rewards[(i, j)] = 0
+            elif val == 3:  # Death tile
+                rewards[(i, j)] = -9
+            elif val == 2:  # Goal Tile
                 rewards[(i, j)] = 5
-            elif val == 1:
-                rewards[(i, j)] = 1
-            elif val == 4:
-                rewards[(i, j)] = 100/robot.battery_lvl
+            elif val == 1:  # Dirty Tile
+                rewards[(i, j)] = 3
+            elif val == 4:  # Charger
+                rewards[(i, j)] = 100 / robot.battery_lvl
             else:
-                rewards[(i, j)] = grid.cells[(i,j)]
+                rewards[(i, j)] = grid.cells[(i, j)]
+
+    grid2 = grid.copy()
+    grid3 = grid.copy()
 
     clean_rewards = {}
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
-            clean_rewards[(i,j)] = cleaning_rewards(rewards, (i,j), robot)
+            clean_rewards[(i, j)] = cleaning_rewards(rewards, (i, j), robot)
+            grid2.cells[(i, j)] = rewards[(i, j)]
+            grid3.cells[(i, j)] = cleaning_rewards(rewards, (i, j), robot)
 
     values = clean_rewards.copy()
+    # grid2.print_cells()
+    # grid3.print_cells()
+
+    # print(f"clean rewards:\n {clean_rewards}")
 
     actions = {}
     for i in range(0, grid.n_cols):
@@ -42,7 +54,6 @@ def robot_epoch(robot):
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
                 actions[(i, j)] = possible_actions
-            
 
     # Define an initial policy
     policy = {}
@@ -50,15 +61,17 @@ def robot_epoch(robot):
     for s in actions.keys():
         try:
             policy[s] = np.random.choice(actions[s])
-        except: pass
+        except:
+            pass
     # Policy iteration
     policy = policy_iteration(robot, policy, values, clean_rewards, actions)
+
     # Randomly select where to go based on policy
     best_direction = policy[robot.pos]
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()
-    print('moved', best_direction)
+    # print('moved', best_direction)
 
 
 def policy_iteration(robot, policy, values, clean_rewards, actions):
@@ -69,6 +82,7 @@ def policy_iteration(robot, policy, values, clean_rewards, actions):
     robot - a Robot object used to interact with the environment
     '''
     # print('Policy iteration')
+
     for _ in range(max_iter):
         policy_prev = policy.copy()
 
@@ -76,10 +90,19 @@ def policy_iteration(robot, policy, values, clean_rewards, actions):
 
         policy = policy_improvement(robot, policy, values, clean_rewards, actions)
 
+
+
         # Early stopping
         if policy_prev == policy:
-            print('stopped early convergence')
+            # print('stopped early convergence')
             break
+
+    # Debug
+    grid4 = robot.grid.copy()
+    for i in range(0, robot.grid.n_cols):
+        for j in range(0, robot.grid.n_rows):
+            grid4.cells[(i, j)] = policy[i,j]
+    grid4.print_cells()
     return policy
 
 
@@ -95,32 +118,39 @@ def policy_evaluation(robot, policy, values, clean_rewards):
         # Calculate weighted score of state after each possible action
         for s in policy.keys():
             a = policy[s]
-            #print(s, _)
-            #use cleaning hitbox to get rewards for cleaning
+            # print(s, _)
+            # use cleaning hitbox to get rewards for cleaning
             reward = clean_rewards[s]
-            #print("r", reward)
+            # print("r", reward)
             values[s] = reward + discount * V_prev[get_next_state(s, a, robot)]
         # Early stopping
         if V_prev == values:
-            print('stopped early convergence')
+            # print('stopped early convergence')
             break
     return values
+
 
 def cleaning_rewards(rewards, s, robot):
     """
     Gets the cleaning rewards for all tiles that will be cleaned by this state
     """
     sum_reward = 0
+    rew = []
     for cleanable in robot.cleanable:
-        #print("c", cleanable)
-        coord = tuple([i+j for i,j in zip(s, cleanable)])
+        # print("c", cleanable)
+        coord = tuple([i + j for i, j in zip(s, cleanable)])
 
-        #only count rewards inside playing field
+        # only count rewards inside playing field
         try:
             sum_reward += rewards[coord]
+            rew.append(rewards[coord])
         except:
             pass
+    # Todo: remove
+    # print(f'State: {s}, rewards: {rew}')
+
     return sum_reward
+
 
 def policy_improvement(robot, policy, values, clean_rewards, actions):
     '''
@@ -132,15 +162,17 @@ def policy_improvement(robot, policy, values, clean_rewards, actions):
     # Calculate weighted score of each possible action
     for i in range(robot.grid.n_cols):
         for j in range(robot.grid.n_rows):
-            s = (i,j)
+            s = (i, j)
             Q = {}
             try:
                 for a in actions[s]:
                     Q[a] = clean_rewards[s] + discount * values[get_next_state(s, a, robot)]
                 try:
                     policy[s] = max(Q, key=Q.get)
-                except: pass
-            except: pass
+                except:
+                    pass
+            except:
+                pass
 
     return policy
 
@@ -152,17 +184,17 @@ def get_next_state(s, a, robot):
     a: action to be taken
     robot: Robot of which hitbox must be checked
     """
-    #adjust for bigger robots?
+    # adjust for bigger robots?
     if a == 'e':
-        nxt = (s[0]+1, s[1])
+        nxt = (s[0] + 1, s[1])
 
     elif a == 's':
-        nxt = (s[0], s[1]+1)
+        nxt = (s[0], s[1] + 1)
 
     elif a == 'w':
-        nxt =  (s[0]-1, s[1])
+        nxt = (s[0] - 1, s[1])
     elif a == 'n':
-        nxt = (s[0], s[1]-1)
+        nxt = (s[0], s[1] - 1)
     else:
         print(f"Invalid action {a}")
         nxt = (s[0], s[1])
@@ -176,19 +208,23 @@ def get_possible_actions(grid, s):
     possible_actions = []
 
     try:
-        if grid.cells[s[0]+1, s[1]] >= 0:
+        if grid.cells[s[0] + 1, s[1]] >= 0:
             possible_actions.append("e")
-    except IndexError: pass
+    except IndexError:
+        pass
     try:
-        if grid.cells[s[0], s[1]+1] >= 0:
+        if grid.cells[s[0], s[1] + 1] >= 0:
             possible_actions.append("s")
-    except IndexError: pass
+    except IndexError:
+        pass
     try:
-        if grid.cells[s[0]-1, s[1]] >= 0:
+        if grid.cells[s[0] - 1, s[1]] >= 0:
             possible_actions.append("w")
-    except IndexError: pass
+    except IndexError:
+        pass
     try:
-        if grid.cells[s[0], s[1]-1] >= 0:
+        if grid.cells[s[0], s[1] - 1] >= 0:
             possible_actions.append("n")
-    except IndexError: pass
+    except IndexError:
+        pass
     return possible_actions
