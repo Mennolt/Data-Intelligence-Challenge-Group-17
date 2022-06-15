@@ -1,5 +1,8 @@
 import random
 import numpy as np
+import sys
+sys.path.append("../Discrete-Simulations")
+from Rewards import get_rewards
 
 max_iter = 100
 discount = 0.5
@@ -17,16 +20,15 @@ def calculate_policies(robots):
 
     cell_rewards = grid.cells.copy()
 
-    # Create rewards based on the whole grid, as usual
-    for i in range(0, grid.n_cols):
-        for j in range(0, grid.n_rows):
-            rewards[(i,j)] = cell_rewards[i,j]
-
     # But now, for each robot, we will create their own rewards data structure.
     # The difference is that for robot x, all other robots (and their surroundings)
     # will get certain values on the grid, to ensure they avoid each other.
     for robot_i, robot in enumerate(robots): # Current robot
-        all_rewards.append(rewards.copy())
+        # This line is deprecated; we are using the get_rewards()
+        # function from
+        #all_rewards.append(rewards.copy())
+        all_rewards.append(get_rewards(grid, robot))
+
         for robot_j, other_robot in enumerate(robots): # Other robot
             if robot_i != robot_j: # Only do something if they are not the same
                 other_robot_i, other_robot_j = other_robot.pos
