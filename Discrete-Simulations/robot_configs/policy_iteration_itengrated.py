@@ -8,64 +8,34 @@ discount = 0.5
 def robot_epoch(robot):
     # Initialisation
     grid = robot.grid
-
-    #calculate distance to charging station
-    #define charging tile
-    grid.put_singular_charger(2,2) #assuming that 2,2 is a good location for charging station
-    clean_tiles = (grid.cells == 0).sum()
-    clean_percent = clean_tiles / ((grid.n_cols-1) * (grid.n_rows-1))
-    b = 10
-
-    if robot.battery_lvl < b:
-        while robot.pos != (2,2):
-            if robot.pos[0] > 2: #assuming that the first index is column index
-                while robot.orientation != 'w':
-                    robot.rotate
-                robot.move
-
-            if robot.pos[1] > 2: #assuming that the second index is row index
-                while robot.orientation != 'n':
-                    robot.rotate
-                robot.move
-
-            #now same but assuming the charging station is not in the far left north
-
-            if robot.pos[0] < 2:  # assuming that the first index is column index
-                while robot.orientation != 'e':
-                    robot.rotate
-                robot.move
-
-            if robot.pos[1] < 2:  # assuming that the second index is row index
-                while robot.orientation != 's':
-                    robot.rotate
-                robot.move
-
-
-
-
-
-
-
+    return_battery = 20
 
     rewards = {}
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
-
             val = grid.cells[i, j]
-            if val < -2:
-                rewards[(i, j)] = 0
-            elif val == -1 or val == -2:
-                rewards[(i, j)] = -1
-            elif val == 3:
-                rewards[(i, j)] = -10
-            elif val == 2:
-                rewards[(i, j)] = 5
-            elif val == 1:
-                rewards[(i, j)] = 1
-            elif val == 4:
-                rewards[(i, j)] = 100 / robot.battery_lvl
+            if robot.battery_lvl > return_battery:
+                if val < -2:
+                    rewards[(i, j)] = 0
+                elif val == -1 or val == -2:
+                    rewards[(i, j)] = -1
+                elif val == 3:
+                    rewards[(i, j)] = -10
+                elif val == 2:
+                    rewards[(i, j)] = 5
+                elif val == 1:
+                    rewards[(i, j)] = 1
+                elif val == 4:
+                    rewards[(i, j)] = 100 / robot.battery_lvl
+                else:
+                    rewards[(i, j)] = grid.cells[(i, j)]
             else:
-                rewards[(i, j)] = grid.cells[(i, j)]
+                if val == 4:
+                    rewards[(i, j)] = 1000
+                elif val == -1 or val == -2:
+                    rewards[(i, j)] = -1
+                else:
+                    rewards[(i, j)] = 0
 
     clean_rewards = {}
     for i in range(0, grid.n_cols):
@@ -98,15 +68,11 @@ def robot_epoch(robot):
         robot.rotate('r')
     robot.move()
     print('moved', best_direction)
-    print('battery left: '+ str(robot.battery_lvl))
-
-
 
 
 def policy_iteration(robot, policy, values, clean_rewards, actions):
     '''
     Policy iteration
-
     Input:
     robot - a Robot object used to interact with the environment
     '''
@@ -128,7 +94,6 @@ def policy_iteration(robot, policy, values, clean_rewards, actions):
 def policy_evaluation(robot, policy, values, clean_rewards):
     '''
     Evaluation of policy
-
     Input:
     robot - a Robot object used to interact with the environment
     '''
@@ -169,7 +134,6 @@ def cleaning_rewards(rewards, s, robot):
 def policy_improvement(robot, policy, values, clean_rewards, actions):
     '''
     Improvement update pass in policy
-
     Input:
     robot - a Robot object used to interact with the environment
     '''
@@ -242,3 +206,4 @@ def get_possible_actions(grid, s):
     except IndexError:
         pass
     return possible_actions
+
