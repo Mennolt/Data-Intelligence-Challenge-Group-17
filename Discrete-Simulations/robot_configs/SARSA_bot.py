@@ -209,10 +209,6 @@ def get_next_position(action, s, actions):
         else:
             return nxt
     else:
-        # print(f"action: {action}")
-        # print(f"state: {s}")
-        # print(f"actions: {actions}")
-
         print("get_next_position_indexError")
         raise IndexError
 

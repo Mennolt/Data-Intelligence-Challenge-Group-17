@@ -59,7 +59,6 @@ def policy_iteration(robot, policy, values, clean_rewards, actions):
     Input:
     robot - a Robot object used to interact with the environment
     '''
-    # print('Policy iteration')
     for _ in range(max_iter):
         policy_prev = policy.copy()
 
@@ -88,7 +87,6 @@ def policy_evaluation(robot, policy, values, clean_rewards):
             a = policy[s]
             #use cleaning hitbox to get rewards for cleaning
             reward = clean_rewards[s]
-            #print("r", reward)
             values[s] = reward + discount * V_prev[get_next_state(s, a, robot)]
         # Early stopping
         if V_prev == values:
@@ -102,7 +100,6 @@ def cleaning_rewards(rewards, s, robot):
     """
     sum_reward = 0
     for cleanable in robot.cleanable:
-        #print("c", cleanable)
         coord = tuple([i+j for i,j in zip(s, cleanable)])
 
         #only count rewards inside playing field
@@ -142,7 +139,6 @@ def get_next_state(s, a, robot):
     a: action to be taken
     robot: Robot of which hitbox must be checked
     """
-    #adjust for bigger robots?
     if a == 'e':
         nxt = (s[0]+1, s[1])
 
@@ -156,6 +152,7 @@ def get_next_state(s, a, robot):
     else:
         print(f"Invalid action {a}")
         nxt = (s[0], s[1])
+    #check if the next position is actually valid (doesn't run us into a wall)
     if robot.check_hitbox(nxt):
         return nxt
     else:

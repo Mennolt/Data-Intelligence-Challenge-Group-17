@@ -24,9 +24,6 @@ def calculate_policies(robots):
     # The difference is that for robot x, all other robots (and their surroundings)
     # will get certain values on the grid, to ensure they avoid each other.
     for robot_i, robot in enumerate(robots): # Current robot
-        # This line is deprecated; we are using the get_rewards()
-        # function from
-        #all_rewards.append(rewards.copy())
         all_rewards.append(get_rewards(grid, robot))
 
         for robot_j, other_robot in enumerate(robots): # Other robot

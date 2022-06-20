@@ -3,8 +3,6 @@ import random
 
 
 def robot_epoch(robot):
-
-
     # Initialisation
     grid = robot.grid
 
@@ -44,7 +42,6 @@ def robot_epoch(robot):
     print(range(0, grid.n_rows))
 
     # initial Q values
-    # ToDo: read from robot if there
     try:
         Q_values = {}
         for i in range(0, grid.n_rows):
@@ -55,7 +52,6 @@ def robot_epoch(robot):
 
 
     except Exception as e:
-        # print(f"Q_values: {Q_values}")
         print(f"Q_value_error: {e}")
         raise e
 
@@ -67,47 +63,17 @@ def robot_epoch(robot):
             rewards[(i, j)] = grid.cells[i, j]
     print("==========rewards===============")
 
-    # V = rewards.copy()
-    #
-    # Define an initial policy: e-greedy
-    #this may be wrong.
-    # Alternative: get max reward (without caring about random chance),
-    # Then for policy do either that, or with chance gamma take a random action
-    def get_greedy_policy(actions, rewards):
-        """Creates a greedy policy"""
-        policy = {}
-        for s in actions.keys():
-            local_rewards = {}
-            for action in actions[s]:
-                local_rewards[action] = rewards[get_next_position(action, s, actions)]
 
-            policy[s] = max(local_rewards, key = local_rewards.get)
-        return policy
+    # Define an initial policy: e-greedy
+    #get max reward (without caring about random chance),
+    # Then for policy do either that, or with chance gamma take a random action
     policy = get_greedy_policy(actions, rewards)
-    # policy = {}
-    #
-    # for s in actions.keys():
-    #     #for each action in state, get reward
-    #     local_rewards = {}
-    #     for action in actions[s]:
-    #         local_rewards[action] = rewards[get_next_position(action, s, actions)]
-    #
-    #     #calc e-greedy reward for each action
-    #     local_returns = {}
-    #     avg_reward = sum(local_rewards.values())/len(local_rewards.values())
-    #     for key, value in local_rewards.items():
-    #         local_returns[key] = (1-NOISE)*value + NOISE*avg_reward
-    #
-    #     #take max action as policy
-    #     policy[s] = max(local_returns, key=local_returns.get)
 
     print("===== BEGIN Q/SARSA LEARNING =====")
 
-    # try:
+    # parameters
     episode_size = 20
     total_episodes = 50
-
-    # What to do
     learning_rate = 0.1
     gamma = 0.95
     e = 0.1
@@ -124,11 +90,6 @@ def robot_epoch(robot):
 
 
             while not return_true_if_terminal(grid, current_position) and episode_count <= episode_size:
-                #print(f"Episode_count: {episode_count}")
-
-                #action = get_random_action(actions, current_position)
-
-
                 # take action a, observe reward r, next state s'
                 position_prime = get_next_position(action, current_position, actions)
                 next_position_reward = get_state_reward(rewards, position_prime)
@@ -136,15 +97,8 @@ def robot_epoch(robot):
                 #get next action a' from s', using policy (e-greedy)
                 #so take gamma chance to get random action, 1-gamma to get action with max reward
                 action_prime = e_greedy_action(e, actions, position_prime, policy)
-                #next_position_prime = get_next_position(action_prime, next_position, actions)
-                #next_position_reward_prime = get_state_reward(rewards, next_position_prime)
 
                 # Next-Next Rewards * 4
-                #surrounding_q_values = get_surrounding_q_values(Q_values, next_position)
-                ### THIS IS THE LINE THAT NEEDS TO BE CHANGED FOR SARSA
-                ##Instead of np.max(...), we need to have some different value there
-                ##Q-learning takes the entire reward of the action it thinks best, SARSA takes part of the reward of each action?
-
                 Q_values[current_position][action] += learning_rate * (next_position_reward + gamma * Q_values[position_prime][action_prime]
                                                                        - Q_values[current_position][action])
 
@@ -159,10 +113,6 @@ def robot_epoch(robot):
                 policy = get_greedy_policy(actions, rewards)
 
                 episode_count += 1
-                #print(f"Episode_count: {episode_count}")
-
-                #current_position = next_position
-                #adjust policy based on changed Q(s,a)?
 
         best_direction = get_max_surrounding_direction(Q_values, current_position)
         print("BEST DIRECTION")
@@ -176,6 +126,16 @@ def robot_epoch(robot):
         print(f"Main error: {e}")
         raise e
 
+def get_greedy_policy(actions, rewards):
+    """Creates a greedy policy"""
+    policy = {}
+    for s in actions.keys():
+        local_rewards = {}
+        for action in actions[s]:
+            local_rewards[action] = rewards[get_next_position(action, s, actions)]
+
+        policy[s] = max(local_rewards, key = local_rewards.get)
+    return policy
 
 def get_surrounding_q_values(q_values, position):
     try:

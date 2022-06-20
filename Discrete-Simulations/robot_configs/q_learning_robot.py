@@ -1,9 +1,5 @@
 import numpy as np
 
-
-
-
-
 def robot_epoch(robot):
     # Initialisation
     grid = robot.grid.copy()
@@ -54,15 +50,15 @@ def robot_epoch(robot):
         for j in range(0, grid.n_rows):
             rewards[(i, j)] = grid.cells[i, j]
 
+    #parameters and counters
     total_iterations = 20
     iteration_count = 0
     total_episodes = 25
     episode_count = 0
     current_position = robot.pos
-
-    # What to do
     learning_rate = 0.1
     gamma = 0.95
+
     if not robot.q_values_calculated:
         try:
             # Initialise Q values
@@ -190,9 +186,7 @@ def get_state_reward(rewards, s):
 
 
 def custom_rewards_grid(grid):
-    # TODO: Maybe change by using grid.copy
     if grid.cells[0, 0] not in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]:
-        # print(f" 0,0 : {grid.cells[0, 0] in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]}")
         return grid
     else:
         for i in range(0, grid.n_cols):

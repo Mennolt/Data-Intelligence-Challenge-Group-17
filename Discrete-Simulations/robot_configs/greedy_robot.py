@@ -1,6 +1,4 @@
 
-
-
 def robot_epoch(robot):
 
     # Initialisation
