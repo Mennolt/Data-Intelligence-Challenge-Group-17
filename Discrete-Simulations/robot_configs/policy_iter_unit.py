@@ -16,4 +16,4 @@ def robot_epoch(robot, policy):
         robot.rotate('r')
 
     robot.move()
-    print('moved', best_direction)
+    #print('moved', best_direction)

@@ -1,0 +1,2 @@
+robot,grid,battery_p,size,mean_cleaned,std_cleaned,mean_efficiency,std_efficiency,mean_time_taken,std_time_taken
+policy hive iteration,3_robot_grid,0.1,"[(0, 0), (-1, 0), (1, 0)]",129.44983818770226,0.0,100.0,0.0,24.295528809229534,2.197429469769149

@@ -10,8 +10,8 @@ def robot_epoch(robot):
     grid = custom_rewards_grid(grid)
 
     actions = {}
-    for i in range(0, grid.n_cols):
-        for j in range(0, grid.n_rows):
+    for i in range(0, grid.n_rows):
+        for j in range(0, grid.n_cols):
 
             possible_actions = []
 
@@ -46,8 +46,6 @@ def robot_epoch(robot):
             # Ensure only keys get added when there are actions
             if len(possible_actions) != 0:
                 actions[(i, j)] = possible_actions
-            else:
-                print("oh no", i, j)
 
 
 
@@ -92,6 +90,7 @@ def robot_epoch(robot):
                 # Reset iteration count for each new episode + Increase episode count
                 iteration_count = 0
                 episode_count += 1
+
 
             robot.q_values_calculated = True
 
@@ -183,6 +182,7 @@ def get_next_position(action, s, actions):
     else:
         print("get_next_position_indexError")
         raise IndexError
+
 
 
 def get_state_reward(rewards, s):
