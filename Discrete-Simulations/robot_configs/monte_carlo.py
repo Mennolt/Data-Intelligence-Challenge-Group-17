@@ -36,8 +36,6 @@ def robot_epoch(robot):
             # G will contain all the future rewards given the current location
             G = []
             # Go over future steps
-            # TO DO: think about computational complexity and if it's even needed to
-            # check ALL of them. Will be diminished quite soon given the discount factor
             for future_index, future_step in enumerate(episode[i_step:]):
                 # We actually start at the current step, then future ones
                 (i_future_step, j_future_step), direction_future_step = future_step

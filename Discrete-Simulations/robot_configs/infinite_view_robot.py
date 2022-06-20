@@ -4,20 +4,18 @@ np.set_printoptions(precision=3, suppress = True)
 
 def robot_epoch(robot):
     """
-    Idea:
+    Robot using simple algorithm to clean, used as baseline
+    Robot gives each tile a value at start of cleaning. For each move, updates values once using simple rules then makes a move.
     :param robot:
-    :return:
+    :return: None
     """
-
-    #print(robot.grid.cells, len(robot.grid.cells[0]), robot.grid.n_cols, robot.grid.n_rows)
 
     #step 1: get value of entire grid
     #try to get value from robot, if not init it
     try:
         values = robot.val_grid
     except:
-        values = np.zeros((robot.grid.n_rows, robot.grid.n_cols))#note: transposed compared to grid saved in memory!
-        #print(robot.grid.cells, values.shape, robot.grid.cells.shape, robot.grid.n_cols, robot.grid.n_rows)
+        values = np.zeros((robot.grid.n_rows, robot.grid.n_cols))
     #get the value of the grid
     values = value_update(robot.grid, values)
     robot.val_grid = values
@@ -27,10 +25,8 @@ def robot_epoch(robot):
     max_val = -1
     des_dir = "n"
     pos = robot.pos
-    #on visual:
-    #pos[0] = x position (selects columns)
-    #pos[1] = y position (selects rows)
-    #print(robot.pos, "position")
+
+
     if pos[1] > 0: #not against top
 
         if values[pos[1]-1, pos[0]] > max_val:
@@ -50,16 +46,9 @@ def robot_epoch(robot):
             des_dir = 'e'#(0,1)
 
 
-    #print(robot.orientation, des_dir)
     while robot.orientation != des_dir:
         robot.rotate('r')
     robot.move()
-
-    #print(values)
-    #print(des_dir)
-    #get to desired direction or move
-
-
 
 
 def value_update(grid, values):
@@ -70,9 +59,9 @@ def value_update(grid, values):
     clean: 0.5*highest neighbour
     """
     new_values = values.copy()
-    # remember that in values we are working transposed compared to grid
-    for i in range(values.shape[0]):#(grid.n_cols):
-        for j in range(values.shape[1]):#(grid.n_rows):
+    # remember that in values we are working transposed compared to grid visible in app
+    for i in range(values.shape[0]):
+        for j in range(values.shape[1]):
             #get item:
             try:
                 square = grid.cells[j,i]
@@ -105,7 +94,5 @@ def value_update(grid, values):
                     #contains robot, 1000 is easy to find in the prints
                     new_values[i,j] = -1000
             except IndexError:
-                #print(f"{i},{j} out of range for grid.")
                 pass
-    #print(new_values)
     return new_values

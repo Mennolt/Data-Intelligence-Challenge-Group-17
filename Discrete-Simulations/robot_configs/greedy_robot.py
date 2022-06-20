@@ -1,8 +1,7 @@
-import numpy as np
+
 
 
 def robot_epoch(robot):
-    # Hyperparameters
 
     # Initialisation
     copy_grid = robot.grid.copy()
@@ -53,7 +52,6 @@ def robot_epoch(robot):
 
 
 def custom_rewards_grid(grid):
-    # TODO: Maybe change by using grid.copy
     if grid.cells[0, 0] not in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]:
         print(f" 0,0 : {grid.cells[0, 0] in [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, -3.0]}")
         return grid

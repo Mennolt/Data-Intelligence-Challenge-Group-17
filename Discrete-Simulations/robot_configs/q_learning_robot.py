@@ -1,19 +1,10 @@
 import numpy as np
 
 
-def no_neg(value):
-    if value >= 0:
-        return value
-    else:
-        raise IndexError
+
 
 
 def robot_epoch(robot):
-    # Hyperparameters
-    SMALL_ENOUGH = 0.05
-    GAMMA = 0.9
-    NOISE = robot.p_move
-
     # Initialisation
     grid = robot.grid.copy()
     grid = custom_rewards_grid(grid)
@@ -58,7 +49,7 @@ def robot_epoch(robot):
             else:
                 print("oh no", i, j)
 
-    # print(f'actions: {actions}')
+
 
     rewards = {}
     for i in range(0, grid.n_cols):
@@ -79,32 +70,19 @@ def robot_epoch(robot):
             # Initialise Q values
             robot.init_q_values(actions)
             while episode_count <= total_episodes:
-                # print(f"Episode_count: {episode_count}")
+
 
                 while not return_true_if_terminal(grid, current_position) and iteration_count <= total_iterations:
-                    # print(f"Iteration_count/total_iterations: {iteration_count}/{total_iterations}")
+
 
                     action = get_random_action(actions, current_position)
 
-                    # ToDo: Possibly greedy
+
                     next_position = get_next_position(action, current_position, actions)
                     next_position_reward = get_state_reward(rewards, next_position)
 
                     # Next-Next Rewards * 4
                     surrounding_q_values = get_surrounding_q_values(robot.q_values, next_position)
-                    #
-                    # print(
-                    #     f'\n'
-                    #     f'Qvalues update values\n'
-                    #     f'current_position: {current_position} \n'
-                    #     f'action: {action} \n'
-                    #     f'learning_rate: {learning_rate} \n'
-                    #     f' next_position_reward: {next_position_reward} \n'
-                    #     f' gamma: {gamma} \n'
-                    #     f' np.max(surrounding_q_values): {np.max(surrounding_q_values)} \n'
-                    #     f' robot.q_values[current_position][action] : {robot.q_values[current_position][action]}'
-                    #     f'\n'
-                    # )
 
                     robot.q_values[current_position][action] += learning_rate * (next_position_reward + gamma + np.max(
                         surrounding_q_values) - robot.q_values[current_position][action])
@@ -116,26 +94,22 @@ def robot_epoch(robot):
                 episode_count += 1
 
             robot.q_values_calculated = True
-            # print()
-            # print('Finished iterating \n')
-            # print(f"q-values: {robot.q_values}")
-            # print()
+
         except Exception as e:
             print(f"Main error: {e}")
             raise e
 
     best_direction = get_max_surrounding_direction(robot.q_values, current_position)
 
-    # print("\n Calculate best direction")
-    # print(f'best_direction: {best_direction}')
-    # print(f'robot.orientation: {robot.orientation}')
-    # print(f"q-values: {robot.q_values}")
-    # print(f"grid: {grid.cells.T} \n")
-
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()
 
+def no_neg(value):
+    if value >= 0:
+        return value
+    else:
+        raise IndexError
 
 def get_surrounding_q_values(q_values, position):
     try:

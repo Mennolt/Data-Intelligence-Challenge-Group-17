@@ -43,4 +43,3 @@ def robot_epoch(robot):
                 # print(f'Rotating left, {times} times.')
                 for k in range(times):
                     robot.rotate('l')
-    #print('Historic coordinates:', [(x, y) for (x, y) in zip(robot.history[0], robot.history[1])])

@@ -3,8 +3,6 @@ import random
 max_iter = 50000
 
 def robot_epoch(robot):
-    # Get the possible tiles after move
-    possible_tiles = robot.possible_tiles_after_move()
     # Initialization
     policy = [[{'n': 0.25, 'e': 0.25, 's': 0.25, 'w': 0.25} for col in range(robot.grid.n_rows)] for row in range(robot.grid.n_rows)]
     values = [[0 for col in range(robot.grid.n_cols)] for row in range(robot.grid.n_rows)]

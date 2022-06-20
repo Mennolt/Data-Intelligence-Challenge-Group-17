@@ -101,7 +101,7 @@ def robot_epoch(robot):
             robot.grid.policy = policy
             break
         iteration +=1
-        print(f"===== ITERATION {iteration} =====")
+        #print(f"===== ITERATION {iteration} =====")
 
     best_direction = policy[robot.pos]
     while robot.orientation != best_direction:

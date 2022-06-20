@@ -3,10 +3,7 @@ import random
 
 
 def robot_epoch(robot):
-    # Hyperparameters
-    SMALL_ENOUGH = 0.05
-    GAMMA = 0.9
-    NOISE = robot.p_move
+
 
     # Initialisation
     grid = robot.grid
@@ -174,7 +171,6 @@ def robot_epoch(robot):
         while robot.orientation != best_direction:
             robot.rotate('r')
         robot.move()
-        # ToDo: Save Q_values into robot
 
     except Exception as e:
         print(f"Main error: {e}")
@@ -275,75 +271,6 @@ def e_greedy_action(e, actions, position, policy):
         #take greedy action
         return policy[position]
 
-#
-# def get_max_reward_of_surrounding_states(state, rewards):
-#     actions = ['n', 'w', 's', 'e']
-#     surrounding_states = []
-#     surrounding_states.append(get_next_state())
-
 
 def get_state_reward(rewards, s):
     return rewards[s]
-
-# def chooseAction(self):
-#     # choose action with most expected value
-#     mx_nxt_reward = 0
-#     action = ""
-#
-#     if np.random.uniform(0, 1) <= self.exp_rate:
-#         action = np.random.choice(self.actions)
-#     else:
-#         # greedy action
-#         for a in self.actions:
-#             current_position = self.State.state
-#             nxt_reward = self.Q_values[current_position][a]
-#             if nxt_reward >= mx_nxt_reward:
-#                 action = a
-#                 mx_nxt_reward = nxt_reward
-#     return action
-
-
-# def make_actions():
-#     # Actions
-#     actions = {}
-#     for i in range(0, grid.n_rows):
-#         for j in range(0, grid.n_cols):
-#             possible_actions = []
-#
-#             try:
-#                 i = grid.cells[i + 1, j]
-#             except Exception as e:
-#                 print(e)
-#                 print('e')
-#                 pass
-#             else:
-#                 possible_actions.append("e")
-#
-#             try:
-#                 i = grid.cells[i, j + 1]
-#             except IndexError:
-#                 print('s')
-#                 pass
-#             else:
-#                 possible_actions.append("s")
-#
-#             try:
-#                 i = grid.cells[i - 1, j]
-#             except IndexError:
-#                 print('w')
-#                 pass
-#             else:
-#                 possible_actions.append("w")
-#
-#             try:
-#                 i = grid.cells[i, j - 1]
-#             except IndexError:
-#                 print('n')
-#                 pass
-#             else:
-#                 possible_actions.append("n")
-#
-#             print(possible_actions)
-#             # Ensure only keys get added when there are actions
-#             if len(possible_actions) > 0:
-#                 actions[(i, j)] = possible_actions

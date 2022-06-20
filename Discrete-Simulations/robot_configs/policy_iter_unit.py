@@ -4,6 +4,7 @@ def robot_epoch(robot, policy):
     """
     A robot_epoch function for each actual robot, so that the environment still works.
     This function basically only picks the best policy for its robot.
+    Meant for use with hivemind robots, with the hivemind making the policies.
 
     Input:
     Robot - a Robot class instance

@@ -4,10 +4,15 @@ import sys
 sys.path.append("../Discrete-Simulations")
 from Rewards import get_rewards
 
+#hyperparameters
 max_iter = 100
 discount = 0.9
 
 def robot_epoch(robot):
+    """
+    Uses policy iteration to decide on a move for the robot
+    in a way that takes into account its hitbox and cleaning area.
+    """
     # Initialisation
     grid = robot.grid
     return_battery = 20
@@ -81,7 +86,6 @@ def policy_evaluation(robot, policy, values, clean_rewards):
         # Calculate weighted score of state after each possible action
         for s in policy.keys():
             a = policy[s]
-            #print(s, _)
             #use cleaning hitbox to get rewards for cleaning
             reward = clean_rewards[s]
             #print("r", reward)

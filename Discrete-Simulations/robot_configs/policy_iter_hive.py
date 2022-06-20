@@ -18,8 +18,6 @@ def calculate_policies(robots):
     all_rewards = []
     rewards = {}
 
-    cell_rewards = grid.cells.copy()
-
     # Create rewards based on the whole grid, as usual
     for i in range(0, grid.n_cols):
         for j in range(0, grid.n_rows):
@@ -115,8 +113,6 @@ def policy_improvement(robot, policy, values, rewards, actions):
     Input:
     robot - a Robot object used to interact with the environment
     '''
-    # Calculate Q value
-    Q = {}
     # Calculate weighted score of each possible action
     for i in range(robot.grid.n_cols):
         for j in range(robot.grid.n_rows):
