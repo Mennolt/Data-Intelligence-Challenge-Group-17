@@ -16,7 +16,7 @@ battery_drainage_lambda = 1
 battery_drainage_p = 0.1
 
 # Each grid has a certain number of tiles, but in some cases only a selected number of these tiles can
-# be visite (because of walls). We want to know whether we cleaned all reachable walls, therefore we
+# be visited (because of walls). We want to know whether we cleaned all reachable walls, therefore we
 # have a cleanliness criterion for each grid. Later we can adjust our percentage, to be relative to
 # this current percentage.
 grid_files = {'3_robot_grid': 50}

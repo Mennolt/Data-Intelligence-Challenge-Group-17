@@ -4,53 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8708d0b-741f-4647-bae8-19f039b93165" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/Experiments2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/Sprint_1_vis.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/Sprint_2_vis.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/test_experiments.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/test_experiments_3_robots.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiment_results/test_experiments_more_levels.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/death_room.grid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/empty_big_room.grid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/empty_small_room.grid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/goal_room.grid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/no_obstacle_room.grid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/grid_configs/obstacle_room.grid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/SARSA_bot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/greedy_robot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/infinite_view_robot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/monte_carlo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iteration_robot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_robot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/q_learning_robot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/rotatorinator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/value_iteration_robot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/zSARSA_bot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Meeting minutes.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22-5-2022_20_45_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22-5-2022_20_45__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22-5-2022_20_47_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22-5-2022_20_47__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7-6-2022_12_01_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7-6-2022_12_01__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7-6-2022_12_05_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7-6-2022_12_05__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8-6-2022_12_11_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8-6-2022_12_11__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/app.py" afterDir="false" />
+    <list default="true" id="c8708d0b-741f-4647-bae8-19f039b93165" name="Changes" comment="Charging station added, same as initial spot">
+      <change beforePath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Discrete-Simulations/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiments_hive.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments_hive.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,13 +56,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Discrete-Simulations/robot_configs" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="showLigatures" value="true" />
   </component>
@@ -120,9 +77,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="/opt/anaconda3/envs/GroupAssignmentDIC/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Discrete-Simulations" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
@@ -174,6 +131,15 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$Experiments2.coverage" NAME="Experiments2 Coverage Results" MODIFIED="1653238669309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/GroupAssignmentDIC$app_hive.coverage" NAME="app_hive Coverage Results" MODIFIED="1655044840470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/GroupAssignmentDIC$app.coverage" NAME="app Coverage Results" MODIFIED="1655799697718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/GroupAssignmentDIC$experiments.coverage" NAME="experiments Coverage Results" MODIFIED="1655158970455" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/GroupAssignment$experiments.coverage" NAME="experiments Coverage Results" MODIFIED="1652875964057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$app.coverage" NAME="app Coverage Results" MODIFIED="1651838964795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/GroupAssignment$app.coverage" NAME="app Coverage Results" MODIFIED="1652876283062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
+    <SUITE FILE_PATH="coverage/Data_Intelligence_Challenge_Group_17$headless.coverage" NAME="headless Coverage Results" MODIFIED="1653237672102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Discrete-Simulations" />
   </component>
 </project>

@@ -93,6 +93,16 @@ class Robot:
         # Can't move if we're dead now, can we?
         if not self.alive:
             return False
+        #charge if on charger (1%)
+        current_pos = tuple(np.array(self.pos))  # NOT NEEDED?
+        self.pos = current_pos
+        tile = self.grid.cells[current_pos]
+        # Increase battery when on charger tile
+        if tile == 4 and self.battery_lvl < 99:
+            self.battery_lvl += 10
+            return True
+
+        #from here on this is the code for moving
         random_move = np.random.binomial(1, self.p_move)
         do_battery_drain = np.random.binomial(1, self.battery_drain_p)
         if do_battery_drain == 1 and self.battery_lvl > 0:
