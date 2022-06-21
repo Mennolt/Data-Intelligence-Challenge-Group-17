@@ -29,8 +29,9 @@ robots_epoch = [(policy_iter_hive_epoch, 'policy hive iteration')]
 
 # Each robot's starting position. Number of robots is then also depended on this list
 robot_starting_positions = [(1,1), (1,2)]
+# robot_starting_positions = [(1,1), (1,2), (1,3)]
+# robot_starting_positions = [(1,1), (1,2), (1,3) (1,4)]
 
-# robot_starting_positions = [(1,1), (1,2),]
 
 # In the lists below, we gather data.
 robot_per_setting = []

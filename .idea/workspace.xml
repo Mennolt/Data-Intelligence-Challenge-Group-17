@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8708d0b-741f-4647-bae8-19f039b93165" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments_hive_thomas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments_thomas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Data-Intelligence-Challenge-Group-17.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiments_hive.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments_hive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iteration_robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/robot_configs/policy_iteration_robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiments_hive_thomas.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments_hive_3wide.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Discrete-Simulations/experiments_thomas.py" beforeDir="false" afterPath="$PROJECT_DIR$/Discrete-Simulations/experiments_3wide.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +121,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="experiments_hive_thomas" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="experiments_3wide" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Data-Intelligence-Challenge-Group-17" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -139,7 +134,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Discrete-Simulations/experiments_hive_thomas.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Discrete-Simulations/experiments_3wide.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -148,7 +143,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="experiments_thomas" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="experiments_hive_3wide" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Data-Intelligence-Challenge-Group-17" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -161,7 +156,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Discrete-Simulations/experiments_thomas.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Discrete-Simulations/experiments_hive_3wide.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -172,9 +167,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.experiments_hive_thomas" />
+        <item itemvalue="Python.experiments_hive_3wide" />
         <item itemvalue="Python.app_hive" />
-        <item itemvalue="Python.experiments_thomas" />
+        <item itemvalue="Python.experiments_3wide" />
         <item itemvalue="Python.app" />
       </list>
     </recent_temporary>
