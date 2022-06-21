@@ -1,0 +1,5 @@
+robot,grid,battery_p,size,mean_cleaned,std_cleaned,mean_efficiency,std_efficiency,mean_time_taken,std_time_taken
+policy iteration,3_robot_grid,0,"[(0, 0), (-1, 0), (1, 0)]",100.0,0.0,94.83282674772036,0.0,79.68700528144836,0.0
+policy iteration,3_robot_grid,0,"[(0, 0), (1, 0)]",100.0,0.0,96.59442724458205,0.0,57.313812017440796,0.0
+policy iteration,3_robot_grid,0,"[(0, 0), (-1, 0)]",100.0,0.0,96.59442724458205,0.0,56.853225231170654,0.0
+policy iteration,3_robot_grid,0,"[(0, 0)]",100.0,0.0,94.54545454545455,0.0,59.90949773788452,0.0

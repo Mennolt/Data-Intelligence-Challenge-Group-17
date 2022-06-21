@@ -49,7 +49,7 @@ def robot_epoch(robot):
     while robot.orientation != best_direction:
         robot.rotate('r')
     robot.move()
-    print('moved', best_direction)
+    # print('moved', best_direction)
 
 
 def policy_iteration(robot, policy, values, clean_rewards, actions):
@@ -68,7 +68,7 @@ def policy_iteration(robot, policy, values, clean_rewards, actions):
 
         # Early stopping
         if policy_prev == policy:
-            print('stopped early convergence')
+            # print('stopped early convergence')
             break
     return policy
 
@@ -90,7 +90,7 @@ def policy_evaluation(robot, policy, values, clean_rewards):
             values[s] = reward + discount * V_prev[get_next_state(s, a, robot)]
         # Early stopping
         if V_prev == values:
-            print('stopped early convergence')
+            # print('stopped early convergence')
             break
     return values
 

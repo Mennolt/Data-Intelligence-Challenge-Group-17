@@ -29,10 +29,9 @@ grid_files = { 'empty_big_room': 100,'empty_big_room': 100}
 
 
 robots_epoch = [(policy_iter_hive_epoch, 'policy hive iteration')]
-size_options = [[(0, 0), (-1, 0), (1, 0)]] #size 1, 2 and 3 vertical
 
 # Each robot's starting position. Number of robots is then also depended on this list
-robot_starting_positions = [(1,1), (7,7), (13,13)]
+robot_starting_positions = [(1,1), (1,7), (13,13)]
 
 
 # In the lists below, we gather data.
