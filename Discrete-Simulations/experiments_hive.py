@@ -10,16 +10,23 @@ import time
 import matplotlib.pyplot as plt
 
 # All variables we can change for our experiments
-experiment_file_name = 'test_experiments_hive'
+experiment_file_name = 'test_experiments_hive_with_charger'
+
 runs = 3
 battery_drainage_lambda = 1
 battery_drainage_p = 0.1
+
+#experment with and without charging
+with_charger = True
 
 # Each grid has a certain number of tiles, but in some cases only a selected number of these tiles can
 # be visited (because of walls). We want to know whether we cleaned all reachable walls, therefore we
 # have a cleanliness criterion for each grid. Later we can adjust our percentage, to be relative to
 # this current percentage.
-grid_files = {'3_robot_grid': 50}
+grid_files = { 'empty_big_room': 100,'empty_big_room': 100}
+
+
+
 
 robots_epoch = [(policy_iter_hive_epoch, 'policy hive iteration')]
 size_options = [[(0, 0), (-1, 0), (1, 0)]] #size 1, 2 and 3 vertical
@@ -75,6 +82,10 @@ for size_option in size_options:
 
                     robot.set_size_option(size_option)
                     robots.append(robot)
+
+                    # add charging station on the grid in the starting position of the robot
+                    if with_charger:
+                        grid.put_singular_charger(robot.pos[0], robot.pos[1])
 
                 # Keep track of the number of robot decision epochs:
                 n_epochs = 0

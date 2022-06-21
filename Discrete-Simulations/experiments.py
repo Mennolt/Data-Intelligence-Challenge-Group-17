@@ -1,8 +1,8 @@
 # Import our robot algorithm to use in this simulation:
-from robot_configs.greedy_random_robot import robot_epoch as greedy_epoch
-from robot_configs.infinite_view_robot import robot_epoch as infinite_view_epoch
-from robot_configs.rotatorinator import robot_epoch as rotator_epoch
-from robot_configs.value_iteration_robot import robot_epoch as value_iteration_epoch
+# from robot_configs.greedy_random_robot import robot_epoch as greedy_epoch
+# from robot_configs.infinite_view_robot import robot_epoch as infinite_view_epoch
+# from robot_configs.rotatorinator import robot_epoch as rotator_epoch
+# from robot_configs.value_iteration_robot import robot_epoch as value_iteration_epoch
 from robot_configs.policy_iteration_robot import robot_epoch as policy_iteration_epoch
 
 import pickle
@@ -12,9 +12,12 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 
-experiment_file_name = 'test_experiments_3_robots'
-runs = 1
+experiment_file_name = 'experiments_with_charger2'
+runs = 2
 battery_drainage_lambda = 1
+
+#experment with and without charging
+with_charger = True
 
 # All variables we can change for our experiments
 
@@ -24,18 +27,14 @@ battery_drainage_lambda = 1
 # this current percentage.
 grid_files = {'death': 87.5, 'death_room': 96.83, 'empty_small_room': 100,
               'empty_big_room': 100, 'example-random-house-0': 100,
-              'example-random-house-1': 73.68, 'example-random-house-2': 89.06,
-              'example-random-house-3': 82.98, 'example-random-house-4': 84.04,
-              'goal_room': 100, 'house': 100, 'snake': 100, 'obstacle_room': 100,
+              'example-random-house-1': 73.68, 'goal_room': 100, 'house': 100, 'snake': 100, 'obstacle_room': 100,
               'no_obstacle_room': 100, 'example-random-level': 100}
 
 battery_drainages_p = [0.1, 0.3, 0.5]
 robots_epoch = [
                 #(greedy_epoch, 'greedy_random'),
                 #(rotator_epoch, 'rotator'),
-                (infinite_view_epoch, 'infinite_view_epoch'), 
-                (value_iteration_epoch, 'value_iteration'),
-                (policy_iteration_epoch, 'policy_iteration')]
+                (policy_iteration_epoch, 'policy_iteration'),]
 
 # In the lists below, we gather data.
 robot_per_setting = []
@@ -77,6 +76,10 @@ for grid_file, stopping_criterion in grid_files.items():
                               battery_drain_lam=battery_drainage_lambda)
                 # Keep track of the number of robot decision epochs:
                 n_epochs = 0
+
+                #add charging station on the grid in the starting position of the robot
+                if with_charger:
+                    grid.put_singular_charger(robot.pos[0], robot.pos[1])
 
                 while True:
                     n_epochs += 1

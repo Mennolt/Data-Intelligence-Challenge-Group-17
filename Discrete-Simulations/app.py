@@ -184,24 +184,24 @@ def handle_browser_spawn_robot(json):
         ERRORS = "\n".join(
             [f'Illegal access of grid by robot algorithm in line {i + 1}!\n use possible_tiles_after_move() instead!'
              for i, line in enumerate(lines) if 'grid.cells' in line or 'grid' in line])
-    # if len(ERRORS) > 0:
-    #     print(f'[ERROR]: {ERRORS}')
-    #     ERRORS = ERRORS.replace('\n', '<br>')
-    #     emit('new_grid', {'grid': f'<h1>{ERRORS}</h1>'})
-    # else:
-    global robots
-    global grid
-    try:
-        robots = [Robot(grid, (int(x_spawn[i]), int(y_spawn[i])), orientation=orient, battery_drain_p=p_drain,
-                        battery_drain_lam=lam_drain, p_move=p_determ, vision=vision, hitbox = [(0,0)]) for i in range(n_robots)]
-    except IndexError:
-        emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered!</h1>'})
-        print('[ERROR] invalid starting coordinate entered!')
-    except ValueError:
-        emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered, spot on map is not free!</h1>'})
-        print('[ERROR] invalid starting coordinate entered, spot on map is not free!')
+    if len(ERRORS) > 0:
+        print(f'[ERROR]: {ERRORS}')
+        ERRORS = ERRORS.replace('\n', '<br>')
+        emit('new_grid', {'grid': f'<h1>{ERRORS}</h1>'})
     else:
-        emit('new_grid', draw_grid(grid))
+        global robots
+        global grid
+        try:
+            robots = [Robot(grid, (int(x_spawn[i]), int(y_spawn[i])), orientation=orient, battery_drain_p=p_drain,
+                            battery_drain_lam=lam_drain, p_move=p_determ, vision=vision) for i in range(n_robots)]
+        except IndexError:
+            emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered!</h1>'})
+            print('[ERROR] invalid starting coordinate entered!')
+        except ValueError:
+            emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered, spot on map is not free!</h1>'})
+            print('[ERROR] invalid starting coordinate entered, spot on map is not free!')
+        else:
+            emit('new_grid', draw_grid(grid))
 
 
 @socketio.on('get_update')

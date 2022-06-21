@@ -188,6 +188,8 @@ def handle_browser_spawn_robot(json):
     # else:
     global robots
     global grid
+    grid.put_singular_charger(int(x_spawn[0]), int(y_spawn[0]))
+
     try:
         robots = [Robot(grid, (int(x_spawn[i]), int(y_spawn[i])), orientation=orient, battery_drain_p=p_drain,
                         battery_drain_lam=lam_drain, p_move=p_determ, vision=vision, hitbox = [(0,0)]) for i in range(n_robots)]
