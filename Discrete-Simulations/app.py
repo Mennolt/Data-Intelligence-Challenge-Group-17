@@ -31,7 +31,7 @@ def draw_grid(grid):
     """'Helper function for creating a JSON payload which will be displayed in the browser."""
     global robots
     materials = {0: 'cell_clean', -1: 'cell_wall', -2: 'cell_obstacle', -3: 'cell_robot_n', -4: 'cell_robot_e',
-                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death'}
+                 -5: 'cell_robot_s', -6: 'cell_robot_w', 1: 'cell_dirty', 2: 'cell_goal', 3: 'cell_death', 4: 'cell_charger'}
     # Setting statistics:
     clean = (grid.cells == 0).sum()
     dirty = (grid.cells >= 1).sum()
@@ -99,6 +99,7 @@ def build_grid():
     obstacles = ast.literal_eval(request.args.get('obstacles'))
     goals = ast.literal_eval(request.args.get('goals'))
     deaths = ast.literal_eval(request.args.get('deaths'))
+    chargers = ast.literal_eval(request.args.get('chargers'))
     to_save = False if request.args.get('save') == 'false' else True
     name = str(request.args.get('name'))
     grid = Grid(n_cols, n_rows)
@@ -108,6 +109,8 @@ def build_grid():
         grid.put_singular_goal(x, y)
     for (x, y) in deaths:
         grid.put_singular_death(x, y)
+    for (x, y) in chargers:
+        grid.put_singular_charger(x, y)
     if to_save and len(name) > 0:
         pickle.dump(grid, open(f'{PATH}/grid_configs/{name}.grid', 'wb'))
         return {'grid': '', 'success': 'true'}
