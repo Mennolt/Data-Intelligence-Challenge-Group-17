@@ -80,6 +80,8 @@ class Robot:
                 if tile_after_move == 3:
                     self.alive = False
                     return False
+                if tile_after_move == 4 and self.battery_lvl < 99:
+                    self.battery_lvl += 1
                 return True
             else:
                 return False
@@ -97,6 +99,8 @@ class Robot:
                 if tile_after_move == 3:
                     self.alive = False
                     return False
+                if tile_after_move == 4 and self.battery_lvl < 99:
+                    self.battery_lvl += 1
                 return True
             else:
                 return False
@@ -131,6 +135,9 @@ class Grid:
 
     def put_singular_death(self, x, y):
         self.cells[x][y] = 3
+     
+    def put_singular_charger(self, x, y):
+        self.cells[x][y] = 4
 
 
 def generate_grid(n_cols, n_rows):
