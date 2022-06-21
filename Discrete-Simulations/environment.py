@@ -11,7 +11,6 @@ class Robot:
         self.hitbox = hitbox
         # locations the robot can clean, relative to robot position
         # must contain (0,0)
-        # self.cleanable = [(0, 0), (-1, 0), (1, 0)]]
         self.cleanable = self.hitbox
         self.pos = pos
         self.grid = grid
@@ -23,7 +22,6 @@ class Robot:
             raise ValueError
         self.orientation = orientation
         self.orients = {'n': -3, 'e': -4, 's': -5, 'w': -6}
-        # self.orients = {'n': -666, 'e': -666, 's': -666, 'w': -666}
         self.dirs = {'n': (0, -1), 'e': (1, 0), 's': (0, 1), 'w': (-1, 0)}
         self.grid.cells[pos] = self.orients[self.orientation]
         self.history = [[], []]

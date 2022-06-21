@@ -190,7 +190,7 @@ def handle_browser_spawn_robot(json):
     global grid
     try:
         robots = [Robot(grid, (int(x_spawn[i]), int(y_spawn[i])), orientation=orient, battery_drain_p=p_drain,
-                        battery_drain_lam=lam_drain, p_move=p_determ, vision=vision) for i in range(n_robots)]
+                        battery_drain_lam=lam_drain, p_move=p_determ, vision=vision, hitbox = [(0,0)]) for i in range(n_robots)]
     except IndexError:
         emit('new_grid', {'grid': '<h1>Invalid robot coordinates entered!</h1>'})
         print('[ERROR] invalid starting coordinate entered!')
